@@ -212,15 +212,15 @@ function Dashboard({data,filters,setFilters}){
 
     <div className="kpi-grid">
       <Kpi label="Net Revenue" value={fmtMoney(kpis.revenue)} sub={`${fmtNum(kpis.lineItems)} line items`} accent/>
+      <Kpi label="Net Profit *" value={fmtMoney(kpis.netProfit)} sub={`modeled · ${(filters.cogsRatio*100).toFixed(0)}% COGS · ${kpis.margin.toFixed(1)}% margin`}/>
       <Kpi label="Gross Sales" value={fmtMoney(kpis.gross)} sub="before discounts"/>
       <Kpi label="Discounts" value={fmtMoney(kpis.discounts)} sub={kpis.gross?((kpis.discounts/kpis.gross)*100).toFixed(1)+'% of gross':'—'}/>
-      <Kpi label="MOM Change" value={kpis.mom==null?'—':(kpis.mom>=0?'+':'')+kpis.mom.toFixed(1)+'%'} sub={kpis.momLabel}/>
     </div>
     <div className="kpi-grid">
       <Kpi label="Orders" value={fmtNum(kpis.orders)} sub={`${fmtMoney(kpis.avgOrder)} avg order`}/>
       <Kpi label="Units Sold" value={fmtNum(Math.round(kpis.units))} sub={`${kpis.avgUnitsPerInvoice.toFixed(1)} per order`}/>
       <Kpi label="Active Buyers" value={fmtNum(kpis.buyers)} sub="unique accounts"/>
-      <Kpi label="Net Profit *" value={fmtMoney(kpis.netProfit)} sub={`modeled · ${(filters.cogsRatio*100).toFixed(0)}% COGS · ${kpis.margin.toFixed(1)}% margin`}/>
+      <Kpi label="MOM Change" value={kpis.mom==null?'—':(kpis.mom>=0?'+':'')+kpis.mom.toFixed(1)+'%'} sub={kpis.momLabel}/>
     </div>
 
     <section className="section">
