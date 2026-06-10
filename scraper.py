@@ -28,6 +28,9 @@ load_dotenv()
 
 API_BASE = os.getenv("LEAFLINK_API_BASE", "https://www.leaflink.com")
 ENDPOINT = os.getenv("LEAFLINK_ENDPOINT", "/api/v2/orders-received/")
+# Customers endpoint — used to enrich orders with the assigned sales rep (and
+# state/license when present), since the orders feed doesn't carry them.
+CUSTOMERS_ENDPOINT = os.getenv("LEAFLINK_CUSTOMERS_ENDPOINT", "/api/v2/customers/")
 API_KEY = os.getenv("LEAFLINK_API_KEY", "")
 
 # Keep only line items whose product name / brand contains this (case-insensitive).
@@ -224,10 +227,173 @@ def _payment_status(o):
     return "Unpaid"
 
 
-def flatten(orders, brand_q, from_date="", seller_id=""):
+# --- Customer enrichment ----------------------------------------------------
+# LeafLink order payloads don't include the sales rep / buyer state. The
+# customers endpoint does (it's the seller's customer list). We pull it once,
+# build lookup maps keyed by customer id AND normalized buyer name, and stamp
+# each order. All best-effort + fail-safe: any failure leaves fields blank.
+
+def _person_name(v):
+    """Name of a rep/person. Handles dicts with full_name/name or first+last."""
+    if isinstance(v, list):
+        return ", ".join(p for p in (_person_name(x) for x in v) if p)
+    if isinstance(v, dict):
+        n = _first(v, "full_name", "name", "display_name", "title")
+        if n:
+            return n
+        fn = str(v.get("first_name") or "").strip()
+        ln = str(v.get("last_name") or "").strip()
+        combo = (fn + " " + ln).strip()
+        if combo:
+            return combo
+        return _first(v, "email", "username") or ""
+    if isinstance(v, str):
+        return v
+    return ""
+
+
+def _rep_of(c):
+    """Pull the assigned sales rep from a customer object, trying common shapes."""
+    if not isinstance(c, dict):
+        return ""
+    for k in ("sales_rep", "sales_reps", "assigned_sales_reps", "assigned_sales_rep",
+              "account_manager", "default_sales_rep", "rep", "reps", "owner"):
+        if c.get(k) not in (None, "", []):
+            nm = _person_name(c.get(k))
+            if nm:
+                return nm
+    return ""
+
+
+def _state_of(c):
+    if not isinstance(c, dict):
+        return ""
+    for k in ("state", "state_code", "region"):
+        v = c.get(k)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    for k in ("buyer", "company", "address", "billing_address", "shipping_address",
+              "default_address", "location"):
+        sub = c.get(k)
+        if isinstance(sub, dict):
+            for kk in ("state", "state_code", "region"):
+                v = sub.get(kk)
+                if isinstance(v, str) and v.strip():
+                    return v.strip()
+    return ""
+
+
+def _license_of(c):
+    if not isinstance(c, dict):
+        return ""
+    for k in ("license", "license_number", "license_no"):
+        v = c.get(k)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    for sk in ("buyer", "company"):
+        sub = c.get(sk)
+        if isinstance(sub, dict):
+            for k in ("license", "license_number", "license_no"):
+                v = sub.get(k)
+                if isinstance(v, str) and v.strip():
+                    return v.strip()
+    return ""
+
+
+def _cust_names(c):
+    """All plausible name strings for a customer, normalized for matching."""
+    names = set()
+    for nm in (_name_of(c), _name_of(c.get("buyer") if isinstance(c, dict) else None),
+               _first(c, "name", "display_name", "company_name") if isinstance(c, dict) else None):
+        if nm:
+            names.add(str(nm).strip().lower())
+    return names
+
+
+def fetch_customers():
+    """Page through the customers endpoint. Returns [] on any failure (fail-safe)."""
+    if not API_KEY:
+        return []
+    url = f"{API_BASE}{CUSTOMERS_ENDPOINT}"
+    resp = _get(url, {"page_size": PAGE_SIZE, "page": 1})
+    if resp.status_code == 403:
+        print("  NOTE: 403 on customers endpoint — the App lacks 'Customers' read "
+              "permission. Add it in LeafLink (Settings > Applications) to enable "
+              "sales-rep enrichment. Skipping for now.")
+        return []
+    if resp.status_code == 404:
+        print(f"  NOTE: 404 on {CUSTOMERS_ENDPOINT} — endpoint path may differ; "
+              "set LEAFLINK_CUSTOMERS_ENDPOINT. Skipping rep enrichment.")
+        return []
+    if resp.status_code != 200:
+        print(f"  NOTE: customers endpoint returned {resp.status_code}; "
+              "skipping rep enrichment.")
+        return []
+    out = []
+    while True:
+        data = resp.json()
+        batch = data.get("results", data if isinstance(data, list) else [])
+        out.extend(batch)
+        nxt = data.get("next") if isinstance(data, dict) else None
+        if not nxt:
+            break
+        resp = _get(nxt, None)
+        if resp.status_code != 200:
+            break
+    return out
+
+
+def build_enrichment(customers):
+    """Build id/name -> rep/state/license maps from the customer list."""
+    enrich = {"rep_by_id": {}, "rep_by_name": {},
+              "state_by_id": {}, "state_by_name": {},
+              "lic_by_id": {}, "lic_by_name": {}}
+    reps_found = 0
+    for c in customers:
+        cid = _first(c, "id", "pk", "customer_id")
+        rep, state, lic = _rep_of(c), _state_of(c), _license_of(c)
+        if rep:
+            reps_found += 1
+        if cid is not None:
+            if rep:
+                enrich["rep_by_id"].setdefault(str(cid), rep)
+            if state:
+                enrich["state_by_id"].setdefault(str(cid), state)
+            if lic:
+                enrich["lic_by_id"].setdefault(str(cid), lic)
+        for nm in _cust_names(c):
+            if rep:
+                enrich["rep_by_name"].setdefault(nm, rep)
+            if state:
+                enrich["state_by_name"].setdefault(nm, state)
+            if lic:
+                enrich["lic_by_name"].setdefault(nm, lic)
+    enrich["_reps_found"] = reps_found
+    return enrich
+
+
+def _order_customer_keys(o):
+    """Return (customer_id_str, normalized_name) for joining to the enrich maps."""
+    cust = o.get("customer")
+    cid = ""
+    if isinstance(cust, dict):
+        v = _first(cust, "id", "pk", "customer_id")
+        cid = str(v) if v is not None else ""
+    elif isinstance(cust, (int, str)) and str(cust).strip():
+        cid = str(cust).strip()
+    nm = (_name_of(cust) or _name_of(o.get("buyer")) or "").strip().lower()
+    return cid, nm
+
+
+def flatten(orders, brand_q, from_date="", seller_id="", enrich=None):
+    enrich = enrich or {}
+    rep_by_id = enrich.get("rep_by_id", {}); rep_by_name = enrich.get("rep_by_name", {})
+    state_by_id = enrich.get("state_by_id", {}); state_by_name = enrich.get("state_by_name", {})
+    lic_by_id = enrich.get("lic_by_id", {}); lic_by_name = enrich.get("lic_by_name", {})
     rows = []
     seller_ids, brand_ids_seen = set(), set()
     matched = total_lines = skipped_old = skipped_company = skipped_status = 0
+    rep_orders = 0
     recon_order_total = recon_net_total = recon_gross_total = 0.0
     brand_q = (brand_q or "").strip().lower()
     from_date = (from_date or "").strip()
@@ -263,6 +429,16 @@ def flatten(orders, brand_q, from_date="", seller_id=""):
         if order_total is not None:
             recon_order_total += order_total
 
+        # Enrich: assigned sales rep / state / license from the customers endpoint,
+        # joined by customer id first, then normalized buyer name.
+        _cid, _cnm = _order_customer_keys(o)
+        _rep = (rep_by_id.get(_cid) or rep_by_name.get(_cnm)
+                or _name_of(_first(o, "sales_rep", "sales_reps")) or "")
+        _state = state_by_id.get(_cid) or state_by_name.get(_cnm) or ""
+        _lic = lic_by_id.get(_cid) or lic_by_name.get(_cnm) or ""
+        if _rep:
+            rep_orders += 1
+
         common = {
             "order_number": _first(o, "short_id", "number", "id"),
             "order_uid": _first(o, "number", "id"),
@@ -270,9 +446,9 @@ def flatten(orders, brand_q, from_date="", seller_id=""):
             "order_date": order_date,
             "delivery_date": _first(o, "ship_date", "delivery_date"),
             "buyer_name": _name_of(o.get("customer")) or _name_of(o.get("buyer")),
-            "buyer_state": "",   # not in order payload; enrich via customers endpoint later
-            "buyer_license": "",
-            "sales_rep": _name_of(_first(o, "sales_rep", "sales_reps")),
+            "buyer_state": _state,
+            "buyer_license": _lic,
+            "sales_rep": _rep,
             "payment_status": _payment_status(o),
             "paid": bool(o.get("paid")),
             "payment_term": o.get("payment_term") or "",
@@ -340,6 +516,7 @@ def flatten(orders, brand_q, from_date="", seller_id=""):
         "brand_ids": sorted(brand_ids_seen),
         "matched": matched, "total_lines": total_lines, "skipped_old": skipped_old,
         "skipped_company": skipped_company, "skipped_status": skipped_status,
+        "rep_orders": rep_orders,
         "recon_order_total": round(recon_order_total, 2),
         "recon_net_total": round(recon_net_total, 2),
         "recon_gross_total": round(recon_gross_total, 2),
@@ -354,6 +531,19 @@ def main():
     orders = fetch_all()
     print(f"Fetched {len(orders)} orders.")
 
+    # Enrich with sales rep (and state/license when available) from customers.
+    print(f"Fetching customers from {CUSTOMERS_ENDPOINT} for sales-rep enrichment...")
+    customers = fetch_customers()
+    enrich = build_enrichment(customers)
+    print(f"Customers fetched: {len(customers)} | with an assigned sales rep: "
+          f"{enrich.get('_reps_found', 0)}")
+    if customers and enrich.get("_reps_found", 0) == 0:
+        sample = {k: v for k, v in (customers[0] or {}).items()
+                  if k not in ("orders",)}
+        print("  No rep field matched on customers. First customer keys: "
+              f"{sorted((customers[0] or {}).keys())}")
+        print("  Sample customer (truncated): " + json.dumps(sample, default=str)[:1200])
+
     if orders:
         first = orders[0]
         order_lite = {k: v for k, v in first.items() if k not in ("line_items", "lineitems")}
@@ -365,12 +555,12 @@ def main():
             print(json.dumps(lis[0], default=str)[:2500])
         print("--- end sample ---\n")
 
-    rows, st = flatten(orders, BRAND_FILTER, FROM_DATE, SELLER_ID)
+    rows, st = flatten(orders, BRAND_FILTER, FROM_DATE, SELLER_ID, enrich)
 
     if BRAND_FILTER.strip() and st["matched"] == 0 and st["total_lines"] > 0:
         print(f"WARNING: brand '{BRAND_FILTER}' matched 0 of {st['total_lines']} lines.")
         print("Keeping ALL rows so you still get data — check the product-name field.")
-        rows, st = flatten(orders, "", FROM_DATE, SELLER_ID)
+        rows, st = flatten(orders, "", FROM_DATE, SELLER_ID, enrich)
 
     print(f"\nSeller id(s) seen: {st['seller_ids']}  (Medfarms = 9105)")
     print(f"Company filter: seller {SELLER_ID or '(none)'}  ->  skipped {st['skipped_company']} other-company orders")
@@ -378,6 +568,8 @@ def main():
     print(f"Brand id(s) in data:  {st['brand_ids']}   (Chill Medicated = 2425)")
     print(f"Date floor: {FROM_DATE or '(none)'}  ->  skipped {st['skipped_old']} older orders")
     print(f"Line items: {st['total_lines']} in range -> {st['matched']} kept (brand '{BRAND_FILTER}')")
+    print(f"Sales-rep enrichment: {st['rep_orders']} orders matched a rep "
+          f"(0 = customers endpoint had no rep data / not permitted)")
     # After net allocation, sum of net should equal sum of order totals (ratio ~1.000).
     ot, nt, gt = st["recon_order_total"], st["recon_net_total"], st["recon_gross_total"]
     ratio = (nt / ot) if ot else 0
