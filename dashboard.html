@@ -136,9 +136,9 @@ function Dashboard({data,filters,setFilters}){
     _qty: +r.quantity || 0,
     _isSample: !!r.is_sample,
     productLine: r.product_line || r.product_type || '—',
-    // City parsed from the buyer name suffix ("King of Budz - Monroe" -> "Monroe").
-    // ~98% of Michigan buyer names carry a city this way.
-    city: (() => { const n = String(r.buyer_name || ''); const m = n.split(/\s[-–]\s/); return m.length > 1 ? m[m.length - 1].trim() : ''; })(),
+    // City: use the real customer city from the scraper (buyer_city) when present,
+    // else parse it from the buyer-name suffix ("King of Budz - Monroe" -> "Monroe").
+    city: (() => { const real = String(r.buyer_city || '').trim(); if (real) return real; const n = String(r.buyer_name || ''); const m = n.split(/\s[-–]\s/); return m.length > 1 ? m[m.length - 1].trim() : ''; })(),
   })),[rows]);
 
   const distinct = useMemo(()=>({
@@ -183,7 +183,16 @@ function Dashboard({data,filters,setFilters}){
   const topProducts=useMemo(()=>groupSum('product_name'),[filtered]);
   const topBuyers=useMemo(()=>groupSum('buyer_name'),[filtered]);
   const byLine=useMemo(()=>groupSum('productLine',8),[filtered]);
-  const byCity=useMemo(()=>groupSum('city',15),[filtered]);
+  const byCity=useMemo(()=>{
+    // Locked to these 10 Michigan cities. Matching ignores case/spacing/punctuation
+    // so "Center Line" / "centerline" both land in the same bucket.
+    const allow=['Bay City','Center Line','Madison Heights','Kalamazoo','Monroe','New Buffalo','Oscoda','River Rouge','Sturgis','Traverse City'];
+    const norm=s=>String(s||'').toLowerCase().replace(/[^a-z]/g,'');
+    const amap={}; allow.forEach(c=>{amap[norm(c)]=c;});
+    const m={}; allow.forEach(c=>{m[c]={name:c,revenue:0,units:0};});
+    filtered.forEach(r=>{const disp=amap[norm(r.city)]; if(!disp)return; m[disp].revenue+=r._revenue; m[disp].units+=r._units;});
+    return Object.values(m).sort((a,b)=>b.revenue-a.revenue);
+  },[filtered]);
   const bySalesRep=useMemo(()=>groupSum('sales_rep',20),[filtered]);
   const paymentMix=useMemo(()=>{const m={};filtered.forEach(r=>{const k=r.payment_status||'Unknown';m[k]=(m[k]||0)+r._revenue;});return Object.entries(m).map(([name,revenue])=>({name,revenue}));},[filtered]);
 
