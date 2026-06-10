@@ -163,13 +163,14 @@ function Dashboard({data,filters,setFilters}){
     const units=filtered.reduce((s,r)=>s+r._units,0);
     const orders=new Set(filtered.map(r=>r.order_uid).filter(Boolean));
     const buyers=new Set(filtered.map(r=>r.buyer_name).filter(Boolean));
+    const markets=new Set(filtered.map(r=>r.buyer_state).filter(Boolean));
     const cost=revenue*filters.cogsRatio;
     const margin=revenue?((revenue-cost)/revenue)*100:0;
     const byMonth={}; filtered.forEach(r=>{if(!r._date)return;const k=`${r._date.getFullYear()}-${String(r._date.getMonth()+1).padStart(2,'0')}`;byMonth[k]=(byMonth[k]||0)+r._revenue;});
     const mk=Object.keys(byMonth).sort(); let mom=null,momLabel='—';
     if(mk.length>=2){const a=byMonth[mk[mk.length-1]],b=byMonth[mk[mk.length-2]];if(b){mom=((a-b)/b)*100;momLabel=mk[mk.length-1]+' vs '+mk[mk.length-2];}}
     return {revenue,gross,discounts,units,cost,margin,netProfit:revenue-cost,
-      orders:orders.size,buyers:buyers.size,avgOrder:orders.size?revenue/orders.size:0,
+      orders:orders.size,buyers:buyers.size,markets:markets.size,avgOrder:orders.size?revenue/orders.size:0,
       avgUnitPrice:units?revenue/units:0,avgUnitsPerInvoice:orders.size?units/orders.size:0,
       mom,momLabel,lineItems:filtered.length};
   },[filtered,filters.cogsRatio]);
@@ -212,15 +213,21 @@ function Dashboard({data,filters,setFilters}){
 
     <div className="kpi-grid">
       <Kpi label="Net Revenue" value={fmtMoney(kpis.revenue)} sub={`${fmtNum(kpis.lineItems)} line items`} accent/>
-      <Kpi label="Net Profit *" value={fmtMoney(kpis.netProfit)} sub={`modeled · ${(filters.cogsRatio*100).toFixed(0)}% COGS · ${kpis.margin.toFixed(1)}% margin`}/>
-      <Kpi label="Gross Sales" value={fmtMoney(kpis.gross)} sub="before discounts"/>
-      <Kpi label="Discounts" value={fmtMoney(kpis.discounts)} sub={kpis.gross?((kpis.discounts/kpis.gross)*100).toFixed(1)+'% of gross':'—'}/>
+      <Kpi label="Net Profit *" value={fmtMoney(kpis.netProfit)} sub={`modeled · ${(filters.cogsRatio*100).toFixed(0)}% COGS`}/>
+      <Kpi label="Gross Margin *" value={kpis.margin.toFixed(1)+'%'} sub={`modeled · ${fmtMoney(kpis.cost)} COGS`}/>
+      <Kpi label="MOM Change" value={kpis.mom==null?'—':(kpis.mom>=0?'+':'')+kpis.mom.toFixed(1)+'%'} sub={kpis.momLabel}/>
     </div>
     <div className="kpi-grid">
       <Kpi label="Orders" value={fmtNum(kpis.orders)} sub={`${fmtMoney(kpis.avgOrder)} avg order`}/>
-      <Kpi label="Units Sold" value={fmtNum(Math.round(kpis.units))} sub={`${kpis.avgUnitsPerInvoice.toFixed(1)} per order`}/>
+      <Kpi label="Units Sold" value={fmtNum(Math.round(kpis.units))} sub={`${fmtNum(kpis.lineItems)} line items`}/>
+      <Kpi label="Avg Unit Price" value={fmtMoneyFull(kpis.avgUnitPrice)} sub="revenue ÷ units"/>
+      <Kpi label="Avg Units / Invoice" value={kpis.avgUnitsPerInvoice.toFixed(1)} sub={`across ${fmtNum(kpis.orders)} invoices`}/>
+    </div>
+    <div className="kpi-grid">
       <Kpi label="Active Buyers" value={fmtNum(kpis.buyers)} sub="unique accounts"/>
-      <Kpi label="MOM Change" value={kpis.mom==null?'—':(kpis.mom>=0?'+':'')+kpis.mom.toFixed(1)+'%'} sub={kpis.momLabel}/>
+      <Kpi label="Markets" value={kpis.markets?fmtNum(kpis.markets):'—'} sub={kpis.markets?'states with sales':'state n/a in LeafLink'}/>
+      <Kpi label="Discounts Given" value={fmtMoney(kpis.discounts)} sub={kpis.gross?((kpis.discounts/kpis.gross)*100).toFixed(1)+'% of gross':'—'}/>
+      <Kpi label="Credits Applied" value="—" sub="n/a in LeafLink data"/>
     </div>
 
     <section className="section">
@@ -315,7 +322,7 @@ function Dashboard({data,filters,setFilters}){
     </div>
 
     <footer style={{marginTop:60,padding:'20px 0',borderTop:'1px solid var(--border)',display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono',fontSize:11,color:'var(--text-faint)',textTransform:'uppercase',letterSpacing:'0.12em'}}>
-      <span>Chill Medicated · Sales Intelligence</span><span>LeafLink · Auto-refresh 60s</span>
+      <span>Chill Medicated · Sales Intelligence</span><span>Michigan · Auto-refresh 60s</span>
     </footer>
   </div>);
 }
@@ -330,7 +337,7 @@ function Topbar({fetchedAt,rowCount,totalCount,data}){
           <span style={{background:'linear-gradient(90deg,#e8d838 0%,#8a7d18 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Chill</span>{' '}
           <em style={{color:'var(--text-dim)',fontStyle:'italic',fontWeight:400}}>Medicated</em>
         </h1>
-        <div className="brand-tag" style={{marginTop:4}}>LeafLink · Sales Intelligence</div>
+        <div className="brand-tag" style={{marginTop:4}}>Michigan · Sales Intelligence</div>
       </div>
     </div>
     <div className="topbar-meta">
