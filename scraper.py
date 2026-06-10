@@ -41,6 +41,11 @@ FROM_DATE = os.getenv("LEAFLINK_FROM_DATE", "2025-05-01")
 # The App token is already scoped to a single company, but this enforces it
 # explicitly. Blank = no company filter.
 SELLER_ID = os.getenv("LEAFLINK_SELLER_ID", "9105")
+
+# Statuses to exclude — a "products sold" report does not count these. Comma-sep.
+EXCLUDE_STATUSES = [s.strip().lower() for s in
+                    os.getenv("LEAFLINK_EXCLUDE_STATUSES", "Cancelled,Rejected").split(",")
+                    if s.strip()]
 # Send the date floor to the server too (created_on__gte) to avoid pulling all
 # history. If LeafLink rejects it (400), the scraper drops it and falls back to
 # client-side filtering automatically. Set "0" to disable.
@@ -63,63 +68,107 @@ def auth_headers() -> dict:
 
 
 def _get(url, params):
-    for attempt in range(4):
-        resp = requests.get(url, headers=auth_headers(), params=params, timeout=120)
-        if resp.status_code == 429:
+    # Robust GET: retry on 429 and transient 5xx so a single hiccup never
+    # silently truncates the pull.
+    last = None
+    for attempt in range(6):
+        try:
+            resp = requests.get(url, headers=auth_headers(), params=params, timeout=120)
+        except requests.RequestException as e:
+            last = e
+            time.sleep(5 * (attempt + 1))
+            continue
+        if resp.status_code == 429 or 500 <= resp.status_code < 600:
             wait = 5 * (attempt + 1)
-            print(f"  rate limited (429) — backing off {wait}s")
+            print(f"  {resp.status_code} — backing off {wait}s (attempt {attempt+1})")
             time.sleep(wait)
+            last = resp
             continue
         return resp
-    return resp
+    if isinstance(last, requests.Response):
+        return last
+    raise RuntimeError(f"request failed after retries: {last}")
+
+
+def _month_windows(from_date, to_date):
+    """Yield (gte, lt) date-string pairs, one calendar month each, covering the
+    range. Windowing keeps every request well under LeafLink's ~6,050-result
+    pagination ceiling, so the full history is retrievable."""
+    y, m = int(from_date[:4]), int(from_date[5:7])
+    windows = []
+    while True:
+        start = f"{y:04d}-{m:02d}-01"
+        ny, nm = (y + 1, 1) if m == 12 else (y, m + 1)
+        nxt = f"{ny:04d}-{nm:02d}-01"
+        windows.append((start, nxt))
+        if start[:7] >= to_date[:7]:
+            break
+        y, m = ny, nm
+    return windows
+
+
+def _fetch_window(gte, lt):
+    """Page through one date window completely, following `next`."""
+    params = {"page_size": PAGE_SIZE, "page": 1,
+              "created_on__gte": gte, "created_on__lt": lt,
+              "ordering": "created_on"}
+    if INCLUDE_CHILDREN:
+        params["include_children"] = INCLUDE_CHILDREN
+    url = f"{API_BASE}{ENDPOINT}"
+    out, page, reported = [], 0, None
+    resp = _get(url, params)
+    if resp.status_code == 400:
+        # Date filter rejected — surface clearly rather than silently mis-pulling.
+        print(f"ERROR 400 on window {gte}..{lt}: {resp.text[:200]}")
+        sys.exit(1)
+    if resp.status_code == 401:
+        print("ERROR: 401 Unauthorized — key missing/wrong/revoked."); sys.exit(1)
+    if resp.status_code == 403:
+        print("ERROR: 403 Forbidden — app lacks Orders read permission."); sys.exit(1)
+    if resp.status_code != 200:
+        print(f"ERROR: status {resp.status_code}\n{resp.text[:300]}"); sys.exit(1)
+    while True:
+        data = resp.json()
+        if reported is None:
+            reported = data.get("count")
+        batch = data.get("results", data if isinstance(data, list) else [])
+        out.extend(batch)
+        page += 1
+        nxt = data.get("next") if isinstance(data, dict) else None
+        if not nxt or (MAX_PAGES and page >= MAX_PAGES):
+            break
+        resp = _get(nxt, None)
+        if resp.status_code != 200:
+            # Don't return a half window — fail loudly so partial data is never committed.
+            print(f"ERROR: window {gte}..{lt} page fetch returned {resp.status_code}; aborting.")
+            sys.exit(1)
+    # If a single month ever exceeds the cap, warn (would need finer windows).
+    if reported and len(out) < reported:
+        print(f"  WARNING: window {gte}..{lt} returned {len(out)} of {reported} "
+              "(month exceeds pagination cap — needs finer windows).")
+    return out, reported
 
 
 def fetch_all() -> list:
     if not API_KEY:
         print("ERROR: LEAFLINK_API_KEY is empty.")
         sys.exit(1)
-
-    base_params = {"page_size": PAGE_SIZE, "page": 1}
-    if INCLUDE_CHILDREN:
-        base_params["include_children"] = INCLUDE_CHILDREN
-
-    use_server_date = SERVER_DATE_FILTER and bool(FROM_DATE)
-    if use_server_date:
-        base_params["created_on__gte"] = FROM_DATE
-
-    url = f"{API_BASE}{ENDPOINT}"
-
-    # First request, with a one-time fallback if the date param is rejected.
-    resp = _get(url, base_params)
-    if resp.status_code == 400 and use_server_date:
-        print("NOTE: server rejected created_on__gte — falling back to client-side date filter.")
-        base_params.pop("created_on__gte", None)
-        use_server_date = False
-        resp = _get(url, base_params)
-
-    if resp.status_code == 401:
-        print("ERROR: 401 Unauthorized — key missing/wrong/revoked."); sys.exit(1)
-    if resp.status_code == 403:
-        print("ERROR: 403 Forbidden — app lacks Orders read permission."); sys.exit(1)
-    if resp.status_code != 200:
-        print(f"ERROR: status {resp.status_code}\n{resp.text[:500]}"); sys.exit(1)
-
-    orders, page = [], 0
-    while True:
-        data = resp.json()
-        batch = data.get("results", data if isinstance(data, list) else [])
-        orders.extend(batch)
-        page += 1
-        total = data.get("count", "?")
-        print(f"  page {page}: +{len(batch)} orders (running {len(orders)} / {total})")
-
-        nxt = data.get("next") if isinstance(data, dict) else None
-        if not nxt or (MAX_PAGES and page >= MAX_PAGES):
-            break
-        resp = _get(nxt, None)
-        if resp.status_code != 200:
-            print(f"  stopping: page fetch returned {resp.status_code}")
-            break
+    today = datetime.now().strftime("%Y-%m-%d")
+    start = FROM_DATE or "2025-05-01"
+    windows = _month_windows(start, today)
+    print(f"Pulling {len(windows)} monthly windows ({start} .. {today})")
+    seen, orders = set(), []
+    for gte, lt in windows:
+        batch, reported = _fetch_window(gte, lt)
+        new = 0
+        for o in batch:
+            key = o.get("number") or o.get("id")
+            if key in seen:
+                continue
+            seen.add(key)
+            orders.append(o)
+            new += 1
+        print(f"  {gte} -> {lt}: {len(batch)} fetched ({new} new) | total {len(orders)}")
     return orders
 
 
@@ -178,7 +227,7 @@ def _payment_status(o):
 def flatten(orders, brand_q, from_date="", seller_id=""):
     rows = []
     seller_ids, brand_ids_seen = set(), set()
-    matched = total_lines = skipped_old = skipped_company = 0
+    matched = total_lines = skipped_old = skipped_company = skipped_status = 0
     recon_order_total = recon_net_total = recon_gross_total = 0.0
     brand_q = (brand_q or "").strip().lower()
     from_date = (from_date or "").strip()
@@ -195,6 +244,12 @@ def flatten(orders, brand_q, from_date="", seller_id=""):
         # Company filter: only Medfarms (seller id).
         if seller_id and str(sid) != seller_id:
             skipped_company += 1
+            continue
+
+        # Status filter: drop non-sold statuses (Cancelled/Rejected by default).
+        ostatus = _first(o, "status", "order_status")
+        if EXCLUDE_STATUSES and str(ostatus or "").lower() in EXCLUDE_STATUSES:
+            skipped_status += 1
             continue
 
         order_date = _first(o, "created_on", "created", "order_placed_date", "date")
@@ -284,7 +339,7 @@ def flatten(orders, brand_q, from_date="", seller_id=""):
         "seller_ids": sorted(x for x in seller_ids if x is not None),
         "brand_ids": sorted(brand_ids_seen),
         "matched": matched, "total_lines": total_lines, "skipped_old": skipped_old,
-        "skipped_company": skipped_company,
+        "skipped_company": skipped_company, "skipped_status": skipped_status,
         "recon_order_total": round(recon_order_total, 2),
         "recon_net_total": round(recon_net_total, 2),
         "recon_gross_total": round(recon_gross_total, 2),
@@ -319,6 +374,7 @@ def main():
 
     print(f"\nSeller id(s) seen: {st['seller_ids']}  (Medfarms = 9105)")
     print(f"Company filter: seller {SELLER_ID or '(none)'}  ->  skipped {st['skipped_company']} other-company orders")
+    print(f"Status filter: excluded {EXCLUDE_STATUSES or '(none)'}  ->  skipped {st['skipped_status']} orders")
     print(f"Brand id(s) in data:  {st['brand_ids']}   (Chill Medicated = 2425)")
     print(f"Date floor: {FROM_DATE or '(none)'}  ->  skipped {st['skipped_old']} older orders")
     print(f"Line items: {st['total_lines']} in range -> {st['matched']} kept (brand '{BRAND_FILTER}')")
