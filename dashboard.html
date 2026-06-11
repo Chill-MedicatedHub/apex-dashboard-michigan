@@ -111,9 +111,35 @@ const parseDate = (s) => {
 };
 const ymd = (d) => { if(!(d instanceof Date)||isNaN(d)) return ''; const m=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${d.getFullYear()}-${m}-${dd}`; };
 
+// Minimal quote-aware CSV parser -> array of objects keyed by header row.
+const parseCsv = (text) => {
+  if(!text) return [];
+  const rows=[]; let i=0, field='', row=[], inq=false;
+  const pushF=()=>{ row.push(field); field=''; };
+  const pushR=()=>{ if(row.length>1||(row.length===1&&row[0]!=='')) rows.push(row); row=[]; };
+  while(i<text.length){
+    const c=text[i];
+    if(inq){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i+=2;continue;} inq=false;i++;continue; }
+      field+=c;i++;continue;
+    }
+    if(c==='"'){inq=true;i++;continue;}
+    if(c===','){pushF();i++;continue;}
+    if(c==='\r'){i++;continue;}
+    if(c==='\n'){pushF();pushR();i++;continue;}
+    field+=c;i++;
+  }
+  pushF(); pushR();
+  if(rows.length<2) return [];
+  const hdr=rows[0].map(h=>h.trim());
+  return rows.slice(1).map(r=>{ const o={}; hdr.forEach((h,idx)=>o[h]=(r[idx]!=null?r[idx]:'').trim()); return o; });
+};
+const csvNum = (v) => { const n=parseFloat(String(v||'').replace(/[$,]/g,'')); return isNaN(n)?null:n; };
+
 function App(){
   const [data,setData]=useState(null);
   const [error,setError]=useState(null);
+  const [invCsv,setInvCsv]=useState(null);
   const [filters,setFilters]=useState({from:'',to:'',buyer:'',productLine:'',status:'',invoice:'',excludeSamples:false});
   useEffect(()=>{
     const load=()=>fetch('sales_data.json?t='+Date.now())
@@ -121,12 +147,21 @@ function App(){
       .then(setData).catch(e=>setError(e.message));
     load(); const id=setInterval(load,60000); return ()=>clearInterval(id);
   },[]);
+  useEffect(()=>{
+    // Inventory mirrors the LeafLink CSV export committed as inventory.csv.
+    const loadInv=()=>fetch('inventory.csv?t='+Date.now())
+      .then(r=>r.ok?r.text():null)
+      .then(t=>setInvCsv(t?parseCsv(t):[]))
+      .catch(()=>setInvCsv([]));
+    loadInv(); const id=setInterval(loadInv,60000); return ()=>clearInterval(id);
+  },[]);
   if(error) return <div className="app"><div className="empty"><h2>No data yet</h2><p>Run the scraper to generate <code>sales_data.json</code>, then refresh.</p><p style={{marginTop:12,fontSize:12,color:'var(--text-faint)'}}>{error}</p></div></div>;
   if(!data) return <div className="app"><div className="empty"><h2>Loading…</h2></div></div>;
-  return <Dashboard data={data} filters={filters} setFilters={setFilters} />;
+  return <Dashboard data={data} invCsv={invCsv||[]} filters={filters} setFilters={setFilters} />;
 }
 
-function Dashboard({data,filters,setFilters}){
+function Dashboard({data,invCsv,filters,setFilters}){
+  invCsv = invCsv || [];
   const rows = data.rows || [];
   const normalized = useMemo(()=>rows.map(r=>({
     ...r,
@@ -224,40 +259,54 @@ function Dashboard({data,filters,setFilters}){
     return Object.values(m).sort((a,b)=>(b._date?.getTime()||0)-(a._date?.getTime()||0));
   },[filtered]);
 
-  // Current inventory = a live per-product snapshot, so it is intentionally built
-  // independent of the date/buyer filters. When the scraper emits a full catalog
-  // (data.inventory) we use it — that includes products with NO sales ("never sold").
-  // Otherwise we fall back to deriving from sold rows only.
+  // Inventory comes from the scraped LeafLink catalog (data.inventory), now
+  // filtered to Available-listed products so it matches the CSV view and
+  // auto-updates each run. Falls back to a committed inventory.csv, then to
+  // sold-rows, if the catalog isn't present yet.
   const inventory=useMemo(()=>{
     const soldBySku={}, soldByName={};
     normalized.forEach(r=>{const u=r._units||0;
       if(r.product_sku) soldBySku[r.product_sku]=(soldBySku[r.product_sku]||0)+u;
       if(r.product_name) soldByName[r.product_name]=(soldByName[r.product_name]||0)+u;});
-    const cat=Array.isArray(data.inventory)?data.inventory:[];
     let list;
+    const cat=Array.isArray(data.inventory)?data.inventory:[];
     if(cat.length){
-      list=cat.map(p=>{
-        const sold=(p.sku&&soldBySku[p.sku]!=null)?soldBySku[p.sku]:(soldByName[p.name]||0);
+      list=cat.map(p=>{const sold=(p.sku&&soldBySku[p.sku]!=null)?soldBySku[p.sku]:(soldByName[p.name]||0);
         return {name:p.name||'—',line:p.line||'—',sku:p.sku||'',
                 qty:(p.inventory!=null?p.inventory:null),
                 reserved:(p.reserved!=null?p.reserved:null),
-                inv:(p.available!=null?p.available:null),sold,neverSold:sold<=0};
+                inv:(p.available!=null?p.available:null),
+                soldMo:null,sold,neverSold:sold<=0,
+                status:p.status||'',source:'api'};});
+    } else if(invCsv && invCsv.length){
+      list=invCsv.map(r=>{
+        const sku=r['SKU']||'';
+        const sold=(sku&&soldBySku[sku]!=null)?soldBySku[sku]:(soldByName[r['Name']]||0);
+        return {name:r['Name']||'—',line:r['Product Line']||'—',sku,
+                qty:csvNum(r['Inventory (Units)']),
+                reserved:csvNum(r['Reserved Inventory (Units)']),
+                inv:csvNum(r['Available Inventory (Units)']),
+                soldMo:csvNum(r['Sold Last month (Units)']),
+                sold,neverSold:sold<=0,
+                source:'csv'};
       });
     } else {
       const m={};
       normalized.forEach(r=>{const k=r.product_name; if(!k)return;
-        if(!m[k]) m[k]={name:k,line:r.productLine||'—',sku:r.product_sku||'',qty:null,reserved:null,inv:null,sold:0};
+        if(!m[k]) m[k]={name:k,line:r.productLine||'—',sku:r.product_sku||'',qty:null,reserved:null,inv:null,soldMo:null,sold:0};
         if(r.current_inventory!=null)m[k].inv=r.current_inventory;
         m[k].sold+=(r._units||0);});
-      list=Object.values(m).filter(p=>p.inv!=null).map(p=>({...p,neverSold:p.sold<=0}));
+      list=Object.values(m).filter(p=>p.inv!=null).map(p=>({...p,neverSold:p.sold<=0,source:'rows'}));
     }
     list.sort((a,b)=>(b.inv||0)-(a.inv||0));
     const withInv=list.filter(p=>p.inv!=null);
     const totalUnits=withInv.reduce((s,p)=>s+p.inv,0);
+    const reservedTotal=list.reduce((s,p)=>s+(p.reserved||0),0);
+    const qtyTotal=list.reduce((s,p)=>s+(p.qty||0),0);
     const out=withInv.filter(p=>p.inv<=0).length;
-    const never=list.filter(p=>p.neverSold).length;
-    return {list,totalUnits,skus:list.length,out,never};
-  },[normalized,data.inventory]);
+    const src = list[0]?list[0].source:'none';
+    return {list,totalUnits,reservedTotal,qtyTotal,skus:list.length,out,src};
+  },[normalized,invCsv,data.inventory]);
 
   const reset=()=>setFilters({from:'',to:'',buyer:'',productLine:'',status:'',invoice:'',excludeSamples:false});
   const fetchedAt=new Date(data.fetched_at);
@@ -322,12 +371,12 @@ function Dashboard({data,filters,setFilters}){
     </section>
 
     <section className="section">
-      <div className="section-header"><h2 className="section-title">Current <em>inventory</em></h2><span className="section-meta">{fmtNum(inventory.skus)} products · live snapshot</span></div>
+      <div className="section-header"><h2 className="section-title">Current <em>inventory</em></h2><span className="section-meta">{fmtNum(inventory.skus)} products · {inventory.src==='csv'?'from inventory.csv':inventory.src==='api'?'from product catalog':'from sales data'}</span></div>
       <div className="kpi-grid" style={{marginBottom:16}}>
-        <Kpi label="Units In Stock" value={fmtNum(Math.round(inventory.totalUnits))} sub="available now" accent/>
-        <Kpi label="Products Tracked" value={fmtNum(inventory.skus)} sub="in catalog"/>
-        <Kpi label="Out Of Stock" value={fmtNum(inventory.out)} sub="0 units available"/>
-        <Kpi label="Never Sold" value={fmtNum(inventory.never)} sub="no order history"/>
+        <Kpi label="Inventory" value={fmtNum(Math.round(inventory.qtyTotal))} sub="total units on hand"/>
+        <Kpi label="Reserved" value={fmtNum(Math.round(inventory.reservedTotal))} sub="held by open orders"/>
+        <Kpi label="Available" value={fmtNum(Math.round(inventory.totalUnits))} sub="ready to sell" accent/>
+        <Kpi label="Out Of Stock" value={fmtNum(inventory.out)} sub="0 available"/>
       </div>
       <div className="card" style={{padding:0,overflow:'hidden'}}><div style={{overflowX:'auto',maxHeight:560}}>
         <table className="data-table"><thead><tr><th>Product</th><th>Line</th><th>SKU</th><th className="num">Units Sold</th><th className="num">Inventory</th><th className="num">Reserved Inventory</th><th className="num">Available Inventory</th><th>Status</th></tr></thead><tbody>
