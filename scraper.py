@@ -89,7 +89,7 @@ INV_FIELDS = [f.strip() for f in os.getenv(
 # must never block the orders backfill. Turn on with LEAFLINK_PULL_INVENTORY=1
 # once the right endpoint/field is confirmed. Bounded by INV_MAX_PAGES.
 PULL_INVENTORY = os.getenv("LEAFLINK_PULL_INVENTORY", "0") == "1"
-INV_MAX_PAGES = int(os.getenv("LEAFLINK_INV_MAX_PAGES", "20"))
+INV_MAX_PAGES = int(os.getenv("LEAFLINK_INV_MAX_PAGES", "60"))
 OUTPUT_FILE = Path(__file__).parent / "sales_data.json"
 
 
@@ -687,12 +687,12 @@ def fetch_inventory():
         if probe.status_code != 200:
             print(f"  NOTE: {probe.status_code} on {ep} — skipping inventory here.")
             continue
-        field_hits, sample_keys, page, seen = {}, None, 1, 0
-        while page <= INV_MAX_PAGES:
-            r = _get(url, {"page_size": PAGE_SIZE, "page": page})
-            if r.status_code != 200:
+        field_hits, sample_keys, pages, seen = {}, None, 0, 0
+        resp = probe  # reuse the probe as page 1
+        while resp is not None and pages < INV_MAX_PAGES:
+            if resp.status_code != 200:
                 break
-            data = r.json()
+            data = resp.json()
             items = data.get("results") if isinstance(data, dict) else data
             if not items:
                 break
@@ -712,15 +712,18 @@ def fetch_inventory():
                     inv_by_id[str(pid)] = val
                 if sku:
                     inv_by_sku[sku] = val
-            if isinstance(data, dict) and data.get("next"):
-                page += 1
-            else:
+            pages += 1
+            nxt = data.get("next") if isinstance(data, dict) else None
+            if not nxt:
                 break
-        if page > INV_MAX_PAGES:
-            print(f"  NOTE: hit INV_MAX_PAGES={INV_MAX_PAGES} on {ep}; stopping inventory paging.")
+            resp = _get(nxt, None)   # follow the next URL (this endpoint ignores ?page=)
+        if pages >= INV_MAX_PAGES and (data.get("next") if isinstance(data, dict) else None):
+            print(f"  NOTE: hit INV_MAX_PAGES={INV_MAX_PAGES} on {ep} with more pages "
+                  f"remaining — raise LEAFLINK_INV_MAX_PAGES.")
         if inv_by_id or inv_by_sku:
             print(f"Inventory: matched on {ep} — {len(inv_by_id)} by id / "
-                  f"{len(inv_by_sku)} by sku of {seen} products (fields: {field_hits})")
+                  f"{len(inv_by_sku)} by sku across {seen} product rows "
+                  f"({pages} pages, fields: {field_hits})")
             break
         print(f"  NOTE: {ep} returned {seen} products but no recognizable inventory "
               f"field. First product keys: {sample_keys}")
