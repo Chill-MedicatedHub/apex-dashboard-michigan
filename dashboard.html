@@ -376,6 +376,11 @@ function Dashboard({data,invCsv,filters,setFilters}){
     </section>
 
     <section className="section">
+      <div className="section-header"><h2 className="section-title">Payment <em>status</em></h2><span className="section-meta">AR mix</span></div>
+      <div className="card"><RankList data={paymentMix}/></div>
+    </section>
+
+    <section className="section">
       <div className="section-header"><h2 className="section-title">Current <em>inventory</em></h2><span className="section-meta">{fmtNum(inventory.skus)} products · {inventory.src==='csv'?'from inventory.csv':inventory.src==='api'?'from product catalog':'from sales data'}</span></div>
       <div className="kpi-grid" style={{marginBottom:16}}>
         <Kpi label="Inventory" value={fmtNum(Math.round(inventory.qtyTotal))} sub="total units on hand"/>
@@ -398,10 +403,6 @@ function Dashboard({data,invCsv,filters,setFilters}){
       </div></div>
     </section>
 
-    <section className="section">
-      <div className="section-header"><h2 className="section-title">Payment <em>status</em></h2><span className="section-meta">AR mix</span></div>
-      <div className="card"><RankList data={paymentMix}/></div>
-    </section>
 
     <section className="section"><div className="grid-half">
       <RankCard title="Top products" data={topProducts}/>
