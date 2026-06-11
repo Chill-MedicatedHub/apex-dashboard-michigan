@@ -238,12 +238,15 @@ function Dashboard({data,filters,setFilters}){
     if(cat.length){
       list=cat.map(p=>{
         const sold=(p.sku&&soldBySku[p.sku]!=null)?soldBySku[p.sku]:(soldByName[p.name]||0);
-        return {name:p.name||'—',line:p.line||'—',sku:p.sku||'',inv:(p.available!=null?p.available:null),sold,neverSold:sold<=0};
+        return {name:p.name||'—',line:p.line||'—',sku:p.sku||'',
+                qty:(p.inventory!=null?p.inventory:null),
+                reserved:(p.reserved!=null?p.reserved:null),
+                inv:(p.available!=null?p.available:null),sold,neverSold:sold<=0};
       });
     } else {
       const m={};
       normalized.forEach(r=>{const k=r.product_name; if(!k)return;
-        if(!m[k]) m[k]={name:k,line:r.productLine||'—',sku:r.product_sku||'',inv:null,sold:0};
+        if(!m[k]) m[k]={name:k,line:r.productLine||'—',sku:r.product_sku||'',qty:null,reserved:null,inv:null,sold:0};
         if(r.current_inventory!=null)m[k].inv=r.current_inventory;
         m[k].sold+=(r._units||0);});
       list=Object.values(m).filter(p=>p.inv!=null).map(p=>({...p,neverSold:p.sold<=0}));
@@ -327,14 +330,16 @@ function Dashboard({data,filters,setFilters}){
         <Kpi label="Never Sold" value={fmtNum(inventory.never)} sub="no order history"/>
       </div>
       <div className="card" style={{padding:0,overflow:'hidden'}}><div style={{overflowX:'auto',maxHeight:560}}>
-        <table className="data-table"><thead><tr><th>Product</th><th>Line</th><th>SKU</th><th className="num">Units Sold</th><th className="num">Available</th><th>Status</th></tr></thead><tbody>
+        <table className="data-table"><thead><tr><th>Product</th><th>Line</th><th>SKU</th><th className="num">Units Sold</th><th className="num">Inventory</th><th className="num">Reserved Inventory</th><th className="num">Available Inventory</th><th>Status</th></tr></thead><tbody>
           {inventory.list.map((p,i)=>(<tr key={i}>
             <td>{p.name}</td><td className="dim">{p.line}</td><td className="dim font-mono" style={{fontSize:11}}>{p.sku||'—'}</td>
             <td className="num dim">{fmtNum(Math.round(p.sold))}</td>
+            <td className="num dim">{p.qty==null?'—':fmtNum(Math.round(p.qty))}</td>
+            <td className="num dim">{p.reserved==null?'—':fmtNum(Math.round(p.reserved))}</td>
             <td className="num"><strong style={{color:p.inv==null?'var(--text-faint)':p.inv<=0?'var(--rose)':'var(--accent)'}}>{p.inv==null?'—':fmtNum(Math.round(p.inv))}</strong></td>
             <td>{p.neverSold?<span style={{fontFamily:'JetBrains Mono',fontSize:10,textTransform:'uppercase',letterSpacing:'0.08em',color:'var(--warm)',border:'1px solid var(--warm)',borderRadius:2,padding:'2px 6px',whiteSpace:'nowrap'}}>Never sold</span>:<span style={{color:'var(--text-faint)'}}>—</span>}</td>
           </tr>))}
-          {inventory.list.length===0&&<tr><td colSpan={6} style={{padding:20,textAlign:'center',color:'var(--text-faint)'}}>No inventory data yet — deploy the latest scraper (LEAFLINK_PULL_INVENTORY=1) and re-run.</td></tr>}
+          {inventory.list.length===0&&<tr><td colSpan={8} style={{padding:20,textAlign:'center',color:'var(--text-faint)'}}>No inventory data yet — deploy the latest scraper (LEAFLINK_PULL_INVENTORY=1) and re-run.</td></tr>}
         </tbody></table>
       </div></div>
     </section>
