@@ -224,6 +224,38 @@ function Dashboard({data,filters,setFilters}){
     return Object.values(m).sort((a,b)=>(b._date?.getTime()||0)-(a._date?.getTime()||0));
   },[filtered]);
 
+  // Current inventory = a live per-product snapshot, so it is intentionally built
+  // independent of the date/buyer filters. When the scraper emits a full catalog
+  // (data.inventory) we use it — that includes products with NO sales ("never sold").
+  // Otherwise we fall back to deriving from sold rows only.
+  const inventory=useMemo(()=>{
+    const soldBySku={}, soldByName={};
+    normalized.forEach(r=>{const u=r._units||0;
+      if(r.product_sku) soldBySku[r.product_sku]=(soldBySku[r.product_sku]||0)+u;
+      if(r.product_name) soldByName[r.product_name]=(soldByName[r.product_name]||0)+u;});
+    const cat=Array.isArray(data.inventory)?data.inventory:[];
+    let list;
+    if(cat.length){
+      list=cat.map(p=>{
+        const sold=(p.sku&&soldBySku[p.sku]!=null)?soldBySku[p.sku]:(soldByName[p.name]||0);
+        return {name:p.name||'—',line:p.line||'—',sku:p.sku||'',inv:(p.available!=null?p.available:null),sold,neverSold:sold<=0};
+      });
+    } else {
+      const m={};
+      normalized.forEach(r=>{const k=r.product_name; if(!k)return;
+        if(!m[k]) m[k]={name:k,line:r.productLine||'—',sku:r.product_sku||'',inv:null,sold:0};
+        if(r.current_inventory!=null)m[k].inv=r.current_inventory;
+        m[k].sold+=(r._units||0);});
+      list=Object.values(m).filter(p=>p.inv!=null).map(p=>({...p,neverSold:p.sold<=0}));
+    }
+    list.sort((a,b)=>(b.inv||0)-(a.inv||0));
+    const withInv=list.filter(p=>p.inv!=null);
+    const totalUnits=withInv.reduce((s,p)=>s+p.inv,0);
+    const out=withInv.filter(p=>p.inv<=0).length;
+    const never=list.filter(p=>p.neverSold).length;
+    return {list,totalUnits,skus:list.length,out,never};
+  },[normalized,data.inventory]);
+
   const reset=()=>setFilters({from:'',to:'',buyer:'',productLine:'',status:'',invoice:'',excludeSamples:false});
   const fetchedAt=new Date(data.fetched_at);
 
@@ -284,6 +316,27 @@ function Dashboard({data,filters,setFilters}){
           {products.slice(0,100).map((p,i)=>(<tr key={i}><td>{p.name}</td><td className="dim">{p.line}</td><td className="num">{fmtNum(Math.round(p.units))}</td><td className="num">{fmtMoneyFull(p.gross)}</td><td className="num dim">{fmtMoneyFull(p.discount)}</td><td className="num"><strong>{fmtMoneyFull(p.net)}</strong></td><td className="num dim">{fmtMoneyFull(p.avgUnit)}</td><td className="num">{p.inv==null?<span style={{color:'var(--text-faint)'}}>—</span>:fmtNum(Math.round(p.inv))}</td></tr>))}
         </tbody></table>
       </div>{products.length>100&&<div style={{padding:'12px 16px',fontFamily:'JetBrains Mono',fontSize:11,color:'var(--text-faint)',textAlign:'center',borderTop:'1px solid var(--border)'}}>Showing top 100 of {fmtNum(products.length)} by net sales</div>}</div>
+    </section>
+
+    <section className="section">
+      <div className="section-header"><h2 className="section-title">Current <em>inventory</em></h2><span className="section-meta">{fmtNum(inventory.skus)} products · live snapshot</span></div>
+      <div className="kpi-grid" style={{marginBottom:16}}>
+        <Kpi label="Units In Stock" value={fmtNum(Math.round(inventory.totalUnits))} sub="available now" accent/>
+        <Kpi label="Products Tracked" value={fmtNum(inventory.skus)} sub="in catalog"/>
+        <Kpi label="Out Of Stock" value={fmtNum(inventory.out)} sub="0 units available"/>
+        <Kpi label="Never Sold" value={fmtNum(inventory.never)} sub="no order history"/>
+      </div>
+      <div className="card" style={{padding:0,overflow:'hidden'}}><div style={{overflowX:'auto',maxHeight:560}}>
+        <table className="data-table"><thead><tr><th>Product</th><th>Line</th><th>SKU</th><th className="num">Units Sold</th><th className="num">Available</th><th>Status</th></tr></thead><tbody>
+          {inventory.list.map((p,i)=>(<tr key={i}>
+            <td>{p.name}</td><td className="dim">{p.line}</td><td className="dim font-mono" style={{fontSize:11}}>{p.sku||'—'}</td>
+            <td className="num dim">{fmtNum(Math.round(p.sold))}</td>
+            <td className="num"><strong style={{color:p.inv==null?'var(--text-faint)':p.inv<=0?'var(--rose)':'var(--accent)'}}>{p.inv==null?'—':fmtNum(Math.round(p.inv))}</strong></td>
+            <td>{p.neverSold?<span style={{fontFamily:'JetBrains Mono',fontSize:10,textTransform:'uppercase',letterSpacing:'0.08em',color:'var(--warm)',border:'1px solid var(--warm)',borderRadius:2,padding:'2px 6px',whiteSpace:'nowrap'}}>Never sold</span>:<span style={{color:'var(--text-faint)'}}>—</span>}</td>
+          </tr>))}
+          {inventory.list.length===0&&<tr><td colSpan={6} style={{padding:20,textAlign:'center',color:'var(--text-faint)'}}>No inventory data yet — deploy the latest scraper (LEAFLINK_PULL_INVENTORY=1) and re-run.</td></tr>}
+        </tbody></table>
+      </div></div>
     </section>
 
     <section className="section">
