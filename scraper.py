@@ -76,13 +76,13 @@ MAX_PAGES = int(os.getenv("LEAFLINK_MAX_PAGES", "0"))
 # inventory field names tried in order (first non-null wins). Both best-effort.
 PRODUCTS_ENDPOINTS = [e.strip() for e in os.getenv(
     "LEAFLINK_PRODUCTS_ENDPOINTS",
-    "/api/v2/products/,/api/v2/products-received/,/api/v2/seller-products/"
+    "/api/v2/products/"
 ).split(",") if e.strip()]
+# Real LeafLink product inventory fields (per API docs): available_inventory =
+# quantity minus reserved; quantity = total inventory level. Prefer available.
 INV_FIELDS = [f.strip() for f in os.getenv(
     "LEAFLINK_INV_FIELDS",
-    "available_inventory,shelf_inventory,inventory,quantity_available,available,"
-    "available_case_quantity,available_unit_quantity,inventory_amount,"
-    "available_quantity,quantity_on_hand,stock,on_hand"
+    "available_inventory,quantity,quantity_available,inventory"
 ).split(",") if f.strip()]
 
 # Inventory pull is OFF by default: it can be slow/huge on big catalogs and
@@ -672,12 +672,15 @@ def fetch_inventory():
     diagnostic so the field mapping can be confirmed on a real run.
     """
     inv_by_id, inv_by_sku = {}, {}
-    for ep in PRODUCTS_ENDPOINTS:
+    # Prefer the company-scoped path (small, fast, exactly Medfarms' catalog),
+    # then fall back to the broad /products/ list.
+    endpoints = []
+    if SELLER_ID:
+        endpoints.append(f"/api/v2/companies/{SELLER_ID}/products/")
+    endpoints += PRODUCTS_ENDPOINTS
+    for ep in endpoints:
         url = f"{API_BASE}{ep}"
-        prm = {"page_size": PAGE_SIZE, "page": 1}
-        if SELLER_ID:
-            prm["seller"] = SELLER_ID
-        probe = _get(url, prm)
+        probe = _get(url, {"page_size": PAGE_SIZE, "page": 1})
         if probe.status_code == 404:
             print(f"  NOTE: 404 on {ep} — trying next products endpoint.")
             continue
@@ -686,10 +689,7 @@ def fetch_inventory():
             continue
         field_hits, sample_keys, page, seen = {}, None, 1, 0
         while page <= INV_MAX_PAGES:
-            pp = {"page_size": PAGE_SIZE, "page": page}
-            if SELLER_ID:
-                pp["seller"] = SELLER_ID
-            r = _get(url, pp)
+            r = _get(url, {"page_size": PAGE_SIZE, "page": page})
             if r.status_code != 200:
                 break
             data = r.json()
