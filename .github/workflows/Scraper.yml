@@ -1,18 +1,14 @@
 name: Scrape LeafLink Sales (Michigan)
-
 on:
   schedule:
     - cron: '*/15 * * * *'   # every 15 minutes
   workflow_dispatch:          # manual "Run workflow" button (and external triggers)
-
 permissions:
   contents: write
-
 # Never let two scraper runs overlap — prevents the workflow racing itself.
 concurrency:
   group: scrape-leaflink
   cancel-in-progress: false
-
 jobs:
   scrape:
     runs-on: ubuntu-latest
@@ -21,23 +17,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0      # full history so rebase/push is reliable
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
       - name: Install dependencies
         run: pip install -r requirements.txt
-
       - name: Run scraper
         env:
           LEAFLINK_API_KEY: ${{ secrets.LEAFLINK_API_KEY }}
           LEAFLINK_BRAND: 'Chill Medicated'
           LEAFLINK_SELLER_ID: '9105'
-          LEAFLINK_FROM_DATE: '2025-05-01'
+          LEAFLINK_FROM_DATE: '2020-01-01'   # pull ALL history from the start
         run: python scraper.py
-
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
