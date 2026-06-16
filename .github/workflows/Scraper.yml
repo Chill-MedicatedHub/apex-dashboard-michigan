@@ -1,63 +1,68 @@
-name: Scrape LeafLink Sales (Michigan)
+name: Scrape LeafLink Sales (All Brands)
+
+# Triggered by cron-job.org (and the manual "Run workflow" button) via
+# workflow_dispatch. We intentionally do NOT use a `push:` trigger: the job
+# commits sales_data.json.gz back to main, and a push trigger would make that
+# commit re-run the scraper in an endless loop.
 on:
-  schedule:
-    - cron: '*/15 * * * *'   # every 15 minutes
-  workflow_dispatch:          # manual "Run workflow" button (and external triggers)
+  workflow_dispatch:
+
 permissions:
   contents: write
-# Never let two scraper runs overlap — prevents the workflow racing itself.
+
 concurrency:
-  group: scrape-leaflink
+  group: scrape-leaflink-mi
   cancel-in-progress: false
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0      # full history so rebase/push is reliable
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - name: Install dependencies
         run: pip install -r requirements.txt
+
       - name: Run scraper
         env:
-          PYTHONUNBUFFERED: '1'                   # stream log output live (no buffering)
           LEAFLINK_API_KEY: ${{ secrets.LEAFLINK_API_KEY }}
-          LEAFLINK_BRAND: 'Chill Medicated'
           LEAFLINK_SELLER_ID: '9105'
-          LEAFLINK_FROM_DATE: '2020-01-01'        # full history floor
-          LEAFLINK_INCREMENTAL_DAYS: '60'         # after backfill, each run pulls only last 60 days + merges
-          LEAFLINK_PULL_INVENTORY: '1'            # pull current inventory from /companies/9105/products/
+          LEAFLINK_BRAND: ''
+          LEAFLINK_FROM_DATE: '2020-01-01'
+          # Exclude the same statuses the LeafLink reports exclude, so the data
+          # ties out at the source (the dashboard also filters these, belt + braces).
+          LEAFLINK_EXCLUDE_STATUSES: 'Cancelled,Rejected,Combined,Draft'
+          LEAFLINK_PULL_INVENTORY: '1'
         run: python scraper.py
+
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- sales_data.json; then
-            echo "No changes to commit."
-            exit 0
-          fi
-          # sales_data.json is fully regenerated each run, so our copy is always
-          # authoritative — never merge it. On a non-fast-forward, sync to the
-          # latest remote (picking up any manual commits to OTHER files), reapply
-          # our freshly generated data on top, and retry. This can't conflict.
-          cp sales_data.json /tmp/sales_data.json
-          for i in 1 2 3 4 5; do
-            git add sales_data.json
-            git commit -m "Auto-update sales_data.json [skip ci]" || true
-            if git push origin HEAD:main; then
-              echo "Pushed on attempt $i."
-              exit 0
-            fi
-            echo "Push $i failed (remote moved); resyncing and reapplying data..."
+          # sales_data.json.gz is binary and fully regenerated each run, so it can
+          # never be merged — our fresh copy must always win. Sync to the latest
+          # remote first, then lay our new file on top and commit. Retry on races.
+          #
+          # NOTE: the commit message must NOT contain "[skip ci]". That tag would
+          # stop GitHub Pages from redeploying, freezing the live dashboard even
+          # though the data landed on main. Since there's no push trigger above,
+          # this commit can't re-run the scraper, so the tag isn't needed.
+          ok=0
+          for i in 1 2 3; do
             git fetch origin main
-            git reset --hard origin/main
-            cp /tmp/sales_data.json sales_data.json
-            sleep 3
+            git reset --mixed origin/main
+            git add sales_data.json.gz
+            if git diff --staged --quiet; then
+              echo "No data changes to commit."; ok=1; break
+            fi
+            git commit -m "Auto-update sales_data.json.gz"
+            if git push origin main; then ok=1; break; fi
+            echo "Push raced with remote (attempt $i) — re-syncing..."; sleep 3
           done
-          echo "ERROR: push failed after 5 attempts."
-          exit 1
+          [ "$ok" = "1" ] || { echo "Could not push after retries"; exit 1; }
