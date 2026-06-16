@@ -7,16 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script>window.React||document.write('<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"><\/script>');</script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script>window.ReactDOM||document.write('<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"><\/script>');</script>
-<script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
-<script>window.PropTypes||document.write('<script crossorigin src="https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js"><\/script>');</script>
-<script crossorigin src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.min.js"></script>
-<script>window.Recharts||document.write('<script crossorigin src="https://unpkg.com/recharts@2.12.7/umd/Recharts.min.js"><\/script>');</script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script>window.Babel||document.write('<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"><\/script>');</script>
 <style>
   :root{
     --bg:#13140d; --bg-elev:#1c1d14; --bg-elev-2:#25271a; --border:#383b22; --border-soft:#272a18;
@@ -86,89 +76,197 @@
   .pill-overdue{color:var(--rose);border-color:var(--rose);background:rgba(224,117,148,0.06)}
   @media (max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.grid-2,.grid-half{grid-template-columns:1fr}}
 </style>
+<!-- Libraries served from this repo root (no external CDN). -->
+<script src="react.production.min.js"></script>
+<script src="react-dom.production.min.js"></script>
+<script src="prop-types.min.js"></script>
+<script src="Recharts.js"></script>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect, useMemo } = React;
+<script>
+const {
+  useState,
+  useEffect,
+  useMemo
+} = React;
 if (typeof Recharts === 'undefined') {
-  document.getElementById('root').innerHTML =
-    '<div style="max-width:600px;margin:80px auto;padding:32px;color:#f0f2e6;font-family:sans-serif">'+
-    '<h2 style="font-family:Fraunces,serif;font-style:italic">Charts library didn’t load</h2>'+
-    '<p style="color:#a8ad8f">Recharts failed to load from the CDN — a blocker or offline network is the usual cause. Refresh, or allow jsdelivr.net / unpkg.com.</p></div>';
+  document.getElementById('root').innerHTML = '<div style="max-width:600px;margin:80px auto;padding:32px;color:#f0f2e6;font-family:sans-serif">' + '<h2 style="font-family:Fraunces,serif;font-style:italic">Charts library didn’t load</h2>' + '<p style="color:#a8ad8f">Recharts failed to load from the CDN — a blocker or offline network is the usual cause. Refresh, or allow jsdelivr.net / unpkg.com.</p></div>';
   throw new Error('Recharts failed to load');
 }
-const { ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } = Recharts;
-
-const fmtMoney = (n) => {
+const {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  PieChart,
+  Pie,
+  Cell
+} = Recharts;
+const fmtMoney = n => {
   if (n == null || isNaN(n)) return '—';
-  if (Math.abs(n) >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
-  if (Math.abs(n) >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
-  return '$' + n.toLocaleString(undefined,{maximumFractionDigits:0});
+  if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1e3) return '$' + (n / 1e3).toFixed(1) + 'K';
+  return '$' + n.toLocaleString(undefined, {
+    maximumFractionDigits: 0
+  });
 };
-const fmtMoneyFull = (n) => '$' + (n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-const fmtNum = (n) => (n||0).toLocaleString();
-const parseDate = (s) => {
+const fmtMoneyFull = n => '$' + (n || 0).toLocaleString(undefined, {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+});
+const fmtNum = n => (n || 0).toLocaleString();
+const parseDate = s => {
   if (!s) return null;
   const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (m) return new Date(+m[1], +m[2]-1, +m[3]);
-  const d = new Date(s); return isNaN(d) ? null : d;
+  if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+  const d = new Date(s);
+  return isNaN(d) ? null : d;
 };
-const ymd = (d) => { if(!(d instanceof Date)||isNaN(d)) return ''; const m=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0'); return `${d.getFullYear()}-${m}-${dd}`; };
+const ymd = d => {
+  if (!(d instanceof Date) || isNaN(d)) return '';
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${m}-${dd}`;
+};
 
 // Minimal quote-aware CSV parser -> array of objects keyed by header row.
-const parseCsv = (text) => {
-  if(!text) return [];
-  const rows=[]; let i=0, field='', row=[], inq=false;
-  const pushF=()=>{ row.push(field); field=''; };
-  const pushR=()=>{ if(row.length>1||(row.length===1&&row[0]!=='')) rows.push(row); row=[]; };
-  while(i<text.length){
-    const c=text[i];
-    if(inq){
-      if(c==='"'){ if(text[i+1]==='"'){field+='"';i+=2;continue;} inq=false;i++;continue; }
-      field+=c;i++;continue;
+const parseCsv = text => {
+  if (!text) return [];
+  const rows = [];
+  let i = 0,
+    field = '',
+    row = [],
+    inq = false;
+  const pushF = () => {
+    row.push(field);
+    field = '';
+  };
+  const pushR = () => {
+    if (row.length > 1 || row.length === 1 && row[0] !== '') rows.push(row);
+    row = [];
+  };
+  while (i < text.length) {
+    const c = text[i];
+    if (inq) {
+      if (c === '"') {
+        if (text[i + 1] === '"') {
+          field += '"';
+          i += 2;
+          continue;
+        }
+        inq = false;
+        i++;
+        continue;
+      }
+      field += c;
+      i++;
+      continue;
     }
-    if(c==='"'){inq=true;i++;continue;}
-    if(c===','){pushF();i++;continue;}
-    if(c==='\r'){i++;continue;}
-    if(c==='\n'){pushF();pushR();i++;continue;}
-    field+=c;i++;
+    if (c === '"') {
+      inq = true;
+      i++;
+      continue;
+    }
+    if (c === ',') {
+      pushF();
+      i++;
+      continue;
+    }
+    if (c === '\r') {
+      i++;
+      continue;
+    }
+    if (c === '\n') {
+      pushF();
+      pushR();
+      i++;
+      continue;
+    }
+    field += c;
+    i++;
   }
-  pushF(); pushR();
-  if(rows.length<2) return [];
-  const hdr=rows[0].map(h=>h.trim());
-  return rows.slice(1).map(r=>{ const o={}; hdr.forEach((h,idx)=>o[h]=(r[idx]!=null?r[idx]:'').trim()); return o; });
+  pushF();
+  pushR();
+  if (rows.length < 2) return [];
+  const hdr = rows[0].map(h => h.trim());
+  return rows.slice(1).map(r => {
+    const o = {};
+    hdr.forEach((h, idx) => o[h] = (r[idx] != null ? r[idx] : '').trim());
+    return o;
+  });
 };
-const csvNum = (v) => { const n=parseFloat(String(v||'').replace(/[$,]/g,'')); return isNaN(n)?null:n; };
-
-function App(){
-  const [data,setData]=useState(null);
-  const [error,setError]=useState(null);
-  const [invCsv,setInvCsv]=useState(null);
-  const [filters,setFilters]=useState({from:'',to:'',buyer:'',productLine:'',status:'',invoice:'',excludeSamples:false});
-  useEffect(()=>{
-    const load=()=>fetch('sales_data.json?t='+Date.now())
-      .then(r=>{if(!r.ok)throw new Error('Could not load sales_data.json');return r.json();})
-      .then(setData).catch(e=>setError(e.message));
-    load(); const id=setInterval(load,60000); return ()=>clearInterval(id);
-  },[]);
-  useEffect(()=>{
+const csvNum = v => {
+  const n = parseFloat(String(v || '').replace(/[$,]/g, ''));
+  return isNaN(n) ? null : n;
+};
+function App() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [invCsv, setInvCsv] = useState(null);
+  const [filters, setFilters] = useState({
+    from: '',
+    to: '',
+    buyer: '',
+    productLine: '',
+    status: '',
+    invoice: '',
+    excludeSamples: false
+  });
+  useEffect(() => {
+    const load = () => fetch('sales_data.json?t=' + Date.now()).then(r => {
+      if (!r.ok) throw new Error('Could not load sales_data.json');
+      return r.json();
+    }).then(setData).catch(e => setError(e.message));
+    load();
+    const id = setInterval(load, 60000);
+    return () => clearInterval(id);
+  }, []);
+  useEffect(() => {
     // Inventory mirrors the LeafLink CSV export committed as inventory.csv.
-    const loadInv=()=>fetch('inventory.csv?t='+Date.now())
-      .then(r=>r.ok?r.text():null)
-      .then(t=>setInvCsv(t?parseCsv(t):[]))
-      .catch(()=>setInvCsv([]));
-    loadInv(); const id=setInterval(loadInv,60000); return ()=>clearInterval(id);
-  },[]);
-  if(error) return <div className="app"><div className="empty"><h2>No data yet</h2><p>Run the scraper to generate <code>sales_data.json</code>, then refresh.</p><p style={{marginTop:12,fontSize:12,color:'var(--text-faint)'}}>{error}</p></div></div>;
-  if(!data) return <div className="app"><div className="empty"><h2>Loading…</h2></div></div>;
-  return <Dashboard data={data} invCsv={invCsv||[]} filters={filters} setFilters={setFilters} />;
+    const loadInv = () => fetch('inventory.csv?t=' + Date.now()).then(r => r.ok ? r.text() : null).then(t => setInvCsv(t ? parseCsv(t) : [])).catch(() => setInvCsv([]));
+    loadInv();
+    const id = setInterval(loadInv, 60000);
+    return () => clearInterval(id);
+  }, []);
+  if (error) return /*#__PURE__*/React.createElement("div", {
+    className: "app"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "empty"
+  }, /*#__PURE__*/React.createElement("h2", null, "No data yet"), /*#__PURE__*/React.createElement("p", null, "Run the scraper to generate ", /*#__PURE__*/React.createElement("code", null, "sales_data.json"), ", then refresh."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      marginTop: 12,
+      fontSize: 12,
+      color: 'var(--text-faint)'
+    }
+  }, error)));
+  if (!data) return /*#__PURE__*/React.createElement("div", {
+    className: "app"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "empty"
+  }, /*#__PURE__*/React.createElement("h2", null, "Loading\u2026")));
+  return /*#__PURE__*/React.createElement(Dashboard, {
+    data: data,
+    invCsv: invCsv || [],
+    filters: filters,
+    setFilters: setFilters
+  });
 }
-
-function Dashboard({data,invCsv,filters,setFilters}){
+function Dashboard({
+  data,
+  invCsv,
+  filters,
+  setFilters
+}) {
   invCsv = invCsv || [];
   const rows = data.rows || [];
-  const normalized = useMemo(()=>rows.map(r=>({
+  const normalized = useMemo(() => rows.map(r => ({
     ...r,
     _date: parseDate(r.order_date),
     _revenue: +r.revenue || 0,
@@ -184,374 +282,1187 @@ function Dashboard({data,invCsv,filters,setFilters}){
     _isSample: !!r.is_sample,
     // product_line is blank in LeafLink for most items, so fall back to the line
     // embedded in the product name: "Chill Medicated - <LINE> - <variant>" -> <LINE>.
-    productLine: r.product_line || r.product_type || (()=>{const p=String(r.product_name||'').split(/\s[-–]\s/); if(p.length>=3 && p[0].trim().toLowerCase().startsWith('chill')) return p[1].trim(); if(p.length>=2) return p[0].trim().toLowerCase().startsWith('chill')?p[1].trim():p[0].trim(); return '';})() || '—',
+    productLine: r.product_line || r.product_type || (() => {
+      const p = String(r.product_name || '').split(/\s[-–]\s/);
+      if (p.length >= 3 && p[0].trim().toLowerCase().startsWith('chill')) return p[1].trim();
+      if (p.length >= 2) return p[0].trim().toLowerCase().startsWith('chill') ? p[1].trim() : p[0].trim();
+      return '';
+    })() || '—',
     // City: use the real customer city from the scraper (buyer_city) when present,
     // else parse it from the buyer-name suffix ("King of Budz - Monroe" -> "Monroe").
-    city: (() => { const real = String(r.buyer_city || '').trim(); if (real) return real; const n = String(r.buyer_name || ''); const m = n.split(/\s[-–]\s/); return m.length > 1 ? m[m.length - 1].trim() : ''; })(),
+    city: (() => {
+      const real = String(r.buyer_city || '').trim();
+      if (real) return real;
+      const n = String(r.buyer_name || '');
+      const m = n.split(/\s[-–]\s/);
+      return m.length > 1 ? m[m.length - 1].trim() : '';
+    })(),
     // High-level category derived from the product name (topical vs ingestible).
-    category: (()=>{const n=String(r.product_name||'').toLowerCase(); if(/\b(rub|lotion|roll-?on|balm|salve|cream|topical|body)\b/.test(n)) return 'Topicals & Wellness'; if(/(syrup|tincture|medicated|to-?go|zero sugar|drink|shot|beverage|sublingual)/.test(n)) return 'Tinctures'; if(n.includes('cbd')) return 'CBD'; return 'Other';})(),
-  })),[rows]);
-
-  const distinct = useMemo(()=>({
-    buyers:[...new Set(normalized.map(r=>r.buyer_name).filter(Boolean))].sort(),
-    productLines:[...new Set(normalized.map(r=>r.productLine).filter(Boolean))].sort(),
-    statuses:[...new Set(normalized.map(r=>r.payment_status).filter(Boolean))].sort(),
-  }),[normalized]);
-
-  const filtered = useMemo(()=>normalized.filter(r=>{
-    if(filters.from||filters.to){ if(!r._date) return false; const k=ymd(r._date);
-      if(filters.from&&k<filters.from) return false; if(filters.to&&k>filters.to) return false; }
-    if(filters.buyer && r.buyer_name!==filters.buyer) return false;
-    if(filters.productLine && r.productLine!==filters.productLine) return false;
-    if(filters.status && r.payment_status!==filters.status) return false;
-    if(filters.excludeSamples && r._isSample) return false;
-    if(filters.invoice){ const q=filters.invoice.toLowerCase();
-      if(!String(r.order_number||'').toLowerCase().includes(q)) return false; }
+    category: (() => {
+      const n = String(r.product_name || '').toLowerCase();
+      if (/\b(rub|lotion|roll-?on|balm|salve|cream|topical|body)\b/.test(n)) return 'Topicals & Wellness';
+      if (/(syrup|tincture|medicated|to-?go|zero sugar|drink|shot|beverage|sublingual)/.test(n)) return 'Tinctures';
+      if (n.includes('cbd')) return 'CBD';
+      return 'Other';
+    })()
+  })), [rows]);
+  const distinct = useMemo(() => ({
+    buyers: [...new Set(normalized.map(r => r.buyer_name).filter(Boolean))].sort(),
+    productLines: [...new Set(normalized.map(r => r.productLine).filter(Boolean))].sort(),
+    statuses: [...new Set(normalized.map(r => r.payment_status).filter(Boolean))].sort()
+  }), [normalized]);
+  const filtered = useMemo(() => normalized.filter(r => {
+    if (filters.from || filters.to) {
+      if (!r._date) return false;
+      const k = ymd(r._date);
+      if (filters.from && k < filters.from) return false;
+      if (filters.to && k > filters.to) return false;
+    }
+    if (filters.buyer && r.buyer_name !== filters.buyer) return false;
+    if (filters.productLine && r.productLine !== filters.productLine) return false;
+    if (filters.status && r.payment_status !== filters.status) return false;
+    if (filters.excludeSamples && r._isSample) return false;
+    if (filters.invoice) {
+      const q = filters.invoice.toLowerCase();
+      if (!String(r.order_number || '').toLowerCase().includes(q)) return false;
+    }
     return true;
-  }),[normalized,filters]);
-
-  const kpis = useMemo(()=>{
-    const revenue=filtered.reduce((s,r)=>s+r._revenue,0);
-    const gross=filtered.reduce((s,r)=>s+r._gross,0);
-    const discounts=filtered.reduce((s,r)=>s+r._discount,0);
-    const units=filtered.reduce((s,r)=>s+r._units,0);
-    const orders=new Set(filtered.map(r=>r.order_uid).filter(Boolean));
-    const buyers=new Set(filtered.map(r=>r.buyer_name).filter(Boolean));
-    const markets=new Set(filtered.map(r=>r.buyer_state).filter(Boolean));
-    const byMonth={}; filtered.forEach(r=>{if(!r._date)return;const k=`${r._date.getFullYear()}-${String(r._date.getMonth()+1).padStart(2,'0')}`;byMonth[k]=(byMonth[k]||0)+r._revenue;});
-    const mk=Object.keys(byMonth).sort(); let mom=null,momLabel='—';
-    if(mk.length>=2){const a=byMonth[mk[mk.length-1]],b=byMonth[mk[mk.length-2]];if(b){mom=((a-b)/b)*100;momLabel=mk[mk.length-1]+' vs '+mk[mk.length-2];}}
-    return {revenue,gross,discounts,units,
-      orders:orders.size,buyers:buyers.size,markets:markets.size,avgOrder:orders.size?revenue/orders.size:0,
-      avgUnitPrice:units?revenue/units:0,avgUnitsPerInvoice:orders.size?units/orders.size:0,
-      mom,momLabel,lineItems:filtered.length};
-  },[filtered]);
-
-  const timeSeries=useMemo(()=>{const m={};filtered.forEach(r=>{if(!r._date)return;const k=ymd(r._date);if(!m[k])m[k]={date:k,revenue:0};m[k].revenue+=r._revenue;});return Object.values(m).sort((a,b)=>a.date.localeCompare(b.date));},[filtered]);
-  const groupSum=(key,n=10)=>{const m={};filtered.forEach(r=>{const k=r[key];if(!k)return;if(!m[k])m[k]={name:k,revenue:0,units:0};m[k].revenue+=r._revenue;m[k].units+=r._units;});return Object.values(m).sort((a,b)=>b.revenue-a.revenue).slice(0,n);};
-  const topProducts=useMemo(()=>groupSum('product_name'),[filtered]);
-  const topBuyers=useMemo(()=>groupSum('buyer_name'),[filtered]);
-  const byLine=useMemo(()=>groupSum('productLine',8),[filtered]);
-  const byCategory=useMemo(()=>groupSum('category',8),[filtered]);
-  const byCity=useMemo(()=>{
+  }), [normalized, filters]);
+  const kpis = useMemo(() => {
+    const revenue = filtered.reduce((s, r) => s + r._revenue, 0);
+    const gross = filtered.reduce((s, r) => s + r._gross, 0);
+    const discounts = filtered.reduce((s, r) => s + r._discount, 0);
+    const units = filtered.reduce((s, r) => s + r._units, 0);
+    const orders = new Set(filtered.map(r => r.order_uid).filter(Boolean));
+    const buyers = new Set(filtered.map(r => r.buyer_name).filter(Boolean));
+    const markets = new Set(filtered.map(r => r.buyer_state).filter(Boolean));
+    const byMonth = {};
+    filtered.forEach(r => {
+      if (!r._date) return;
+      const k = `${r._date.getFullYear()}-${String(r._date.getMonth() + 1).padStart(2, '0')}`;
+      byMonth[k] = (byMonth[k] || 0) + r._revenue;
+    });
+    const mk = Object.keys(byMonth).sort();
+    let mom = null,
+      momLabel = '—';
+    if (mk.length >= 2) {
+      const a = byMonth[mk[mk.length - 1]],
+        b = byMonth[mk[mk.length - 2]];
+      if (b) {
+        mom = (a - b) / b * 100;
+        momLabel = mk[mk.length - 1] + ' vs ' + mk[mk.length - 2];
+      }
+    }
+    return {
+      revenue,
+      gross,
+      discounts,
+      units,
+      orders: orders.size,
+      buyers: buyers.size,
+      markets: markets.size,
+      avgOrder: orders.size ? revenue / orders.size : 0,
+      avgUnitPrice: units ? revenue / units : 0,
+      avgUnitsPerInvoice: orders.size ? units / orders.size : 0,
+      mom,
+      momLabel,
+      lineItems: filtered.length
+    };
+  }, [filtered]);
+  const timeSeries = useMemo(() => {
+    const m = {};
+    filtered.forEach(r => {
+      if (!r._date) return;
+      const k = ymd(r._date);
+      if (!m[k]) m[k] = {
+        date: k,
+        revenue: 0
+      };
+      m[k].revenue += r._revenue;
+    });
+    return Object.values(m).sort((a, b) => a.date.localeCompare(b.date));
+  }, [filtered]);
+  const groupSum = (key, n = 10) => {
+    const m = {};
+    filtered.forEach(r => {
+      const k = r[key];
+      if (!k) return;
+      if (!m[k]) m[k] = {
+        name: k,
+        revenue: 0,
+        units: 0
+      };
+      m[k].revenue += r._revenue;
+      m[k].units += r._units;
+    });
+    return Object.values(m).sort((a, b) => b.revenue - a.revenue).slice(0, n);
+  };
+  const topProducts = useMemo(() => groupSum('product_name'), [filtered]);
+  const topBuyers = useMemo(() => groupSum('buyer_name'), [filtered]);
+  const byLine = useMemo(() => groupSum('productLine', 8), [filtered]);
+  const byCategory = useMemo(() => groupSum('category', 8), [filtered]);
+  const byCity = useMemo(() => {
     // Locked to these 10 Michigan cities. Matching ignores case/spacing/punctuation
     // so "Center Line" / "centerline" both land in the same bucket.
-    const allow=['Bay City','Center Line','Madison Heights','Kalamazoo','Monroe','New Buffalo','Oscoda','River Rouge','Sturgis','Traverse City'];
-    const norm=s=>String(s||'').toLowerCase().replace(/[^a-z]/g,'');
-    const amap={}; allow.forEach(c=>{amap[norm(c)]=c;});
-    const m={}; allow.forEach(c=>{m[c]={name:c,revenue:0,units:0};});
-    filtered.forEach(r=>{const disp=amap[norm(r.city)]; if(!disp)return; m[disp].revenue+=r._revenue; m[disp].units+=r._units;});
-    return Object.values(m).sort((a,b)=>b.revenue-a.revenue);
-  },[filtered]);
-  const bySalesRep=useMemo(()=>groupSum('sales_rep',20),[filtered]);
-  const paymentMix=useMemo(()=>{const m={};filtered.forEach(r=>{const k=r.payment_status||'Unknown';m[k]=(m[k]||0)+r._revenue;});return Object.entries(m).map(([name,revenue])=>({name,revenue}));},[filtered]);
-
-  const monthly=useMemo(()=>{
-    const m={};filtered.forEach(r=>{if(!r._date)return;const k=`${r._date.getFullYear()}-${String(r._date.getMonth()+1).padStart(2,'0')}`;
-      if(!m[k])m[k]={key:k,monthName:r._date.toLocaleString('en-US',{month:'long',year:'numeric'}),units:0,gross:0,discount:0,net:0};
-      m[k].units+=r._units;m[k].gross+=r._gross;m[k].discount+=r._discount;m[k].net+=r._revenue;});
-    const s=Object.values(m).sort((a,b)=>a.key.localeCompare(b.key));
-    return s.map((x,i)=>{const prev=i>0?s[i-1].net:0;const mom=prev?((x.net-prev)/prev)*100:null;return {...x,mom};});
-  },[filtered]);
-
-  const products=useMemo(()=>{
-    const m={};filtered.forEach(r=>{const k=r.product_name;if(!k)return;
-      if(!m[k])m[k]={name:k,line:r.productLine,units:0,gross:0,discount:0,net:0,inv:null};
-      m[k].units+=r._units;m[k].gross+=r._gross;m[k].discount+=r._discount;m[k].net+=r._revenue;
-      if(r.current_inventory!=null)m[k].inv=r.current_inventory;});
-    return Object.values(m).map(p=>({...p,avgUnit:p.units?p.net/p.units:0})).sort((a,b)=>b.net-a.net);
-  },[filtered]);
-
-  const invoices=useMemo(()=>{
-    const m={};filtered.forEach(r=>{const id=r.order_uid||r.order_number;if(!id)return;
-      if(!m[id])m[id]={id,invoice:r.order_number,date:r.order_date,_date:r._date,buyer:r.buyer_name||'—',status:r.payment_status||'Unknown',lines:0,units:0,gross:0,discount:0,net:0};
-      m[id].lines++;m[id].units+=r._units;m[id].gross+=r._gross;m[id].discount+=r._discount;m[id].net+=r._revenue;});
-    return Object.values(m).sort((a,b)=>(b._date?.getTime()||0)-(a._date?.getTime()||0));
-  },[filtered]);
+    const allow = ['Bay City', 'Center Line', 'Madison Heights', 'Kalamazoo', 'Monroe', 'New Buffalo', 'Oscoda', 'River Rouge', 'Sturgis', 'Traverse City'];
+    const norm = s => String(s || '').toLowerCase().replace(/[^a-z]/g, '');
+    const amap = {};
+    allow.forEach(c => {
+      amap[norm(c)] = c;
+    });
+    const m = {};
+    allow.forEach(c => {
+      m[c] = {
+        name: c,
+        revenue: 0,
+        units: 0
+      };
+    });
+    filtered.forEach(r => {
+      const disp = amap[norm(r.city)];
+      if (!disp) return;
+      m[disp].revenue += r._revenue;
+      m[disp].units += r._units;
+    });
+    return Object.values(m).sort((a, b) => b.revenue - a.revenue);
+  }, [filtered]);
+  const bySalesRep = useMemo(() => groupSum('sales_rep', 20), [filtered]);
+  const paymentMix = useMemo(() => {
+    const m = {};
+    filtered.forEach(r => {
+      const k = r.payment_status || 'Unknown';
+      m[k] = (m[k] || 0) + r._revenue;
+    });
+    return Object.entries(m).map(([name, revenue]) => ({
+      name,
+      revenue
+    }));
+  }, [filtered]);
+  const monthly = useMemo(() => {
+    const m = {};
+    filtered.forEach(r => {
+      if (!r._date) return;
+      const k = `${r._date.getFullYear()}-${String(r._date.getMonth() + 1).padStart(2, '0')}`;
+      if (!m[k]) m[k] = {
+        key: k,
+        monthName: r._date.toLocaleString('en-US', {
+          month: 'long',
+          year: 'numeric'
+        }),
+        units: 0,
+        gross: 0,
+        discount: 0,
+        net: 0
+      };
+      m[k].units += r._units;
+      m[k].gross += r._gross;
+      m[k].discount += r._discount;
+      m[k].net += r._revenue;
+    });
+    const s = Object.values(m).sort((a, b) => a.key.localeCompare(b.key));
+    return s.map((x, i) => {
+      const prev = i > 0 ? s[i - 1].net : 0;
+      const mom = prev ? (x.net - prev) / prev * 100 : null;
+      return {
+        ...x,
+        mom
+      };
+    });
+  }, [filtered]);
+  const products = useMemo(() => {
+    const m = {};
+    filtered.forEach(r => {
+      const k = r.product_name;
+      if (!k) return;
+      if (!m[k]) m[k] = {
+        name: k,
+        line: r.productLine,
+        units: 0,
+        gross: 0,
+        discount: 0,
+        net: 0,
+        inv: null
+      };
+      m[k].units += r._units;
+      m[k].gross += r._gross;
+      m[k].discount += r._discount;
+      m[k].net += r._revenue;
+      if (r.current_inventory != null) m[k].inv = r.current_inventory;
+    });
+    return Object.values(m).map(p => ({
+      ...p,
+      avgUnit: p.units ? p.net / p.units : 0
+    })).sort((a, b) => b.net - a.net);
+  }, [filtered]);
+  const invoices = useMemo(() => {
+    const m = {};
+    filtered.forEach(r => {
+      const id = r.order_uid || r.order_number;
+      if (!id) return;
+      if (!m[id]) m[id] = {
+        id,
+        invoice: r.order_number,
+        date: r.order_date,
+        _date: r._date,
+        buyer: r.buyer_name || '—',
+        status: r.payment_status || 'Unknown',
+        lines: 0,
+        units: 0,
+        gross: 0,
+        discount: 0,
+        net: 0
+      };
+      m[id].lines++;
+      m[id].units += r._units;
+      m[id].gross += r._gross;
+      m[id].discount += r._discount;
+      m[id].net += r._revenue;
+    });
+    return Object.values(m).sort((a, b) => (b._date?.getTime() || 0) - (a._date?.getTime() || 0));
+  }, [filtered]);
 
   // Inventory comes from the scraped LeafLink catalog (data.inventory), now
   // filtered to Available-listed products so it matches the CSV view and
   // auto-updates each run. Falls back to a committed inventory.csv, then to
   // sold-rows, if the catalog isn't present yet.
-  const inventory=useMemo(()=>{
-    const soldBySku={}, soldByName={};
-    normalized.forEach(r=>{const u=r._units||0;
-      if(r.product_sku) soldBySku[r.product_sku]=(soldBySku[r.product_sku]||0)+u;
-      if(r.product_name) soldByName[r.product_name]=(soldByName[r.product_name]||0)+u;});
+  const inventory = useMemo(() => {
+    const soldBySku = {},
+      soldByName = {};
+    normalized.forEach(r => {
+      const u = r._units || 0;
+      if (r.product_sku) soldBySku[r.product_sku] = (soldBySku[r.product_sku] || 0) + u;
+      if (r.product_name) soldByName[r.product_name] = (soldByName[r.product_name] || 0) + u;
+    });
     let list;
-    const cat=Array.isArray(data.inventory)?data.inventory:[];
-    if(cat.length){
-      list=cat.map(p=>{const sold=(p.sku&&soldBySku[p.sku]!=null)?soldBySku[p.sku]:(soldByName[p.name]||0);
-        return {name:p.name||'—',line:p.line||'—',sku:p.sku||'',
-                qty:(p.inventory!=null?p.inventory:null),
-                reserved:(p.reserved!=null?p.reserved:null),
-                inv:(p.available!=null?p.available:null),
-                soldMo:null,sold,neverSold:sold<=0,
-                status:p.status||'',source:'api'};});
-    } else if(invCsv && invCsv.length){
-      list=invCsv.map(r=>{
-        const sku=r['SKU']||'';
-        const sold=(sku&&soldBySku[sku]!=null)?soldBySku[sku]:(soldByName[r['Name']]||0);
-        return {name:r['Name']||'—',line:r['Product Line']||'—',sku,
-                qty:csvNum(r['Inventory (Units)']),
-                reserved:csvNum(r['Reserved Inventory (Units)']),
-                inv:csvNum(r['Available Inventory (Units)']),
-                soldMo:csvNum(r['Sold Last month (Units)']),
-                sold,neverSold:sold<=0,
-                source:'csv'};
+    const cat = Array.isArray(data.inventory) ? data.inventory : [];
+    if (cat.length) {
+      list = cat.map(p => {
+        const sold = p.sku && soldBySku[p.sku] != null ? soldBySku[p.sku] : soldByName[p.name] || 0;
+        return {
+          name: p.name || '—',
+          line: p.line || '—',
+          sku: p.sku || '',
+          qty: p.inventory != null ? p.inventory : null,
+          reserved: p.reserved != null ? p.reserved : null,
+          inv: p.available != null ? p.available : null,
+          soldMo: null,
+          sold,
+          neverSold: sold <= 0,
+          status: p.status || '',
+          source: 'api'
+        };
+      });
+    } else if (invCsv && invCsv.length) {
+      list = invCsv.map(r => {
+        const sku = r['SKU'] || '';
+        const sold = sku && soldBySku[sku] != null ? soldBySku[sku] : soldByName[r['Name']] || 0;
+        return {
+          name: r['Name'] || '—',
+          line: r['Product Line'] || '—',
+          sku,
+          qty: csvNum(r['Inventory (Units)']),
+          reserved: csvNum(r['Reserved Inventory (Units)']),
+          inv: csvNum(r['Available Inventory (Units)']),
+          soldMo: csvNum(r['Sold Last month (Units)']),
+          sold,
+          neverSold: sold <= 0,
+          source: 'csv'
+        };
       });
     } else {
-      const m={};
-      normalized.forEach(r=>{const k=r.product_name; if(!k)return;
-        if(!m[k]) m[k]={name:k,line:r.productLine||'—',sku:r.product_sku||'',qty:null,reserved:null,inv:null,soldMo:null,sold:0};
-        if(r.current_inventory!=null)m[k].inv=r.current_inventory;
-        m[k].sold+=(r._units||0);});
-      list=Object.values(m).filter(p=>p.inv!=null).map(p=>({...p,neverSold:p.sold<=0,source:'rows'}));
+      const m = {};
+      normalized.forEach(r => {
+        const k = r.product_name;
+        if (!k) return;
+        if (!m[k]) m[k] = {
+          name: k,
+          line: r.productLine || '—',
+          sku: r.product_sku || '',
+          qty: null,
+          reserved: null,
+          inv: null,
+          soldMo: null,
+          sold: 0
+        };
+        if (r.current_inventory != null) m[k].inv = r.current_inventory;
+        m[k].sold += r._units || 0;
+      });
+      list = Object.values(m).filter(p => p.inv != null).map(p => ({
+        ...p,
+        neverSold: p.sold <= 0,
+        source: 'rows'
+      }));
     }
-    list.sort((a,b)=>(b.inv||0)-(a.inv||0));
-    const withInv=list.filter(p=>p.inv!=null);
-    const totalUnits=withInv.reduce((s,p)=>s+p.inv,0);
-    const reservedTotal=list.reduce((s,p)=>s+(p.reserved||0),0);
-    const qtyTotal=list.reduce((s,p)=>s+(p.qty||0),0);
-    const out=withInv.filter(p=>p.inv<=0).length;
-    const src = list[0]?list[0].source:'none';
-    return {list,totalUnits,reservedTotal,qtyTotal,skus:list.length,out,src};
-  },[normalized,invCsv,data.inventory]);
-
-  const reset=()=>setFilters({from:'',to:'',buyer:'',productLine:'',status:'',invoice:'',excludeSamples:false});
-  const fetchedAt=new Date(data.fetched_at);
-
-  return (<div className="app">
-    <Topbar fetchedAt={fetchedAt} rowCount={filtered.length} totalCount={rows.length} data={data}/>
-    <FilterBar filters={filters} setFilters={setFilters} distinct={distinct} onReset={reset}/>
-
-    <div className="kpi-grid">
-      <Kpi label="Net Revenue" value={fmtMoney(kpis.revenue)} sub={`${fmtNum(kpis.lineItems)} line items`} accent/>
-      <Kpi label="MOM Change" value={kpis.mom==null?'—':(kpis.mom>=0?'+':'')+kpis.mom.toFixed(1)+'%'} sub={kpis.momLabel}/>
-      <Kpi label="Orders" value={fmtNum(kpis.orders)} sub={`${fmtMoney(kpis.avgOrder)} avg order`}/>
-      <Kpi label="Units Sold" value={fmtNum(Math.round(kpis.units))} sub={`${fmtNum(kpis.lineItems)} line items`}/>
-    </div>
-    <div className="kpi-grid">
-      <Kpi label="Avg Unit Price" value={fmtMoneyFull(kpis.avgUnitPrice)} sub="revenue ÷ units"/>
-      <Kpi label="Avg Units / Invoice" value={kpis.avgUnitsPerInvoice.toFixed(1)} sub={`across ${fmtNum(kpis.orders)} invoices`}/>
-      <Kpi label="Active Buyers" value={fmtNum(kpis.buyers)} sub="unique accounts"/>
-      <Kpi label="Markets" value={kpis.markets?fmtNum(kpis.markets):'—'} sub={kpis.markets?'states with sales':'state n/a in LeafLink'}/>
-    </div>
-    <div className="kpi-grid">
-      <Kpi label="Discounts Given" value={fmtMoney(kpis.discounts)} sub={kpis.gross?((kpis.discounts/kpis.gross)*100).toFixed(1)+'% of gross':'—'}/>
-      <Kpi label="Credits Applied" value="—" sub="n/a in LeafLink data"/>
-    </div>
-
-    <section className="section">
-      <div className="section-header"><h2 className="section-title">Revenue <em>over time</em></h2><span className="section-meta">{timeSeries.length} days</span></div>
-      <div className="card" style={{height:320}}>
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={timeSeries} margin={{top:12,right:12,left:0,bottom:0}}>
-            <defs><linearGradient id="rg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#e8d838" stopOpacity={0.4}/><stop offset="100%" stopColor="#e8d838" stopOpacity={0}/></linearGradient></defs>
-            <CartesianGrid stroke="#383b22" strokeDasharray="2 2" vertical={false}/>
-            <XAxis dataKey="date" stroke="#6b7050" tick={{fontSize:11,fontFamily:'JetBrains Mono'}} tickLine={false} axisLine={{stroke:'#383b22'}}/>
-            <YAxis stroke="#6b7050" tick={{fontSize:11,fontFamily:'JetBrains Mono'}} tickLine={false} axisLine={false} tickFormatter={fmtMoney}/>
-            <Tooltip contentStyle={{background:'#1c1d14',border:'1px solid #383b22',borderRadius:4,fontSize:12}} labelStyle={{color:'#a8ad8f',fontFamily:'JetBrains Mono',fontSize:11}} formatter={(v)=>[fmtMoneyFull(v),'Net Revenue']}/>
-            <Area type="monotone" dataKey="revenue" stroke="#e8d838" strokeWidth={2} fill="url(#rg)"/>
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-    </section>
-
-    <section className="section">
-      <div className="section-header"><h2 className="section-title">Invoices <em>· per order</em></h2><span className="section-meta">{fmtNum(invoices.length)} orders</span></div>
-      <div className="card" style={{padding:0,overflow:'hidden'}}><div style={{overflowX:'auto',maxHeight:480}}>
-        <table className="data-table"><thead><tr><th>Invoice #</th><th>Date</th><th>Buyer</th><th className="num">Lines</th><th className="num">Units</th><th className="num">Gross</th><th className="num">Discount</th><th className="num">Net</th><th>Payment</th></tr></thead><tbody>
-          {invoices.slice(0,100).map((inv,i)=>(<tr key={i} style={{cursor:'pointer'}} onClick={()=>setFilters(f=>({...f,invoice:String(inv.invoice)}))} title="Filter by this order">
-            <td className="font-mono" style={{color:'var(--accent)'}}>{inv.invoice}</td><td className="dim font-mono">{(inv.date||'').slice(0,10)}</td><td>{inv.buyer}</td>
-            <td className="num dim">{fmtNum(inv.lines)}</td><td className="num"><strong>{fmtNum(Math.round(inv.units))}</strong></td>
-            <td className="num">{fmtMoneyFull(inv.gross)}</td><td className="num dim">{fmtMoneyFull(inv.discount)}</td><td className="num"><strong>{fmtMoneyFull(inv.net)}</strong></td><td><StatusPill status={inv.status}/></td>
-          </tr>))}
-        </tbody></table>
-      </div>{invoices.length>100&&<div style={{padding:'12px 16px',fontFamily:'JetBrains Mono',fontSize:11,color:'var(--text-faint)',textAlign:'center',borderTop:'1px solid var(--border)'}}>Showing 100 of {fmtNum(invoices.length)} · use filters to narrow</div>}</div>
-    </section>
-
-    <section className="section">
-      <div className="section-header"><h2 className="section-title">Product <em>breakdown</em></h2><span className="section-meta">{fmtNum(products.length)} products</span></div>
-      <div className="card" style={{padding:0,overflow:'hidden'}}><div style={{overflowX:'auto',maxHeight:520}}>
-        <table className="data-table"><thead><tr><th>Product</th><th>Line</th><th className="num">Units</th><th className="num">Gross</th><th className="num">Discounts</th><th className="num">Net Sales</th><th className="num">Avg Unit $</th><th className="num">Current Inv.</th></tr></thead><tbody>
-          {products.slice(0,100).map((p,i)=>(<tr key={i}><td>{p.name}</td><td className="dim">{p.line}</td><td className="num">{fmtNum(Math.round(p.units))}</td><td className="num">{fmtMoneyFull(p.gross)}</td><td className="num dim">{fmtMoneyFull(p.discount)}</td><td className="num"><strong>{fmtMoneyFull(p.net)}</strong></td><td className="num dim">{fmtMoneyFull(p.avgUnit)}</td><td className="num">{p.inv==null?<span style={{color:'var(--text-faint)'}}>—</span>:fmtNum(Math.round(p.inv))}</td></tr>))}
-        </tbody></table>
-      </div>{products.length>100&&<div style={{padding:'12px 16px',fontFamily:'JetBrains Mono',fontSize:11,color:'var(--text-faint)',textAlign:'center',borderTop:'1px solid var(--border)'}}>Showing top 100 of {fmtNum(products.length)} by net sales</div>}</div>
-    </section>
-
-    <section className="section">
-      <div className="section-header"><h2 className="section-title">Payment <em>status</em></h2><span className="section-meta">AR mix</span></div>
-      <div className="card"><RankList data={paymentMix}/></div>
-    </section>
-
-    <section className="section">
-      <div className="section-header"><h2 className="section-title">Current <em>inventory</em></h2><span className="section-meta">{fmtNum(inventory.skus)} products · {inventory.src==='csv'?'from inventory.csv':inventory.src==='api'?'from product catalog':'from sales data'}</span></div>
-      <div className="kpi-grid" style={{marginBottom:16}}>
-        <Kpi label="Inventory" value={fmtNum(Math.round(inventory.qtyTotal))} sub="total units on hand"/>
-        <Kpi label="Reserved" value={fmtNum(Math.round(inventory.reservedTotal))} sub="held by open orders"/>
-        <Kpi label="Available" value={fmtNum(Math.round(inventory.totalUnits))} sub="ready to sell" accent/>
-        <Kpi label="Out Of Stock" value={fmtNum(inventory.out)} sub="0 available"/>
-      </div>
-      <div className="card" style={{padding:0,overflow:'hidden'}}><div style={{overflowX:'auto',maxHeight:560}}>
-        <table className="data-table"><thead><tr><th>Product</th><th>Line</th><th>SKU</th><th className="num">Units Sold</th><th className="num">Inventory</th><th className="num">Reserved Inventory</th><th className="num">Available Inventory</th><th>Status</th></tr></thead><tbody>
-          {inventory.list.map((p,i)=>(<tr key={i}>
-            <td>{p.name}</td><td className="dim">{p.line}</td><td className="dim font-mono" style={{fontSize:11}}>{p.sku||'—'}</td>
-            <td className="num dim">{fmtNum(Math.round(p.sold))}</td>
-            <td className="num dim">{p.qty==null?'—':fmtNum(Math.round(p.qty))}</td>
-            <td className="num dim">{p.reserved==null?'—':fmtNum(Math.round(p.reserved))}</td>
-            <td className="num"><strong style={{color:p.inv==null?'var(--text-faint)':p.inv<=0?'var(--rose)':'var(--accent)'}}>{p.inv==null?'—':fmtNum(Math.round(p.inv))}</strong></td>
-            <td>{p.neverSold?<span style={{fontFamily:'JetBrains Mono',fontSize:10,textTransform:'uppercase',letterSpacing:'0.08em',color:'var(--warm)',border:'1px solid var(--warm)',borderRadius:2,padding:'2px 6px',whiteSpace:'nowrap'}}>Never sold</span>:<span style={{color:'var(--text-faint)'}}>—</span>}</td>
-          </tr>))}
-          {inventory.list.length===0&&<tr><td colSpan={8} style={{padding:20,textAlign:'center',color:'var(--text-faint)'}}>No inventory data yet — deploy the latest scraper (LEAFLINK_PULL_INVENTORY=1) and re-run.</td></tr>}
-        </tbody></table>
-      </div></div>
-    </section>
-
-
-    <section className="section"><div className="grid-half">
-      <RankCard title="Top products" data={topProducts}/>
-      <RankCard title="Top buyers" data={topBuyers}/>
-    </div></section>
-
-    <section className="section"><div className="grid-half">
-      <div>
-        <div className="section-header"><h2 className="section-title">Sales <em>by rep</em></h2><span className="section-meta">{bySalesRep.length} reps</span></div>
-        <div className="card">
-          <RankList data={bySalesRep}/>
-          {bySalesRep.length===0 && <div style={{padding:'10px 4px 0',fontFamily:'JetBrains Mono',fontSize:10,color:'#6d7058',lineHeight:1.5}}>No rep data yet — sales rep is pulled from LeafLink's customers endpoint when the scraper runs. Empty means no assigned reps were found (or the App lacks Customers read permission).</div>}
-        </div>
-      </div>
-      <div>
-        <div className="section-header"><h2 className="section-title">By <em>city</em></h2><span className="section-meta">{byCity.length} cities</span></div>
-        <div className="card"><RankList data={byCity}/></div>
-      </div>
-    </div></section>
-
-    <section className="section"><div className="grid-2">
-      <div>
-        <div className="section-header"><h2 className="section-title">By <em>product line</em></h2><span className="section-meta">{byLine.length} lines</span></div>
-        <div className="card"><RankList data={byLine}/></div>
-      </div>
-      <div>
-        <div className="section-header"><h2 className="section-title">By <em>category</em></h2><span className="section-meta">mix</span></div>
-        <div className="card" style={{height:300,display:'flex',alignItems:'center',justifyContent:'center'}}>
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie data={byCategory} dataKey="revenue" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={95} paddingAngle={2} stroke="#13140d" strokeWidth={2}>
-                {byCategory.map((e,i)=>{const colors=['#e8d838','#8fb8d4','#c4b840','#a8ad8f','#e07594'];return <Cell key={i} fill={colors[i%colors.length]}/>;})}
-              </Pie>
-              <Tooltip contentStyle={{background:'#1c1d14',border:'1px solid #383b22',borderRadius:4,fontSize:12}} formatter={(v)=>fmtMoneyFull(v)}/>
-              <Legend verticalAlign="bottom" iconType="square" wrapperStyle={{fontSize:11,fontFamily:'JetBrains Mono',color:'#a8ad8f'}}/>
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </div></section>
-
-    <section className="section">
-      <div className="section-header"><h2 className="section-title">Monthly <em>breakdown</em></h2><span className="section-meta">{monthly.length} months</span></div>
-      <div className="card" style={{padding:0,overflow:'hidden'}}><div style={{overflowX:'auto'}}>
-        <table className="data-table"><thead><tr>
-          <th>Month</th><th className="num">Units</th><th className="num">Gross</th><th className="num">Discounts</th><th className="num">Net Sales</th><th className="num">MOM</th>
-        </tr></thead><tbody>
-          {monthly.map((m,i)=>(<tr key={i}>
-            <td>{m.monthName}</td><td className="num">{fmtNum(Math.round(m.units))}</td>
-            <td className="num">{fmtMoneyFull(m.gross)}</td><td className="num dim">{fmtMoneyFull(m.discount)}</td>
-            <td className="num"><strong>{fmtMoneyFull(m.net)}</strong></td>
-            <td className="num" style={{color:m.mom==null?'var(--text-faint)':m.mom>=0?'var(--accent)':'var(--rose)'}}>{m.mom==null?'—':(m.mom>=0?'+':'')+m.mom.toFixed(1)+'%'}</td>
-          </tr>))}
-          {monthly.length>0&&(<tr style={{background:'var(--bg-elev-2)',fontWeight:600}}>
-            <td>TOTAL</td><td className="num">{fmtNum(Math.round(monthly.reduce((s,m)=>s+m.units,0)))}</td>
-            <td className="num">{fmtMoneyFull(monthly.reduce((s,m)=>s+m.gross,0))}</td><td className="num dim">{fmtMoneyFull(monthly.reduce((s,m)=>s+m.discount,0))}</td>
-            <td className="num"><strong>{fmtMoneyFull(monthly.reduce((s,m)=>s+m.net,0))}</strong></td><td className="num dim">—</td>
-          </tr>)}
-        </tbody></table>
-      </div></div>
-    </section>
-
-    <footer style={{marginTop:60,padding:'20px 0',borderTop:'1px solid var(--border)',display:'flex',justifyContent:'space-between',fontFamily:'JetBrains Mono',fontSize:11,color:'var(--text-faint)',textTransform:'uppercase',letterSpacing:'0.12em'}}>
-      <span>Chill Medicated · Sales Intelligence</span><span>Michigan · Auto-refresh 60s</span>
-    </footer>
-  </div>);
+    list.sort((a, b) => (b.inv || 0) - (a.inv || 0));
+    const withInv = list.filter(p => p.inv != null);
+    const totalUnits = withInv.reduce((s, p) => s + p.inv, 0);
+    const reservedTotal = list.reduce((s, p) => s + (p.reserved || 0), 0);
+    const qtyTotal = list.reduce((s, p) => s + (p.qty || 0), 0);
+    const out = withInv.filter(p => p.inv <= 0).length;
+    const src = list[0] ? list[0].source : 'none';
+    return {
+      list,
+      totalUnits,
+      reservedTotal,
+      qtyTotal,
+      skus: list.length,
+      out,
+      src
+    };
+  }, [normalized, invCsv, data.inventory]);
+  const reset = () => setFilters({
+    from: '',
+    to: '',
+    buyer: '',
+    productLine: '',
+    status: '',
+    invoice: '',
+    excludeSamples: false
+  });
+  const fetchedAt = new Date(data.fetched_at);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "app"
+  }, /*#__PURE__*/React.createElement(Topbar, {
+    fetchedAt: fetchedAt,
+    rowCount: filtered.length,
+    totalCount: rows.length,
+    data: data
+  }), /*#__PURE__*/React.createElement(FilterBar, {
+    filters: filters,
+    setFilters: setFilters,
+    distinct: distinct,
+    onReset: reset
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "kpi-grid"
+  }, /*#__PURE__*/React.createElement(Kpi, {
+    label: "Net Revenue",
+    value: fmtMoney(kpis.revenue),
+    sub: `${fmtNum(kpis.lineItems)} line items`,
+    accent: true
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "MOM Change",
+    value: kpis.mom == null ? '—' : (kpis.mom >= 0 ? '+' : '') + kpis.mom.toFixed(1) + '%',
+    sub: kpis.momLabel
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Orders",
+    value: fmtNum(kpis.orders),
+    sub: `${fmtMoney(kpis.avgOrder)} avg order`
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Units Sold",
+    value: fmtNum(Math.round(kpis.units)),
+    sub: `${fmtNum(kpis.lineItems)} line items`
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "kpi-grid"
+  }, /*#__PURE__*/React.createElement(Kpi, {
+    label: "Avg Unit Price",
+    value: fmtMoneyFull(kpis.avgUnitPrice),
+    sub: "revenue \xF7 units"
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Avg Units / Invoice",
+    value: kpis.avgUnitsPerInvoice.toFixed(1),
+    sub: `across ${fmtNum(kpis.orders)} invoices`
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Active Buyers",
+    value: fmtNum(kpis.buyers),
+    sub: "unique accounts"
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Markets",
+    value: kpis.markets ? fmtNum(kpis.markets) : '—',
+    sub: kpis.markets ? 'states with sales' : 'state n/a in LeafLink'
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "kpi-grid"
+  }, /*#__PURE__*/React.createElement(Kpi, {
+    label: "Discounts Given",
+    value: fmtMoney(kpis.discounts),
+    sub: kpis.gross ? (kpis.discounts / kpis.gross * 100).toFixed(1) + '% of gross' : '—'
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Credits Applied",
+    value: "\u2014",
+    sub: "n/a in LeafLink data"
+  })), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "Revenue ", /*#__PURE__*/React.createElement("em", null, "over time")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, timeSeries.length, " days")), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      height: 320
+    }
+  }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
+    width: "100%",
+    height: "100%"
+  }, /*#__PURE__*/React.createElement(AreaChart, {
+    data: timeSeries,
+    margin: {
+      top: 12,
+      right: 12,
+      left: 0,
+      bottom: 0
+    }
+  }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
+    id: "rg",
+    x1: "0",
+    y1: "0",
+    x2: "0",
+    y2: "1"
+  }, /*#__PURE__*/React.createElement("stop", {
+    offset: "0%",
+    stopColor: "#e8d838",
+    stopOpacity: 0.4
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: "100%",
+    stopColor: "#e8d838",
+    stopOpacity: 0
+  }))), /*#__PURE__*/React.createElement(CartesianGrid, {
+    stroke: "#383b22",
+    strokeDasharray: "2 2",
+    vertical: false
+  }), /*#__PURE__*/React.createElement(XAxis, {
+    dataKey: "date",
+    stroke: "#6b7050",
+    tick: {
+      fontSize: 11,
+      fontFamily: 'JetBrains Mono'
+    },
+    tickLine: false,
+    axisLine: {
+      stroke: '#383b22'
+    }
+  }), /*#__PURE__*/React.createElement(YAxis, {
+    stroke: "#6b7050",
+    tick: {
+      fontSize: 11,
+      fontFamily: 'JetBrains Mono'
+    },
+    tickLine: false,
+    axisLine: false,
+    tickFormatter: fmtMoney
+  }), /*#__PURE__*/React.createElement(Tooltip, {
+    contentStyle: {
+      background: '#1c1d14',
+      border: '1px solid #383b22',
+      borderRadius: 4,
+      fontSize: 12
+    },
+    labelStyle: {
+      color: '#a8ad8f',
+      fontFamily: 'JetBrains Mono',
+      fontSize: 11
+    },
+    formatter: v => [fmtMoneyFull(v), 'Net Revenue']
+  }), /*#__PURE__*/React.createElement(Area, {
+    type: "monotone",
+    dataKey: "revenue",
+    stroke: "#e8d838",
+    strokeWidth: 2,
+    fill: "url(#rg)"
+  }))))), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "Invoices ", /*#__PURE__*/React.createElement("em", null, "\xB7 per order")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, fmtNum(invoices.length), " orders")), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      padding: 0,
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto',
+      maxHeight: 480
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "data-table"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Invoice #"), /*#__PURE__*/React.createElement("th", null, "Date"), /*#__PURE__*/React.createElement("th", null, "Buyer"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Lines"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Units"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Gross"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Discount"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Net"), /*#__PURE__*/React.createElement("th", null, "Payment"))), /*#__PURE__*/React.createElement("tbody", null, invoices.slice(0, 100).map((inv, i) => /*#__PURE__*/React.createElement("tr", {
+    key: i,
+    style: {
+      cursor: 'pointer'
+    },
+    onClick: () => setFilters(f => ({
+      ...f,
+      invoice: String(inv.invoice)
+    })),
+    title: "Filter by this order"
+  }, /*#__PURE__*/React.createElement("td", {
+    className: "font-mono",
+    style: {
+      color: 'var(--accent)'
+    }
+  }, inv.invoice), /*#__PURE__*/React.createElement("td", {
+    className: "dim font-mono"
+  }, (inv.date || '').slice(0, 10)), /*#__PURE__*/React.createElement("td", null, inv.buyer), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtNum(inv.lines)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, /*#__PURE__*/React.createElement("strong", null, fmtNum(Math.round(inv.units)))), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtMoneyFull(inv.gross)), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtMoneyFull(inv.discount)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(inv.net))), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement(StatusPill, {
+    status: inv.status
+  }))))))), invoices.length > 100 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '12px 16px',
+      fontFamily: 'JetBrains Mono',
+      fontSize: 11,
+      color: 'var(--text-faint)',
+      textAlign: 'center',
+      borderTop: '1px solid var(--border)'
+    }
+  }, "Showing 100 of ", fmtNum(invoices.length), " \xB7 use filters to narrow"))), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "Product ", /*#__PURE__*/React.createElement("em", null, "breakdown")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, fmtNum(products.length), " products")), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      padding: 0,
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto',
+      maxHeight: 520
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "data-table"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Product"), /*#__PURE__*/React.createElement("th", null, "Line"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Units"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Gross"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Discounts"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Net Sales"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Avg Unit $"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Current Inv."))), /*#__PURE__*/React.createElement("tbody", null, products.slice(0, 100).map((p, i) => /*#__PURE__*/React.createElement("tr", {
+    key: i
+  }, /*#__PURE__*/React.createElement("td", null, p.name), /*#__PURE__*/React.createElement("td", {
+    className: "dim"
+  }, p.line), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtNum(Math.round(p.units))), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtMoneyFull(p.gross)), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtMoneyFull(p.discount)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(p.net))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtMoneyFull(p.avgUnit)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, p.inv == null ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--text-faint)'
+    }
+  }, "\u2014") : fmtNum(Math.round(p.inv)))))))), products.length > 100 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '12px 16px',
+      fontFamily: 'JetBrains Mono',
+      fontSize: 11,
+      color: 'var(--text-faint)',
+      textAlign: 'center',
+      borderTop: '1px solid var(--border)'
+    }
+  }, "Showing top 100 of ", fmtNum(products.length), " by net sales"))), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "Payment ", /*#__PURE__*/React.createElement("em", null, "status")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, "AR mix")), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement(RankList, {
+    data: paymentMix
+  }))), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "Current ", /*#__PURE__*/React.createElement("em", null, "inventory")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, fmtNum(inventory.skus), " products \xB7 ", inventory.src === 'csv' ? 'from inventory.csv' : inventory.src === 'api' ? 'from product catalog' : 'from sales data')), /*#__PURE__*/React.createElement("div", {
+    className: "kpi-grid",
+    style: {
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement(Kpi, {
+    label: "Inventory",
+    value: fmtNum(Math.round(inventory.qtyTotal)),
+    sub: "total units on hand"
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Reserved",
+    value: fmtNum(Math.round(inventory.reservedTotal)),
+    sub: "held by open orders"
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Available",
+    value: fmtNum(Math.round(inventory.totalUnits)),
+    sub: "ready to sell",
+    accent: true
+  }), /*#__PURE__*/React.createElement(Kpi, {
+    label: "Out Of Stock",
+    value: fmtNum(inventory.out),
+    sub: "0 available"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      padding: 0,
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto',
+      maxHeight: 560
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "data-table"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Product"), /*#__PURE__*/React.createElement("th", null, "Line"), /*#__PURE__*/React.createElement("th", null, "SKU"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Units Sold"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Inventory"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Reserved Inventory"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Available Inventory"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, inventory.list.map((p, i) => /*#__PURE__*/React.createElement("tr", {
+    key: i
+  }, /*#__PURE__*/React.createElement("td", null, p.name), /*#__PURE__*/React.createElement("td", {
+    className: "dim"
+  }, p.line), /*#__PURE__*/React.createElement("td", {
+    className: "dim font-mono",
+    style: {
+      fontSize: 11
+    }
+  }, p.sku || '—'), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtNum(Math.round(p.sold))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, p.qty == null ? '—' : fmtNum(Math.round(p.qty))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, p.reserved == null ? '—' : fmtNum(Math.round(p.reserved))), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: p.inv == null ? 'var(--text-faint)' : p.inv <= 0 ? 'var(--rose)' : 'var(--accent)'
+    }
+  }, p.inv == null ? '—' : fmtNum(Math.round(p.inv)))), /*#__PURE__*/React.createElement("td", null, p.neverSold ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: 'JetBrains Mono',
+      fontSize: 10,
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+      color: 'var(--warm)',
+      border: '1px solid var(--warm)',
+      borderRadius: 2,
+      padding: '2px 6px',
+      whiteSpace: 'nowrap'
+    }
+  }, "Never sold") : /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--text-faint)'
+    }
+  }, "\u2014")))), inventory.list.length === 0 && /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
+    colSpan: 8,
+    style: {
+      padding: 20,
+      textAlign: 'center',
+      color: 'var(--text-faint)'
+    }
+  }, "No inventory data yet \u2014 deploy the latest scraper (LEAFLINK_PULL_INVENTORY=1) and re-run."))))))), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-half"
+  }, /*#__PURE__*/React.createElement(RankCard, {
+    title: "Top products",
+    data: topProducts
+  }), /*#__PURE__*/React.createElement(RankCard, {
+    title: "Top buyers",
+    data: topBuyers
+  }))), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-half"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "Sales ", /*#__PURE__*/React.createElement("em", null, "by rep")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, bySalesRep.length, " reps")), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement(RankList, {
+    data: bySalesRep
+  }), bySalesRep.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '10px 4px 0',
+      fontFamily: 'JetBrains Mono',
+      fontSize: 10,
+      color: '#6d7058',
+      lineHeight: 1.5
+    }
+  }, "No rep data yet \u2014 sales rep is pulled from LeafLink's customers endpoint when the scraper runs. Empty means no assigned reps were found (or the App lacks Customers read permission)."))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "By ", /*#__PURE__*/React.createElement("em", null, "city")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, byCity.length, " cities")), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement(RankList, {
+    data: byCity
+  }))))), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-2"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "By ", /*#__PURE__*/React.createElement("em", null, "product line")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, byLine.length, " lines")), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement(RankList, {
+    data: byLine
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "By ", /*#__PURE__*/React.createElement("em", null, "category")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, "mix")), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      height: 300,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
+    width: "100%",
+    height: "100%"
+  }, /*#__PURE__*/React.createElement(PieChart, null, /*#__PURE__*/React.createElement(Pie, {
+    data: byCategory,
+    dataKey: "revenue",
+    nameKey: "name",
+    cx: "50%",
+    cy: "50%",
+    innerRadius: 55,
+    outerRadius: 95,
+    paddingAngle: 2,
+    stroke: "#13140d",
+    strokeWidth: 2
+  }, byCategory.map((e, i) => {
+    const colors = ['#e8d838', '#8fb8d4', '#c4b840', '#a8ad8f', '#e07594'];
+    return /*#__PURE__*/React.createElement(Cell, {
+      key: i,
+      fill: colors[i % colors.length]
+    });
+  })), /*#__PURE__*/React.createElement(Tooltip, {
+    contentStyle: {
+      background: '#1c1d14',
+      border: '1px solid #383b22',
+      borderRadius: 4,
+      fontSize: 12
+    },
+    formatter: v => fmtMoneyFull(v)
+  }), /*#__PURE__*/React.createElement(Legend, {
+    verticalAlign: "bottom",
+    iconType: "square",
+    wrapperStyle: {
+      fontSize: 11,
+      fontFamily: 'JetBrains Mono',
+      color: '#a8ad8f'
+    }
+  }))))))), /*#__PURE__*/React.createElement("section", {
+    className: "section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, "Monthly ", /*#__PURE__*/React.createElement("em", null, "breakdown")), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, monthly.length, " months")), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      padding: 0,
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto'
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "data-table"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Month"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Units"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Gross"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Discounts"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "Net Sales"), /*#__PURE__*/React.createElement("th", {
+    className: "num"
+  }, "MOM"))), /*#__PURE__*/React.createElement("tbody", null, monthly.map((m, i) => /*#__PURE__*/React.createElement("tr", {
+    key: i
+  }, /*#__PURE__*/React.createElement("td", null, m.monthName), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtNum(Math.round(m.units))), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtMoneyFull(m.gross)), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtMoneyFull(m.discount)), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(m.net))), /*#__PURE__*/React.createElement("td", {
+    className: "num",
+    style: {
+      color: m.mom == null ? 'var(--text-faint)' : m.mom >= 0 ? 'var(--accent)' : 'var(--rose)'
+    }
+  }, m.mom == null ? '—' : (m.mom >= 0 ? '+' : '') + m.mom.toFixed(1) + '%'))), monthly.length > 0 && /*#__PURE__*/React.createElement("tr", {
+    style: {
+      background: 'var(--bg-elev-2)',
+      fontWeight: 600
+    }
+  }, /*#__PURE__*/React.createElement("td", null, "TOTAL"), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtNum(Math.round(monthly.reduce((s, m) => s + m.units, 0)))), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, fmtMoneyFull(monthly.reduce((s, m) => s + m.gross, 0))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, fmtMoneyFull(monthly.reduce((s, m) => s + m.discount, 0))), /*#__PURE__*/React.createElement("td", {
+    className: "num"
+  }, /*#__PURE__*/React.createElement("strong", null, fmtMoneyFull(monthly.reduce((s, m) => s + m.net, 0)))), /*#__PURE__*/React.createElement("td", {
+    className: "num dim"
+  }, "\u2014"))))))), /*#__PURE__*/React.createElement("footer", {
+    style: {
+      marginTop: 60,
+      padding: '20px 0',
+      borderTop: '1px solid var(--border)',
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontFamily: 'JetBrains Mono',
+      fontSize: 11,
+      color: 'var(--text-faint)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.12em'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "Chill Medicated \xB7 Sales Intelligence"), /*#__PURE__*/React.createElement("span", null, "Michigan \xB7 Auto-refresh 60s")));
 }
-
-function Topbar({fetchedAt,rowCount,totalCount,data}){
-  const ago=Math.floor((Date.now()-fetchedAt.getTime())/60000);
-  return (<div className="topbar">
-    <div className="brand-mark" style={{display:'flex',alignItems:'center',gap:16}}>
-      <img src="logo.png" alt="" style={{height:48,width:'auto',flexShrink:0}} onError={(e)=>{e.target.style.display='none';}}/>
-      <div>
-        <h1 className="brand-name" style={{lineHeight:1,fontSize:26}}>
-          <span style={{background:'linear-gradient(90deg,#e8d838 0%,#8a7d18 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Chill</span>{' '}
-          <em style={{color:'var(--text-dim)',fontStyle:'italic',fontWeight:400}}>Medicated</em>
-        </h1>
-        <div className="brand-tag" style={{marginTop:4}}>Michigan · Sales Intelligence</div>
-      </div>
-    </div>
-    <div className="topbar-meta">
-      <span><strong>{fmtNum(rowCount)}</strong> / {fmtNum(totalCount)} rows</span><span>·</span>
-      <span>{data.from_date?`since ${data.from_date}`:''}</span><span>·</span>
-      <span>Updated {ago<1?'just now':ago+'m ago'}</span><span className="pulse"></span>
-    </div>
-  </div>);
+function Topbar({
+  fetchedAt,
+  rowCount,
+  totalCount,
+  data
+}) {
+  const ago = Math.floor((Date.now() - fetchedAt.getTime()) / 60000);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "topbar"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "brand-mark",
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "logo.png",
+    alt: "",
+    style: {
+      height: 48,
+      width: 'auto',
+      flexShrink: 0
+    },
+    onError: e => {
+      e.target.style.display = 'none';
+    }
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
+    className: "brand-name",
+    style: {
+      lineHeight: 1,
+      fontSize: 26
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      background: 'linear-gradient(90deg,#e8d838 0%,#8a7d18 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent'
+    }
+  }, "Chill"), ' ', /*#__PURE__*/React.createElement("em", {
+    style: {
+      color: 'var(--text-dim)',
+      fontStyle: 'italic',
+      fontWeight: 400
+    }
+  }, "Medicated")), /*#__PURE__*/React.createElement("div", {
+    className: "brand-tag",
+    style: {
+      marginTop: 4
+    }
+  }, "Michigan \xB7 Sales Intelligence"))), /*#__PURE__*/React.createElement("div", {
+    className: "topbar-meta"
+  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, fmtNum(rowCount)), " / ", fmtNum(totalCount), " rows"), /*#__PURE__*/React.createElement("span", null, "\xB7"), /*#__PURE__*/React.createElement("span", null, data.from_date ? `since ${data.from_date}` : ''), /*#__PURE__*/React.createElement("span", null, "\xB7"), /*#__PURE__*/React.createElement("span", null, "Updated ", ago < 1 ? 'just now' : ago + 'm ago'), /*#__PURE__*/React.createElement("span", {
+    className: "pulse"
+  })));
 }
-
-function FilterBar({filters,setFilters,distinct,onReset}){
-  const upd=(k,v)=>setFilters(f=>({...f,[k]:v}));
-  return (<div className="filters">
-    <div className="filter-group"><label className="filter-label">From</label><input type="date" className="filter-input" value={filters.from} onChange={e=>upd('from',e.target.value)}/></div>
-    <div className="filter-group"><label className="filter-label">To</label><input type="date" className="filter-input" value={filters.to} onChange={e=>upd('to',e.target.value)}/></div>
-    <div className="filter-group" style={{minWidth:'auto'}}><label className="filter-label">Quick range</label>
-      <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
-        {[['Today',0],['Last wk',7],['30 days',30],['90 days',90],['YTD','ytd']].map(([lbl,d])=>(
-          <button key={lbl} className="date-preset" onClick={()=>{
-            const t=new Date(); const fmt=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;
-            let from; if(d==='ytd'){from=new Date(t.getFullYear(),0,1);} else {from=new Date(t); from.setDate(from.getDate()-d);}
-            setFilters(f=>({...f,from:fmt(from),to:fmt(t)}));
-          }}>{lbl}</button>
-        ))}
-      </div>
-    </div>
-    <div className="filter-group"><label className="filter-label">Buyer</label><select className="filter-select" value={filters.buyer} onChange={e=>upd('buyer',e.target.value)}><option value="">All</option>{distinct.buyers.map(b=><option key={b}>{b}</option>)}</select></div>
-    <div className="filter-group"><label className="filter-label">Product Line</label><select className="filter-select" value={filters.productLine} onChange={e=>upd('productLine',e.target.value)}><option value="">All</option>{distinct.productLines.map(b=><option key={b}>{b}</option>)}</select></div>
-    <div className="filter-group"><label className="filter-label">Payment</label><select className="filter-select" value={filters.status} onChange={e=>upd('status',e.target.value)}><option value="">All</option>{distinct.statuses.map(b=><option key={b}>{b}</option>)}</select></div>
-    <div className="filter-group"><label className="filter-label">Invoice #</label><input type="text" className="filter-input" placeholder="search…" value={filters.invoice} onChange={e=>upd('invoice',e.target.value)}/></div>
-    <div className="filter-group" style={{justifyContent:'flex-end'}}><label className="filter-label" style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',paddingBottom:9}}><input type="checkbox" checked={filters.excludeSamples} onChange={e=>upd('excludeSamples',e.target.checked)} style={{accentColor:'var(--accent)',width:14,height:14}}/>Exclude samples</label></div>
-    <button className="filter-reset" onClick={onReset}>Reset</button>
-  </div>);
+function FilterBar({
+  filters,
+  setFilters,
+  distinct,
+  onReset
+}) {
+  const upd = (k, v) => setFilters(f => ({
+    ...f,
+    [k]: v
+  }));
+  return /*#__PURE__*/React.createElement("div", {
+    className: "filters"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "filter-group"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "filter-label"
+  }, "From"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    className: "filter-input",
+    value: filters.from,
+    onChange: e => upd('from', e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "filter-group"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "filter-label"
+  }, "To"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    className: "filter-input",
+    value: filters.to,
+    onChange: e => upd('to', e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "filter-group",
+    style: {
+      minWidth: 'auto'
+    }
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "filter-label"
+  }, "Quick range"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      flexWrap: 'wrap'
+    }
+  }, [['Today', 0], ['Last wk', 7], ['30 days', 30], ['90 days', 90], ['YTD', 'ytd']].map(([lbl, d]) => /*#__PURE__*/React.createElement("button", {
+    key: lbl,
+    className: "date-preset",
+    onClick: () => {
+      const t = new Date();
+      const fmt = x => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
+      let from;
+      if (d === 'ytd') {
+        from = new Date(t.getFullYear(), 0, 1);
+      } else {
+        from = new Date(t);
+        from.setDate(from.getDate() - d);
+      }
+      setFilters(f => ({
+        ...f,
+        from: fmt(from),
+        to: fmt(t)
+      }));
+    }
+  }, lbl)))), /*#__PURE__*/React.createElement("div", {
+    className: "filter-group"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "filter-label"
+  }, "Buyer"), /*#__PURE__*/React.createElement("select", {
+    className: "filter-select",
+    value: filters.buyer,
+    onChange: e => upd('buyer', e.target.value)
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "All"), distinct.buyers.map(b => /*#__PURE__*/React.createElement("option", {
+    key: b
+  }, b)))), /*#__PURE__*/React.createElement("div", {
+    className: "filter-group"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "filter-label"
+  }, "Product Line"), /*#__PURE__*/React.createElement("select", {
+    className: "filter-select",
+    value: filters.productLine,
+    onChange: e => upd('productLine', e.target.value)
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "All"), distinct.productLines.map(b => /*#__PURE__*/React.createElement("option", {
+    key: b
+  }, b)))), /*#__PURE__*/React.createElement("div", {
+    className: "filter-group"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "filter-label"
+  }, "Payment"), /*#__PURE__*/React.createElement("select", {
+    className: "filter-select",
+    value: filters.status,
+    onChange: e => upd('status', e.target.value)
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "All"), distinct.statuses.map(b => /*#__PURE__*/React.createElement("option", {
+    key: b
+  }, b)))), /*#__PURE__*/React.createElement("div", {
+    className: "filter-group"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "filter-label"
+  }, "Invoice #"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    className: "filter-input",
+    placeholder: "search\u2026",
+    value: filters.invoice,
+    onChange: e => upd('invoice', e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "filter-group",
+    style: {
+      justifyContent: 'flex-end'
+    }
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "filter-label",
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      cursor: 'pointer',
+      paddingBottom: 9
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    checked: filters.excludeSamples,
+    onChange: e => upd('excludeSamples', e.target.checked),
+    style: {
+      accentColor: 'var(--accent)',
+      width: 14,
+      height: 14
+    }
+  }), "Exclude samples")), /*#__PURE__*/React.createElement("button", {
+    className: "filter-reset",
+    onClick: onReset
+  }, "Reset"));
 }
-
-function Kpi({label,value,sub,accent}){return <div className={'kpi'+(accent?' kpi-accent':'')}><div className="kpi-label">{label}</div><div className="kpi-value tabular">{value}</div>{sub&&<div className="kpi-sub">{sub}</div>}</div>;}
-function RankCard({title,data}){return <div><div className="section-header"><h2 className="section-title">{title.split(' ')[0]} <em>{title.split(' ').slice(1).join(' ')}</em></h2><span className="section-meta">top {data.length}</span></div><div className="card"><RankList data={data}/></div></div>;}
-function RankList({data}){const max=Math.max(...data.map(d=>d.revenue),1);return <div className="rank-list">{data.length===0&&<div style={{padding:20,color:'var(--text-faint)',textAlign:'center',fontSize:13}}>No data</div>}{data.map((d,i)=>(<div key={i} className="rank-row"><div className="rank-num">{String(i+1).padStart(2,'0')}</div><div className="rank-name" title={d.name}>{d.name}</div><div className="rank-value">{fmtMoneyFull(d.revenue)}</div><div className="rank-bar" style={{width:`calc(${(d.revenue/max*100).toFixed(1)}% - 80px)`}}></div></div>))}</div>;}
-function StatusPill({status}){if(!status)return <span className="dim">—</span>;const s=status.toLowerCase();const cls=s.includes('paid')&&!s.includes('un')?'pill-paid':s.includes('overdue')?'pill-overdue':'pill-unpaid';return <span className={'pill '+cls}>{status}</span>;}
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+function Kpi({
+  label,
+  value,
+  sub,
+  accent
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: 'kpi' + (accent ? ' kpi-accent' : '')
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "kpi-label"
+  }, label), /*#__PURE__*/React.createElement("div", {
+    className: "kpi-value tabular"
+  }, value), sub && /*#__PURE__*/React.createElement("div", {
+    className: "kpi-sub"
+  }, sub));
+}
+function RankCard({
+  title,
+  data
+}) {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "section-header"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, title.split(' ')[0], " ", /*#__PURE__*/React.createElement("em", null, title.split(' ').slice(1).join(' '))), /*#__PURE__*/React.createElement("span", {
+    className: "section-meta"
+  }, "top ", data.length)), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement(RankList, {
+    data: data
+  })));
+}
+function RankList({
+  data
+}) {
+  const max = Math.max(...data.map(d => d.revenue), 1);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "rank-list"
+  }, data.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 20,
+      color: 'var(--text-faint)',
+      textAlign: 'center',
+      fontSize: 13
+    }
+  }, "No data"), data.map((d, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    className: "rank-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "rank-num"
+  }, String(i + 1).padStart(2, '0')), /*#__PURE__*/React.createElement("div", {
+    className: "rank-name",
+    title: d.name
+  }, d.name), /*#__PURE__*/React.createElement("div", {
+    className: "rank-value"
+  }, fmtMoneyFull(d.revenue)), /*#__PURE__*/React.createElement("div", {
+    className: "rank-bar",
+    style: {
+      width: `calc(${(d.revenue / max * 100).toFixed(1)}% - 80px)`
+    }
+  }))));
+}
+function StatusPill({
+  status
+}) {
+  if (!status) return /*#__PURE__*/React.createElement("span", {
+    className: "dim"
+  }, "\u2014");
+  const s = status.toLowerCase();
+  const cls = s.includes('paid') && !s.includes('un') ? 'pill-paid' : s.includes('overdue') ? 'pill-overdue' : 'pill-unpaid';
+  return /*#__PURE__*/React.createElement("span", {
+    className: 'pill ' + cls
+  }, status);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
 </script>
 
 <script>
-/* Fail-loud watchdog: if the React app hasn't mounted a few seconds after load
-   (e.g. a CDN was blocked and the babel script never ran), replace the blank
-   screen with a clear, actionable message instead of nothing. */
+/* Fail-loud watchdog (self-hosted build: libraries load from this repo root). */
 (function () {
   function diagnose() {
     var root = document.getElementById('root');
     if (!root || root.childElementCount > 0) return;
-    var libs = { React: typeof window.React, ReactDOM: typeof window.ReactDOM, Recharts: typeof window.Recharts, Babel: typeof window.Babel };
+    var libs = { React: typeof window.React, ReactDOM: typeof window.ReactDOM, Recharts: typeof window.Recharts };
     var missing = Object.keys(libs).filter(function (k) { return libs[k] === 'undefined'; });
     var why = missing.length
-      ? 'These libraries did not load: <b>' + missing.join(', ') + '</b>. That is almost always a blocked CDN \u2014 a work network / VPN firewall, or an ad- or script-blocking browser extension \u2014 not the dashboard itself.'
+      ? 'These library files did not load: <b>' + missing.join(', ') + '</b>. Make sure all the .js library files were uploaded into the same folder as dashboard.html.'
       : 'The libraries loaded but the app did not render. A hard refresh usually clears this.';
     root.innerHTML =
-      '<div style="max-width:640px;margin:80px auto;padding:28px;background:var(--bg-elev,#161a17);border:1px solid var(--border,#262c28);border-left:3px solid var(--warm,#e0a85a);border-radius:10px;color:var(--text,#e8ebe7);font-family:Inter,system-ui,sans-serif">'
+      '<div style="max-width:680px;margin:80px auto;padding:28px;background:var(--bg-elev,#161a17);border:1px solid var(--border,#262c28);border-left:3px solid var(--warm,#e0a85a);border-radius:10px;color:var(--text,#e8ebe7);font-family:Inter,system-ui,sans-serif">'
       + '<div style="font-family:Fraunces,serif;font-size:22px;font-style:italic;margin-bottom:10px">Dashboard didn\u2019t load</div>'
       + '<p style="color:var(--text-dim,#9aa39c);line-height:1.7;font-size:14px;margin:0 0 12px">' + why + '</p>'
-      + '<ul style="color:var(--text-dim,#9aa39c);line-height:1.85;font-size:13px;margin:0 0 16px 18px">'
-      + '<li>Hard refresh: <b>Ctrl/Cmd + Shift + R</b></li>'
-      + '<li>Try an <b>Incognito</b> window (extensions are disabled there)</li>'
-      + '<li>On a work network or VPN, <b>unpkg.com</b> and <b>jsdelivr.net</b> may be blocked</li>'
-      + '</ul>'
       + '<button onclick="location.reload()" style="background:var(--accent,#4dd4ff);border:none;color:var(--bg,#0a1220);font-weight:600;padding:9px 16px;border-radius:7px;cursor:pointer;font-family:JetBrains Mono,monospace;font-size:12px">Reload</button>'
       + '</div>';
   }
