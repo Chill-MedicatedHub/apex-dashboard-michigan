@@ -269,9 +269,13 @@ function Dashboard({
   const normalized = useMemo(() => rows.map(r => ({
     ...r,
     _date: parseDate(r.order_date),
-    _revenue: +r.revenue || 0,
+    // LeafLink-aligned net: discounts are only netted once an order is "Complete".
+    // Pending/Shipped orders show at gross until they finalize, which matches
+    // LeafLink's reported Net Revenue exactly. Gross stays full and the applied
+    // discount is Complete-only, so Gross - Discounts = Net Sales holds everywhere.
     _gross: +r.gross || 0,
-    _discount: +r.discount || 0,
+    _discount: (String(r.order_status || '').toLowerCase() === 'complete') ? (+r.discount || 0) : 0,
+    _revenue: (+r.gross || 0) - ((String(r.order_status || '').toLowerCase() === 'complete') ? (+r.discount || 0) : 0),
     // Physical units (eaches). LeafLink's `units_sold` is quantity ÷ unit_multiplier,
     // i.e. number of cases/multiples — not physical units — so we use raw quantity
     // here and expose cases separately. Revenue is unaffected (it's per-case price
