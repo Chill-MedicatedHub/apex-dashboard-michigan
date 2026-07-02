@@ -947,7 +947,7 @@ function Dashboard({
     // Computed fields
     _date: parseDate(r.order_date_utc_raw || r.order_date_localized_raw || r.order_date_raw || r.order_date_utc || r.order_date),
     _delivery: parseDate(r.delivery_date_raw || r.delivery_date),
-    _revenue: typeof r.line_total_raw === 'number' ? r.line_total_raw / 100 : parseMoney(r.line_total || r.computed_sale_price || r.total || r.revenue),
+    _revenue: typeof r.line_total_raw === 'number' ? r.line_total_raw / 100 : (r.gross != null ? ((parseFloat(r.gross) || 0) - (String(r.order_status || '').toLowerCase() === 'complete' ? (parseFloat(r.discount) || 0) : 0)) : parseMoney(r.line_total || r.computed_sale_price || r.total || r.revenue)),
     _cost: parseMoney(r.batch_cost_of_goods),
     // Physical units sold. Apex's order_quantity (a.k.a. quantity) is in the
     // order's unit of measure — "Case" for ~380 lines — so it mixes cases and
