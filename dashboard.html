@@ -25,13 +25,13 @@
     --text:          #182234;
     --text-dim:      #5a6678;
     --text-faint:    #97a2b3;
-    --brand-cyan:    #0EB1E8;
-    --brand-blue:    #4696D5;
-    --brand-peri:    #588BCD;
-    --brand-purple:  #8462AF;
-    --accent:        #0E86C4;
-    --accent-dim:    #4aa3d6;
-    --accent-deep:   #1857a6;
+    --brand-cyan:    #D9A93B;
+    --brand-blue:    #C9902A;
+    --brand-peri:    #C98A1E;
+    --brand-purple:  #8A6410;
+    --accent:        #A97C14;
+    --accent-dim:    #C9A24A;
+    --accent-deep:   #7A5810;
     --warm:          #c07d18;
     --cool:          #5b8fb0;
     --rose:          #d6455f;
@@ -43,8 +43,8 @@
   }
   body {
     background-image:
-      radial-gradient(1200px 620px at 88% -12%, rgba(14,177,232,0.07), transparent 58%),
-      radial-gradient(1000px 560px at -6% 108%, rgba(132,98,175,0.07), transparent 58%);
+      radial-gradient(1200px 620px at 88% -12%, rgba(217,169,59,0.10), transparent 58%),
+      radial-gradient(1000px 560px at -6% 108%, rgba(168,110,18,0.07), transparent 58%);
     background-attachment: fixed;
   }
   a { color: var(--accent); text-decoration: none; }
@@ -79,7 +79,7 @@
     padding: 9px 11px; font-family: 'Inter', sans-serif; font-size: 13px;
     border-radius: 9px; outline: none; transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .filter-input:focus, .filter-select:focus { border-color: var(--brand-cyan); box-shadow: 0 0 0 3px rgba(14,177,232,0.12); }
+  .filter-input:focus, .filter-select:focus { border-color: var(--brand-cyan); box-shadow: 0 0 0 3px rgba(217,169,59,0.16); }
   .filter-input::placeholder { color: var(--text-faint); }
   .filter-reset {
     background: transparent; border: 1px solid var(--border); color: var(--text-dim);
@@ -129,7 +129,7 @@
   .data-table th { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); font-weight: 600; background: var(--bg-elev-2); }
   .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border-soft); color: var(--text); }
   .data-table tbody tr:last-child td { border-bottom: none; }
-  .data-table tr:hover td { background: rgba(14,177,232,0.05); }
+  .data-table tr:hover td { background: rgba(217,169,59,0.09); }
   .data-table .num { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; text-align: right; }
   .data-table .dim { color: var(--text-dim); }
   .empty { text-align: center; padding: 80px 20px; color: var(--text-dim); }
@@ -175,7 +175,7 @@ if (typeof Recharts === 'undefined') {
         <li>An ad blocker / privacy extension is blocking jsdelivr.net or unpkg.com</li>
         <li>Slow network — try refreshing</li>
       </ul>
-      <p style="color:#0E86C4;margin-top:16px;font-family:monospace;font-size:13px">Try: disable extensions for localhost, or refresh the page.</p>
+      <p style="color:#A97C14;margin-top:16px;font-family:monospace;font-size:13px">Try: disable extensions for localhost, or refresh the page.</p>
     </div>
   `;
   throw new Error('Recharts failed to load');
@@ -452,7 +452,7 @@ function RevenueOverTime({ rows }) {
   const e = React.createElement;
   const [view, setView] = React.useState('month');
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const YEAR_COLORS = ['#0EB1E8','#8462AF','#588BCD','#E0A24E','#D6607E','#2FA8A0','#4C6FD6','#C99A34'];
+  const YEAR_COLORS = ['#D9A93B','#A86E12','#E8B34A','#8A8A2E','#C2772A','#6B7B8C','#4C6FD6','#8462AF'];
 
   const years = React.useMemo(() => {
     const s = new Set();
@@ -491,9 +491,9 @@ function RevenueOverTime({ rows }) {
     key: id, onClick: () => setView(id),
     style: {
       padding: '4px 12px', fontSize: 11, fontFamily: 'JetBrains Mono', cursor: 'pointer', borderRadius: 4,
-      border: '1px solid ' + (view === id ? '#0EB1E8' : '#e3e9f1'),
-      background: view === id ? 'rgba(14,177,232,0.12)' : '#ffffff',
-      color: view === id ? '#0E86C4' : '#566274'
+      border: '1px solid ' + (view === id ? '#C9902A' : '#e3e9f1'),
+      background: view === id ? 'rgba(217,169,59,0.16)' : '#ffffff',
+      color: view === id ? '#A97C14' : '#566274'
     }
   }, label);
 
@@ -514,7 +514,7 @@ function RevenueOverTime({ rows }) {
         e(XAxis, { dataKey: 'year', stroke: '#a7b2c0', tick: axisTick, tickLine: false, axisLine: { stroke: '#e7ecf2' } }),
         e(YAxis, { stroke: '#a7b2c0', tick: axisTick, tickLine: false, axisLine: false, tickFormatter: fmtMoney }),
         tooltip(v => [fmtMoneyFull(v), 'Revenue']),
-        e(Line, { type: 'monotone', dataKey: 'revenue', name: 'Revenue', stroke: '#0EB1E8', strokeWidth: 2.5, dot: { r: 3 }, activeDot: { r: 5 } })
+        e(Line, { type: 'monotone', dataKey: 'revenue', name: 'Revenue', stroke: '#C9902A', strokeWidth: 2.5, dot: { r: 3 }, activeDot: { r: 5 } })
       );
 
   const meta = view === 'month'
@@ -1786,7 +1786,7 @@ function Dashboard({
     formatter: v => [fmtMoneyFull(v), 'Revenue']
   }), /*#__PURE__*/React.createElement(Bar, {
     dataKey: "revenue",
-    fill: "#3A93D0",
+    fill: "#C9902A",
     radius: [0, 2, 2, 0]
   }))))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "section-header"
@@ -1817,7 +1817,7 @@ function Dashboard({
     stroke: "#ffffff",
     strokeWidth: 2
   }, byCategory.map((_, i) => {
-    const colors = ['#0EB1E8', '#588BCD', '#8462AF', '#4696D5', '#E0A24E', '#D6607E', '#8A97A9'];
+    const colors = ['#D9A93B', '#B0801C', '#E8C46A', '#C2772A', '#8A8A2E', '#6B7B8C', '#A7B2C0'];
     return /*#__PURE__*/React.createElement(Cell, {
       key: i,
       fill: colors[i % colors.length]
@@ -1989,7 +1989,7 @@ function Topbar({
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      background: 'linear-gradient(90deg, #0EB1E8 0%, #8462AF 100%)',
+      background: 'linear-gradient(90deg, #D9A93B 0%, #8A6410 100%)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text'
@@ -2166,7 +2166,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.c
       '<div style="max-width:680px;margin:80px auto;padding:28px;background:var(--bg-elev,#ffffff);border:1px solid var(--border,#e7ecf2);border-left:3px solid var(--warm,#e0a85a);border-radius:10px;color:var(--text,#1a2230);font-family:Inter,system-ui,sans-serif">'
       + '<div style="font-family:Fraunces,serif;font-size:22px;font-style:italic;margin-bottom:10px">Dashboard didn\u2019t load</div>'
       + '<p style="color:var(--text-dim,#566274);line-height:1.7;font-size:14px;margin:0 0 12px">' + why + '</p>'
-      + '<button onclick="location.reload()" style="background:var(--accent,#0E86C4);border:none;color:#ffffff;font-weight:600;padding:9px 16px;border-radius:7px;cursor:pointer;font-family:JetBrains Mono,monospace;font-size:12px">Reload</button>'
+      + '<button onclick="location.reload()" style="background:var(--accent,#A97C14);border:none;color:#ffffff;font-weight:600;padding:9px 16px;border-radius:7px;cursor:pointer;font-family:JetBrains Mono,monospace;font-size:12px">Reload</button>'
       + '</div>';
   }
   setTimeout(diagnose, 5000);
