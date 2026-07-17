@@ -627,7 +627,7 @@ function InventoryTable({ list }) {
       navBtn("\u2039 Prev", cur <= 0, () => setPage(cur - 1)),
       navBtn("Next \u203a", cur >= pages - 1, () => setPage(cur + 1))));
   return e("div", { className: "card", style: { padding: 0, overflow: "hidden" } },
-    e("div", { style: { overflowX: "auto" } },
+    e("div", { style: { overflowX: "auto", maxHeight: 560 } },
       e("table", { className: "data-table" },
         e("thead", null, e("tr", null,
           e("th", null, "Product"), e("th", null, "Line"), e("th", null, "SKU"),
@@ -897,6 +897,7 @@ function AccountsReceivable({ data }) {
           orderDate: parseDate(r.order_date_localized_raw || r.order_date_utc_raw || r.order_date_localized || r.order_date_utc || r.order_date_raw || r.order_date),
           dueDate: parseDate(r.due_date_raw || r.due_date),
           amount: 0,
+          addlDiscount: typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts),
           credit: parsePaymentsForCredits(r.payment_dates || r.payments || '').total || 0
         };
       }
@@ -910,7 +911,7 @@ function AccountsReceivable({ data }) {
     });
     return Object.values(map).map(o => {
       const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
-      const base = o._hasLine ? o.amount : (o.orderRev || 0);
+      const base = Math.max(0, (o._hasLine ? o.amount : (o.orderRev || 0)) - (o.addlDiscount || 0));
       const net = Math.max(0, base - (o.credit || 0));
       const daysPastDue = due ? Math.floor((today - due) / 86400000) : 0;
       return Object.assign({}, o, { due, net, daysPastDue, bucket: bucketOf(daysPastDue) });
@@ -1270,12 +1271,27 @@ function Dashboard({
 
   // KPIs
   const kpis = useMemo(() => {
-    const revenue = filtered.reduce((s, r) => s + r._revenue, 0);
+    const lineRevenue = filtered.reduce((s, r) => s + r._revenue, 0);
     const actualCost = filtered.reduce((s, r) => s + r._cost * r._quantity, 0);
     const units = filtered.reduce((s, r) => s + r._quantity, 0);
     const orderIds = new Set(filtered.map(r => r.order_id).filter(Boolean));
     const buyers = new Set(filtered.map(r => r.buyer_name).filter(Boolean));
-    const discounts = sumLineDiscounts(filtered);
+    const lineDiscounts = sumLineDiscounts(filtered);
+    // Invoice-level "additional discounts" repeat on every line of an invoice, so capture
+    // them once per invoice. They reduce what the buyer actually pays but aren't in line totals.
+    const addlByInvoice = new Map();
+    filtered.forEach(r => {
+      const id = r.order_id || r.order_number;
+      if (id && !addlByInvoice.has(id)) {
+        const ad = typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts);
+        if (ad) addlByInvoice.set(id, ad);
+      }
+    });
+    const addlDiscounts = [...addlByInvoice.values()].reduce((s, n) => s + n, 0);
+    // Net Revenue = line subtotal minus invoice-level additional discounts (actual amount billed).
+    const revenue = Math.max(0, lineRevenue - addlDiscounts);
+    // Discounts Given = per-line discounts plus the invoice-level additional discounts.
+    const discounts = lineDiscounts + addlDiscounts;
 
     // Credits — pulled from Apex's "Payments" text field where credits are recorded
     // as text like "Credit of $1,045.22 on 03/17/2026". The same payments string repeats
@@ -2242,7 +2258,8 @@ function Dashboard({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      overflowX: 'auto'
+      overflowX: 'auto',
+      maxHeight: 560
     }
   }, /*#__PURE__*/React.createElement("table", {
     className: "data-table"
@@ -2308,7 +2325,8 @@ function Dashboard({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      overflowX: 'auto'
+      overflowX: 'auto',
+      maxHeight: 560
     }
   }, /*#__PURE__*/React.createElement("table", {
     className: "data-table"
