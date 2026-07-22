@@ -35,7 +35,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- prospects.json; then
+          # Stage FIRST, then check the staged diff. Plain `git diff` ignores
+          # untracked files, so on the first run (prospects.json brand new) it
+          # would wrongly report "no changes" and skip the commit.
+          git add prospects.json
+          if git diff --cached --quiet -- prospects.json; then
             echo "No changes to commit."
             exit 0
           fi
