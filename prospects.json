@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-25",
+  "as_of": "2026-07-26",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1549,
+  "count": 1551,
   "records": [
     {
       "name": "Clinic Cannabis Company(HOD)",
@@ -317,6 +317,14 @@
       "state": "MI"
     },
     {
+      "name": "GreenPharm",
+      "license": "AU-R-001404",
+      "type": "",
+      "status": "",
+      "city": "Allegan",
+      "state": "MI"
+    },
+    {
       "name": "Smilez - Allegan",
       "license": "AU-R-000870",
       "type": "",
@@ -517,14 +525,6 @@
       "state": "MI"
     },
     {
-      "name": "Community Dispo LLC. DBA \"Midnight Green\"",
-      "license": "AU-R-001543",
-      "type": "",
-      "status": "",
-      "city": "Ann Arbor",
-      "state": "MI"
-    },
-    {
       "name": "Cookies - Ann Arbor",
       "license": "AU-R-000562",
       "type": "",
@@ -709,6 +709,14 @@
       "state": "MI"
     },
     {
+      "name": "Information Entropy Processor",
+      "license": "AU-P-000223",
+      "type": "",
+      "status": "",
+      "city": "Ann Arbor",
+      "state": "MI"
+    },
+    {
       "name": "Jars - Ann Arbor Main St",
       "license": "AU-R-000473",
       "type": "",
@@ -882,6 +890,14 @@
       "type": "",
       "status": "",
       "city": "Ann Arbor",
+      "state": "MI"
+    },
+    {
+      "name": "Dragonfly Kitchen II, Inc. - Rec Buyer",
+      "license": "AU-P-000131",
+      "type": "",
+      "status": "",
+      "city": "Arlington",
       "state": "MI"
     },
     {
@@ -1750,7 +1766,7 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "PC-000294",
+      "license": "AU-R-000216",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -1758,7 +1774,7 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "AU-R-000216",
+      "license": "PC-000294",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2013,6 +2029,14 @@
       "state": "MI"
     },
     {
+      "name": "Alluvion Cannabis Company",
+      "license": "AU-R-000481",
+      "type": "",
+      "status": "",
+      "city": "Big Rapids",
+      "state": "MI"
+    },
+    {
       "name": "BE Provisions - Big Rapids",
       "license": "AU-R-001067",
       "type": "",
@@ -2103,14 +2127,6 @@
     {
       "name": "Levels Cannabis - Big Rapids",
       "license": "AU-R-000655",
-      "type": "",
-      "status": "",
-      "city": "Big Rapids",
-      "state": "MI"
-    },
-    {
-      "name": "LuckySpot LLC",
-      "license": "AU-R-001052",
       "type": "",
       "status": "",
       "city": "Big Rapids",
@@ -2463,6 +2479,14 @@
     {
       "name": "Star Budz Burton",
       "license": "AU-R-001444",
+      "type": "",
+      "status": "",
+      "city": "Burton",
+      "state": "MI"
+    },
+    {
+      "name": "T-Rex 1 Corp",
+      "license": "AU-P-000129",
       "type": "",
       "status": "",
       "city": "Burton",
@@ -2869,6 +2893,14 @@
       "state": "MI"
     },
     {
+      "name": "Rooted & Zooted Processing-Buyer",
+      "license": "AU-P-000357",
+      "type": "",
+      "status": "",
+      "city": "Charlotte",
+      "state": "MI"
+    },
+    {
       "name": "Apothecare - Cheboygan (Cheboygan Management Associates, LLC)",
       "license": "AU-R-001162",
       "type": "",
@@ -2919,14 +2951,6 @@
     {
       "name": "Processing Dept.",
       "license": "AU-P-000349",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI"
-    },
-    {
-      "name": "Six Labs-Rec Buyer",
-      "license": "AU-P-000146",
       "type": "",
       "status": "",
       "city": "Chesaning",
@@ -4013,6 +4037,14 @@
       "state": "MI"
     },
     {
+      "name": "Oak Canna & Wellness LLC - Buyer",
+      "license": "PR-000169",
+      "type": "",
+      "status": "",
+      "city": "Detroit",
+      "state": "MI"
+    },
+    {
       "name": "Oak Canna & Wellness Processing - Detroit",
       "license": "AU-P-000325",
       "type": "",
@@ -4911,14 +4943,6 @@
     {
       "name": "Flint Town Cannabis",
       "license": "AU-R-001524",
-      "type": "",
-      "status": "",
-      "city": "Flint",
-      "state": "MI"
-    },
-    {
-      "name": "Flower of Life",
-      "license": "PC-000272",
       "type": "",
       "status": "",
       "city": "Flint",
@@ -5965,6 +5989,14 @@
       "state": "MI"
     },
     {
+      "name": "Great Lake Greenery LLC d/b/a The Vault DIstro",
+      "license": "AU-P-000584",
+      "type": "",
+      "status": "",
+      "city": "Hazel Park",
+      "state": "MI"
+    },
+    {
       "name": "Green Pharm - Hazel Park",
       "license": "AU-R-000624",
       "type": "",
@@ -5983,14 +6015,6 @@
     {
       "name": "Hyatt Processing",
       "license": "AU-P-000148",
-      "type": "",
-      "status": "",
-      "city": "Hazel Park",
-      "state": "MI"
-    },
-    {
-      "name": "JSBH LLC",
-      "license": "AU-P-000570",
       "type": "",
       "status": "",
       "city": "Hazel Park",
@@ -6082,6 +6106,14 @@
       "type": "",
       "status": "",
       "city": "Hazel Park",
+      "state": "MI"
+    },
+    {
+      "name": "RQMI",
+      "license": "GR-C-001147",
+      "type": "",
+      "status": "",
+      "city": "Hesperia",
       "state": "MI"
     },
     {
@@ -6533,14 +6565,6 @@
       "state": "MI"
     },
     {
-      "name": "Natural Remedies - Buyer",
-      "license": "AU-P-000304",
-      "type": "",
-      "status": "",
-      "city": "Jackson",
-      "state": "MI"
-    },
-    {
       "name": "Peak Cannabis - Jackson",
       "license": "AU-R-001367",
       "type": "",
@@ -6869,6 +6893,14 @@
       "state": "MI"
     },
     {
+      "name": "Season 3, LLC",
+      "license": "AU-P-000539",
+      "type": "",
+      "status": "",
+      "city": "Kalamazoo",
+      "state": "MI"
+    },
+    {
       "name": "Skymint - Kalamazoo",
       "license": "AU-R-000620",
       "type": "",
@@ -7103,22 +7135,6 @@
     {
       "name": "Beez Knees Processing - Lansing",
       "license": "AU-P-000438",
-      "type": "",
-      "status": "",
-      "city": "Lansing",
-      "state": "MI"
-    },
-    {
-      "name": "BioBizz LLC Buyer",
-      "license": "AU-P-000268",
-      "type": "",
-      "status": "",
-      "city": "Lansing",
-      "state": "MI"
-    },
-    {
-      "name": "Blue Fox Brands - Rec Buyer",
-      "license": "AU-P-000208",
       "type": "",
       "status": "",
       "city": "Lansing",
@@ -9461,14 +9477,6 @@
       "state": "MI"
     },
     {
-      "name": "Origins MI LLC",
-      "license": "AU-P-000498",
-      "type": "",
-      "status": "",
-      "city": "Niles",
-      "state": "MI"
-    },
-    {
       "name": "Primitiv",
       "license": "PC-000615",
       "type": "",
@@ -9706,14 +9714,6 @@
       "type": "",
       "status": "",
       "city": "Oxford",
-      "state": "MI"
-    },
-    {
-      "name": "JJACK, LLC - Rec Buyer",
-      "license": "AU-P-000144",
-      "type": "",
-      "status": "",
-      "city": "PAW PAW",
       "state": "MI"
     },
     {
@@ -10205,8 +10205,8 @@
       "state": "MI"
     },
     {
-      "name": "Creme Cannabis",
-      "license": "AU-G-C-001437",
+      "name": "Corner Budz LLC",
+      "license": "AU-R-001538",
       "type": "",
       "status": "",
       "city": "River Rouge",
@@ -10298,14 +10298,6 @@
       "type": "",
       "status": "",
       "city": "River rouge",
-      "state": "MI"
-    },
-    {
-      "name": "Smokiez MI Processing Buyer - Med",
-      "license": "PR-000088",
-      "type": "",
-      "status": "",
-      "city": "Riverdale",
       "state": "MI"
     },
     {
@@ -10661,6 +10653,14 @@
       "state": "MI"
     },
     {
+      "name": "Northern Light Cannabis Co.",
+      "license": "TMB-G-000002",
+      "type": "",
+      "status": "",
+      "city": "Sault Ste. Marie",
+      "state": "MI"
+    },
+    {
       "name": "Nu Group LLC Sault Saint Marie Dispensery",
       "license": "AU-R-000816",
       "type": "",
@@ -10823,6 +10823,14 @@
     {
       "name": "Smilez - STURGIS",
       "license": "AU-R-001536",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI"
+    },
+    {
+      "name": "Sturgis Armory",
+      "license": "PC-000716",
       "type": "",
       "status": "",
       "city": "Sturgis",
@@ -11341,6 +11349,14 @@
       "state": "MI"
     },
     {
+      "name": "Bud, LLC",
+      "license": "AU-P-000557",
+      "type": "",
+      "status": "",
+      "city": "Warren",
+      "state": "MI"
+    },
+    {
       "name": "DNVK Processing (Consume Cannabis) - Warren",
       "license": "AU-P-000202",
       "type": "",
@@ -11383,6 +11399,14 @@
     {
       "name": "House Of Dank - Processing (IVP Holdings)",
       "license": "PR-000189",
+      "type": "",
+      "status": "",
+      "city": "Warren",
+      "state": "MI"
+    },
+    {
+      "name": "JEEB",
+      "license": "AU-P-000454",
       "type": "",
       "status": "",
       "city": "Warren",
@@ -11535,14 +11559,6 @@
     {
       "name": "Planet 59 - Waterford Twp.",
       "license": "AU-R-001059",
-      "type": "",
-      "status": "",
-      "city": "Waterford",
-      "state": "MI"
-    },
-    {
-      "name": "Quality Roots Waterford New",
-      "license": "AU-R-001534",
       "type": "",
       "status": "",
       "city": "Waterford",
@@ -11717,6 +11733,14 @@
       "state": "MI"
     },
     {
+      "name": "Emerald Fire Farms Provisioning Center - Powered by Wise Guys",
+      "license": "AU-R-001440",
+      "type": "",
+      "status": "",
+      "city": "West Branch",
+      "state": "MI"
+    },
+    {
       "name": "Herbology - West Branch",
       "license": "AU-R-001079",
       "type": "",
@@ -11743,14 +11767,6 @@
     {
       "name": "LIV Westland",
       "license": "AU-R-001073",
-      "type": "",
-      "status": "",
-      "city": "Westland",
-      "state": "MI"
-    },
-    {
-      "name": "The Micro Clinic of Westland",
-      "license": "AU-MB-A-000021",
       "type": "",
       "status": "",
       "city": "Westland",
