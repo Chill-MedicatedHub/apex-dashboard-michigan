@@ -29,16 +29,27 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_BASE   = os.getenv("LEAFLINK_API_BASE", "https://www.leaflink.com")
+# Auth auto-detects which LeafLink scheme this repo's scraper uses:
+#   - Michigan: an App key   -> LEAFLINK_API_KEY, host www.leaflink.com, "App <key>"
+#   - New Jersey: a Token    -> LEAFLINK_TOKEN,   host app.leaflink.com, "Token <key>"
+API_KEY = os.getenv("LEAFLINK_API_KEY", "").strip()
+TOKEN   = os.getenv("LEAFLINK_TOKEN", "").strip()
+if API_KEY:
+    AUTH, _DEFAULT_BASE = f"App {API_KEY}", "https://www.leaflink.com"
+elif TOKEN:
+    AUTH, _DEFAULT_BASE = f"Token {TOKEN}", "https://app.leaflink.com"
+else:
+    AUTH, _DEFAULT_BASE = None, "https://www.leaflink.com"
+
+API_BASE   = os.getenv("LEAFLINK_API_BASE", _DEFAULT_BASE)
 CUSTOMERS  = os.getenv("LEAFLINK_CUSTOMERS_ENDPOINT", "/api/v2/customers/")
-API_KEY    = os.getenv("LEAFLINK_API_KEY", "")
 STATE      = os.getenv("LEAFLINK_STATE", "MI").strip().upper()   # keep this state (blank = keep all)
 PAGE_SIZE  = int(os.getenv("LEAFLINK_PAGE_SIZE", "500"))
 OUT        = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent / "prospects.json"
 
 
 def headers():
-    return {"Authorization": f"App {API_KEY}", "Accept": "application/json",
+    return {"Authorization": AUTH, "Accept": "application/json",
             "User-Agent": "chill-prospects"}
 
 
@@ -85,9 +96,37 @@ def _sub_field(c, keys, subs=("buyer", "company", "address", "billing_address",
                     return v.strip()
     return ""
 
+def _scan(c, needles, valid=None,
+          subs=("buyer", "company", "contact", "primary_contact", "main_contact",
+                "address", "billing_address", "shipping_address", "default_address",
+                "location", "delivery_address", "corporate_address")):
+    """Fuzzy: first string value whose KEY contains any needle, on c or one nested
+    level. `valid` optionally sanity-checks the value (e.g. an email has an @)."""
+    def hit(d):
+        for k, v in d.items():
+            kl = str(k).lower()
+            if any(n in kl for n in needles) and isinstance(v, str) and v.strip():
+                s = v.strip()
+                if valid is None or valid(s):
+                    return s
+        return ""
+    r = hit(c)
+    if r:
+        return r
+    for sk in subs:
+        sub = c.get(sk)
+        if isinstance(sub, dict):
+            r = hit(sub)
+            if r:
+                return r
+    return ""
+
 def _license_of(c): return _sub_field(c, ("license", "license_number", "license_no"))
 def _state_of(c):   return _sub_field(c, ("state", "state_code", "region"))
 def _city_of(c):    return _sub_field(c, ("city",))
+def _phone_of(c):   return _scan(c, ("phone", "tel"), lambda s: any(ch.isdigit() for ch in s))
+def _email_of(c):   return _scan(c, ("email",), lambda s: "@" in s)
+def _website_of(c): return _scan(c, ("website", "homepage", "web_site"), lambda s: "." in s and "@" not in s)
 
 def _name_full(c):
     return (_name_of(c) or _name_of(c.get("buyer")) or _name_of(c.get("company"))
@@ -95,10 +134,11 @@ def _name_full(c):
 
 
 def fetch_customers():
-    if not API_KEY:
-        sys.exit("ERROR: LEAFLINK_API_KEY is empty. Set it in .env (same key the scraper uses).")
+    if not AUTH:
+        sys.exit("ERROR: no LeafLink credential found. Set LEAFLINK_API_KEY (Michigan) "
+                 "or LEAFLINK_TOKEN (New Jersey) — the same one the scraper uses.")
     url = f"{API_BASE}{CUSTOMERS}"
-    resp = _get(url, {"page_size": PAGE_SIZE, "page": 1})
+    resp = _get(url, {"page_size": PAGE_SIZE, "limit": PAGE_SIZE, "page": 1})
     if resp.status_code == 401:
         sys.exit("ERROR: 401 Unauthorized — LeafLink key missing/invalid/revoked.")
     if resp.status_code == 403:
@@ -124,6 +164,15 @@ def main():
     customers = fetch_customers()
     print(f"  {len(customers)} customers returned.")
 
+    # One-time diagnostic: show the shape of the first customer so we can confirm
+    # which fields carry phone/email/website (LeafLink's names vary by account).
+    if customers and isinstance(customers[0], dict):
+        c0 = customers[0]
+        print("  DIAGNOSTIC — first customer top-level keys:", sorted(c0.keys()))
+        for sk in ("buyer", "company", "contact", "primary_contact"):
+            if isinstance(c0.get(sk), dict):
+                print(f"  DIAGNOSTIC — {sk} keys:", sorted(c0[sk].keys()))
+
     seen, records = set(), []
     kept_no_state = 0
     for c in customers:
@@ -148,6 +197,9 @@ def main():
             "status": "",                 # (its filter only excludes non-active/non-retail)
             "city": _city_of(c),
             "state": st or STATE,
+            "phone": _phone_of(c),
+            "email": _email_of(c),
+            "website": _website_of(c),
         })
 
     records.sort(key=lambda x: (x["city"], x["name"]))
