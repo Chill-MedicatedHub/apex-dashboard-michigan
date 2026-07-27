@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-07-26",
+  "as_of": "2026-07-27",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1551,
+  "count": 1550,
   "records": [
     {
       "name": "Clinic Cannabis Company(HOD)",
@@ -421,14 +421,6 @@
       "state": "MI"
     },
     {
-      "name": "Ann Arbor Processing",
-      "license": "AU-P-000418",
-      "type": "",
-      "status": "",
-      "city": "Ann Arbor",
-      "state": "MI"
-    },
-    {
       "name": "Apothecare - Ann Arbor",
       "license": "AU-R-000187",
       "type": "",
@@ -519,6 +511,14 @@
     {
       "name": "Cloud - Ann Arbor MED",
       "license": "PC-000481",
+      "type": "",
+      "status": "",
+      "city": "Ann Arbor",
+      "state": "MI"
+    },
+    {
+      "name": "Community Dispo LLC. DBA \"Midnight Green\"",
+      "license": "AU-R-001543",
       "type": "",
       "status": "",
       "city": "Ann Arbor",
@@ -703,14 +703,6 @@
     {
       "name": "Information Entropy - MED",
       "license": "PC-000204",
-      "type": "",
-      "status": "",
-      "city": "Ann Arbor",
-      "state": "MI"
-    },
-    {
-      "name": "Information Entropy Processor",
-      "license": "AU-P-000223",
       "type": "",
       "status": "",
       "city": "Ann Arbor",
@@ -2101,14 +2093,6 @@
       "state": "MI"
     },
     {
-      "name": "Kzoo Retailers - AU",
-      "license": "AU-R-000221",
-      "type": "",
-      "status": "",
-      "city": "Big Rapids",
-      "state": "MI"
-    },
-    {
       "name": "Lake Life Farms",
       "license": "PC-000523",
       "type": "",
@@ -2127,6 +2111,14 @@
     {
       "name": "Levels Cannabis - Big Rapids",
       "license": "AU-R-000655",
+      "type": "",
+      "status": "",
+      "city": "Big Rapids",
+      "state": "MI"
+    },
+    {
+      "name": "LuckySpot LLC",
+      "license": "AU-R-001052",
       "type": "",
       "status": "",
       "city": "Big Rapids",
@@ -2471,14 +2463,6 @@
     {
       "name": "Smilez - Burton",
       "license": "AU-R-000622",
-      "type": "",
-      "status": "",
-      "city": "Burton",
-      "state": "MI"
-    },
-    {
-      "name": "Star Budz Burton",
-      "license": "AU-R-001444",
       "type": "",
       "status": "",
       "city": "Burton",
@@ -2957,14 +2941,6 @@
       "state": "MI"
     },
     {
-      "name": "Sno-Melts Buyer",
-      "license": "AU-P-000408",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI"
-    },
-    {
       "name": "The Releaf Center",
       "license": "PC-000236",
       "type": "",
@@ -2982,7 +2958,7 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "PC-000248",
+      "license": "AU-R-000177",
       "type": "",
       "status": "",
       "city": "Chesaning",
@@ -2990,7 +2966,7 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "AU-R-000177",
+      "license": "PC-000248",
       "type": "",
       "status": "",
       "city": "Chesaning",
@@ -3159,14 +3135,6 @@
     {
       "name": "Prosper - AU",
       "license": "ERG-001192",
-      "type": "",
-      "status": "",
-      "city": "Constantine",
-      "state": "MI"
-    },
-    {
-      "name": "Prosper - Med",
-      "license": "ERG-001192M",
       "type": "",
       "status": "",
       "city": "Constantine",
@@ -6021,6 +5989,14 @@
       "state": "MI"
     },
     {
+      "name": "JSBH LLC",
+      "license": "AU-P-000570",
+      "type": "",
+      "status": "",
+      "city": "Hazel Park",
+      "state": "MI"
+    },
+    {
       "name": "KD Processsing",
       "license": "AU-P-000394",
       "type": "",
@@ -6565,6 +6541,14 @@
       "state": "MI"
     },
     {
+      "name": "Natural Remedies - Buyer",
+      "license": "AU-P-000304",
+      "type": "",
+      "status": "",
+      "city": "Jackson",
+      "state": "MI"
+    },
+    {
       "name": "Peak Cannabis - Jackson",
       "license": "AU-R-001367",
       "type": "",
@@ -6877,14 +6861,6 @@
       "state": "MI"
     },
     {
-      "name": "RedBud Roots Lab VI - AU",
-      "license": "AU-R-000367",
-      "type": "",
-      "status": "",
-      "city": "Kalamazoo",
-      "state": "MI"
-    },
-    {
       "name": "RedBud Roots Lab VI - Med",
       "license": "PC-000499",
       "type": "",
@@ -7006,7 +6982,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -7014,7 +6990,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -7135,6 +7111,14 @@
     {
       "name": "Beez Knees Processing - Lansing",
       "license": "AU-P-000438",
+      "type": "",
+      "status": "",
+      "city": "Lansing",
+      "state": "MI"
+    },
+    {
+      "name": "BioBizz LLC Buyer",
+      "license": "AU-P-000268",
       "type": "",
       "status": "",
       "city": "Lansing",
@@ -7903,14 +7887,6 @@
     {
       "name": "OUI-D SHOP - Manistee",
       "license": "AU-R-001041",
-      "type": "",
-      "status": "",
-      "city": "Manistee",
-      "state": "MI"
-    },
-    {
-      "name": "RKDT LLC - Buyer",
-      "license": "AU-P-000449",
       "type": "",
       "status": "",
       "city": "Manistee",
@@ -9477,6 +9453,14 @@
       "state": "MI"
     },
     {
+      "name": "Origins MI LLC",
+      "license": "AU-P-000498",
+      "type": "",
+      "status": "",
+      "city": "Niles",
+      "state": "MI"
+    },
+    {
       "name": "Primitiv",
       "license": "PC-000615",
       "type": "",
@@ -9714,6 +9698,14 @@
       "type": "",
       "status": "",
       "city": "Oxford",
+      "state": "MI"
+    },
+    {
+      "name": "JJACK, LLC - Rec Buyer",
+      "license": "AU-P-000144",
+      "type": "",
+      "status": "",
+      "city": "PAW PAW",
       "state": "MI"
     },
     {
@@ -10207,6 +10199,14 @@
     {
       "name": "Corner Budz LLC",
       "license": "AU-R-001538",
+      "type": "",
+      "status": "",
+      "city": "River Rouge",
+      "state": "MI"
+    },
+    {
+      "name": "Creme Cannabis",
+      "license": "AU-G-C-001437",
       "type": "",
       "status": "",
       "city": "River Rouge",
@@ -11405,14 +11405,6 @@
       "state": "MI"
     },
     {
-      "name": "JEEB",
-      "license": "AU-P-000454",
-      "type": "",
-      "status": "",
-      "city": "Warren",
-      "state": "MI"
-    },
-    {
       "name": "Kassab Investments - Rec Buyer",
       "license": "AU-P-000224",
       "type": "",
@@ -11447,14 +11439,6 @@
     {
       "name": "Mint Cannabis - Processing",
       "license": "AU-P-000580",
-      "type": "",
-      "status": "",
-      "city": "Warren",
-      "state": "MI"
-    },
-    {
-      "name": "Mothers Nature's",
-      "license": "AU-P-000378",
       "type": "",
       "status": "",
       "city": "Warren",
@@ -11525,14 +11509,6 @@
       "state": "MI"
     },
     {
-      "name": "Sozo Health - Warren - MED",
-      "license": "PC-000714",
-      "type": "",
-      "status": "",
-      "city": "Warren",
-      "state": "MI"
-    },
-    {
       "name": "Trucenta - Regency Distribution Center",
       "license": "1234456788",
       "type": "",
@@ -11559,6 +11535,14 @@
     {
       "name": "Planet 59 - Waterford Twp.",
       "license": "AU-R-001059",
+      "type": "",
+      "status": "",
+      "city": "Waterford",
+      "state": "MI"
+    },
+    {
+      "name": "Quality Roots Waterford New",
+      "license": "AU-R-001534",
       "type": "",
       "status": "",
       "city": "Waterford",
@@ -11767,6 +11751,14 @@
     {
       "name": "LIV Westland",
       "license": "AU-R-001073",
+      "type": "",
+      "status": "",
+      "city": "Westland",
+      "state": "MI"
+    },
+    {
+      "name": "The Micro Clinic of Westland",
+      "license": "AU-MB-A-000021",
       "type": "",
       "status": "",
       "city": "Westland",
