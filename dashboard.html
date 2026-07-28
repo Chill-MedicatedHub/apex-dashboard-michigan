@@ -1195,7 +1195,7 @@ function InventoryView({ data }) {
     e('button', { className: 'filter-reset', onClick: () => { setQ(''); setLineSel(''); }, style: { marginLeft: 'auto', alignSelf: 'flex-end', background: 'var(--accent)', color: '#fff', border: 'none', fontWeight: 700, padding: '10px 22px', borderRadius: 6, cursor: 'pointer', letterSpacing: '0.05em', textTransform: 'uppercase', fontSize: 12 } }, 'Reset'));
 
   const kpiGrid = e('div', { className: 'kpi-grid' },
-    e(Kpi, { label: 'Units On Hand', value: fmtNum(Math.round(kpis.onHand)), sub: fmtNum(kpis.skus) + ' SKUs · ' + fmtMoney(kpis.onHandValue), accent: true }),
+    e(Kpi, { label: 'Units On Hand', value: fmtNum(Math.round(kpis.onHand)), sub: fmtNum(kpis.skus) + ' SKUs · ' + fmtMoney(kpis.onHandValue) + ' at unit price', accent: true }),
     e(Kpi, { label: 'Reserved', value: fmtNum(Math.round(kpis.reserved)), sub: 'committed to orders · ' + fmtMoney(kpis.reservedValue) }),
     e(Kpi, { label: 'Available', value: fmtNum(Math.round(kpis.available)), sub: 'on hand − reserved · ' + fmtMoney(kpis.availableValue) }),
     e(Kpi, { label: 'Out of Stock', value: fmtNum(kpis.oos), sub: 'SKUs · 0 available', color: kpis.oos ? 'var(--rose)' : null }));
@@ -1846,7 +1846,7 @@ function Dashboard({
     if (filters.productLine && r.product_type !== filters.productLine) return false;
     if (filters.excludeSamples && r._isSample) return false;
     if (filters.invoice) {
-      const q = filters.invoice.toLowerCase();
+      const q = filters.invoice.toLowerCase().replace(/^#/, '').trim();
       const inv = String(r.order_number || r.order_id || '').toLowerCase();
       if (!inv.includes(q)) return false;
     }
