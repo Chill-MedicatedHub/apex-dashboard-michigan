@@ -1123,7 +1123,7 @@ function InventoryView({ data }) {
   const pricing = React.useMemo(() => {
     const skuLine = {};
     raw.forEach(i => { if (i.sku) skuLine[i.sku] = i.line || '—'; });
-    const rev = {}, qty = {}, lRev = {}, lQty = {};
+    const rev = {}, qty = {}, lRev = {}, lQty = {}, listed = {};
     let gR = 0, gQ = 0;
     rows.forEach(r => {
       if (r._isSample || r.is_sample === 'Yes' || r.is_sample === true) return;
@@ -1132,13 +1132,15 @@ function InventoryView({ data }) {
       const rv = r._revenue || 0;
       const u = r._quantity || 0;
       if (u <= 0) return;
+      const lp = parseMoney(r.product_listing_price || r.unit_price) || 0;
       rev[s] = (rev[s] || 0) + rv; qty[s] = (qty[s] || 0) + u;
+      if (lp > (listed[s] || 0)) listed[s] = lp;
       const L = skuLine[s]; lRev[L] = (lRev[L] || 0) + rv; lQty[L] = (lQty[L] || 0) + u;
       gR += rv; gQ += u;
     });
     const bySku = {}; Object.keys(rev).forEach(s => { if (qty[s] > 0) bySku[s] = rev[s] / qty[s]; });
     const byLine = {}; Object.keys(lRev).forEach(l => { if (lQty[l] > 0) byLine[l] = lRev[l] / lQty[l]; });
-    return { bySku: bySku, byLine: byLine, global: gQ > 0 ? gR / gQ : 0 };
+    return { bySku: bySku, byLine: byLine, listedBySku: listed, global: gQ > 0 ? gR / gQ : 0 };
   }, [raw, rows]);
 
   const items = React.useMemo(() => raw.map(p => {
@@ -1149,7 +1151,8 @@ function InventoryView({ data }) {
     // otherwise available = on hand - reserved.
     const available = (p.available != null && (p.inventory != null || p.qty != null || p.on_hand != null)) ? (+p.available || 0) : Math.max(0, onHand - reserved);
     const line = p.line || '—';
-    const price = pricing.bySku[p.sku] != null ? pricing.bySku[p.sku] : (pricing.byLine[line] != null ? pricing.byLine[line] : pricing.global);
+    const listedP = pricing.listedBySku[p.sku] || 0;
+    const price = listedP > 0 ? listedP : (pricing.bySku[p.sku] != null ? pricing.bySku[p.sku] : (pricing.byLine[line] != null ? pricing.byLine[line] : pricing.global));
     const status = p.status ? String(p.status) : (p.listed != null ? (p.listed ? 'Available' : 'Unlisted') : '—');
     return { sku: p.sku || '', name: p.name || '—', line: line, status: status,
       onHand: onHand, reserved: reserved, available: available, price: price,
@@ -1195,7 +1198,7 @@ function InventoryView({ data }) {
     e('button', { className: 'filter-reset', onClick: () => { setQ(''); setLineSel(''); }, style: { marginLeft: 'auto', alignSelf: 'flex-end', background: 'var(--accent)', color: '#fff', border: 'none', fontWeight: 700, padding: '10px 22px', borderRadius: 6, cursor: 'pointer', letterSpacing: '0.05em', textTransform: 'uppercase', fontSize: 12 } }, 'Reset'));
 
   const kpiGrid = e('div', { className: 'kpi-grid' },
-    e(Kpi, { label: 'Units On Hand', value: fmtNum(Math.round(kpis.onHand)), sub: fmtNum(kpis.skus) + ' SKUs · ' + fmtMoney(kpis.onHandValue) + ' at unit price', accent: true }),
+    e(Kpi, { label: 'Units On Hand', value: fmtNum(Math.round(kpis.onHand)), sub: fmtNum(kpis.skus) + ' SKUs · ' + fmtMoney(kpis.onHandValue) + ' at listed price', accent: true }),
     e(Kpi, { label: 'Reserved', value: fmtNum(Math.round(kpis.reserved)), sub: 'committed to orders · ' + fmtMoney(kpis.reservedValue) }),
     e(Kpi, { label: 'Available', value: fmtNum(Math.round(kpis.available)), sub: 'on hand − reserved · ' + fmtMoney(kpis.availableValue) }),
     e(Kpi, { label: 'Out of Stock', value: fmtNum(kpis.oos), sub: 'SKUs · 0 available', color: kpis.oos ? 'var(--rose)' : null }));
