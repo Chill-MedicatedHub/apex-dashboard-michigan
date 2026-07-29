@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-07-28",
+  "as_of": "2026-07-29",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1590,
@@ -203,7 +203,7 @@
       "website": ""
     },
     {
-      "name": "Exotic Cannabis - Adrian",
+      "name": "Exotics Cannabis - Adrian",
       "license": "AU-R-001200",
       "type": "",
       "status": "",
@@ -1232,7 +1232,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344182160",
       "email": "",
       "website": ""
     },
@@ -2492,23 +2492,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "AU-R-000216",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "PC-000294",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "9892721745",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "AU-R-000216",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -4208,17 +4208,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "AU-R-000177",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The River Provisioning",
       "license": "PC-000248",
       "type": "",
       "status": "",
@@ -4227,6 +4216,17 @@
       "phone": "9893232222",
       "email": "",
       "website": "https://www.theriverprovisioning.com"
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "AU-R-000177",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -9333,17 +9333,6 @@
       "website": ""
     },
     {
-      "name": "Cloud - Kalamazoo",
-      "license": "AU-R-001228",
-      "type": "",
-      "status": "",
-      "city": "Kalamazo",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
       "name": "AU: Compassionate Care By Design - Stadium",
       "license": "AU-R-000271",
       "type": "",
@@ -9417,6 +9406,17 @@
       "city": "Kalamazoo",
       "state": "MI",
       "phone": "2694591420",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Cloud - Kalamazoo",
+      "license": "AU-R-001228",
+      "type": "",
+      "status": "",
+      "city": "Kalamazoo",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -9851,7 +9851,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -9862,7 +9862,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10566,7 +10566,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10577,7 +10577,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -13602,23 +13602,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "122",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "7343949066",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "AU-R-000508",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "9892736030",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "122",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "7343949066",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
@@ -15241,17 +15241,6 @@
     },
     {
       "name": "Ounces",
-      "license": "PC-000758",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Ounces",
       "license": "AU-R-000627",
       "type": "",
       "status": "",
@@ -15260,6 +15249,17 @@
       "phone": "2694577321",
       "email": "",
       "website": "http://ouncesmi.com"
+    },
+    {
+      "name": "Ounces",
+      "license": "PC-000758",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "PUFF - Sturgis",
@@ -16737,7 +16737,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000753",
+      "license": "AU-R-000000753 OLD",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -16748,7 +16748,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000000753 OLD",
+      "license": "AU-R-000753",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -17045,23 +17045,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "PC-000154",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "7345449999",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "AU-R-000269",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "PC-000154",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "7345449999",
       "email": "",
       "website": ""
     },
