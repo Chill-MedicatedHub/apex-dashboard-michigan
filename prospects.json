@@ -1,9 +1,20 @@
 {
-  "as_of": "2026-07-31",
+  "as_of": "2026-08-01",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1590,
   "records": [
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
+    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -1810,23 +1821,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "AU-R-000452",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "3607893133",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "NA",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "7082540373",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "AU-R-000452",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "3607893133",
       "email": "",
       "website": ""
     },
@@ -2082,17 +2093,6 @@
       "phone": "",
       "email": "",
       "website": ""
-    },
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
     },
     {
       "name": "Ace Processing LLC",
@@ -2492,23 +2492,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "PC-000294",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "9892721745",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "AU-R-000216",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "PC-000294",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "9892721745",
       "email": "",
       "website": ""
     },
@@ -5159,7 +5159,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -9333,6 +9333,17 @@
       "website": ""
     },
     {
+      "name": "Cloud - Kalamazoo",
+      "license": "AU-R-001228",
+      "type": "",
+      "status": "",
+      "city": "Kalamazo",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "AU: Compassionate Care By Design - Stadium",
       "license": "AU-R-000271",
       "type": "",
@@ -9406,17 +9417,6 @@
       "city": "Kalamazoo",
       "state": "MI",
       "phone": "2694591420",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Cloud - Kalamazoo",
-      "license": "AU-R-001228",
-      "type": "",
-      "status": "",
-      "city": "Kalamazoo",
-      "state": "MI",
-      "phone": "",
       "email": "",
       "website": ""
     },
@@ -10566,7 +10566,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10577,7 +10577,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -13602,23 +13602,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "AU-R-000508",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "9892736030",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "122",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "7343949066",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "AU-R-000508",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "9892736030",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
@@ -16737,7 +16737,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000753",
+      "license": "AU-R-000000753 OLD",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -16748,7 +16748,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000000753 OLD",
+      "license": "AU-R-000753",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -17045,23 +17045,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "PC-000154",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "7345449999",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "AU-R-000269",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "PC-000154",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "7345449999",
       "email": "",
       "website": ""
     },
