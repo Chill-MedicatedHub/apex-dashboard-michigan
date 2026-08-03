@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-02",
+  "as_of": "2026-08-03",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1590,
@@ -1232,7 +1232,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344182160",
       "email": "",
       "website": ""
     },
@@ -2404,7 +2404,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2415,7 +2415,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -4208,17 +4208,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "AU-R-000177",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The River Provisioning",
       "license": "PC-000248",
       "type": "",
       "status": "",
@@ -4227,6 +4216,17 @@
       "phone": "9893232222",
       "email": "",
       "website": "https://www.theriverprovisioning.com"
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "AU-R-000177",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "High Q Cannabis - Chesterfield",
