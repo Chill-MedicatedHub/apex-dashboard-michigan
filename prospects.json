@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-03",
+  "as_of": "2026-08-04",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1590,
@@ -2492,23 +2492,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "AU-R-000216",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "PC-000294",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "9892721745",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "AU-R-000216",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -5159,7 +5159,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "",
+      "phone": "5865543870",
       "email": "",
       "website": ""
     },
@@ -9851,7 +9851,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -9862,7 +9862,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -11237,7 +11237,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11248,7 +11248,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -12864,7 +12864,7 @@
       "website": ""
     },
     {
-      "name": "The Flower Plant Processing - Negaunee",
+      "name": "The Flower Plant Processing - Negaunee (Fire Station Processing)",
       "license": "AU-P-000481",
       "type": "",
       "status": "",
@@ -15241,17 +15241,6 @@
     },
     {
       "name": "Ounces",
-      "license": "PC-000758",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Ounces",
       "license": "AU-R-000627",
       "type": "",
       "status": "",
@@ -15260,6 +15249,17 @@
       "phone": "2694577321",
       "email": "",
       "website": "http://ouncesmi.com"
+    },
+    {
+      "name": "Ounces",
+      "license": "PC-000758",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "PUFF - Sturgis",
@@ -16737,7 +16737,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000000753 OLD",
+      "license": "AU-R-000753",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -16748,7 +16748,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000753",
+      "license": "AU-R-000000753 OLD",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -17045,23 +17045,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "PC-000154",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "7345449999",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "AU-R-000269",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "PC-000154",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "7345449999",
       "email": "",
       "website": ""
     },
