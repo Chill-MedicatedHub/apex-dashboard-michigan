@@ -1,20 +1,9 @@
 {
-  "as_of": "2026-08-04",
+  "as_of": "2026-08-05",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1590,
+  "count": 1592,
   "records": [
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
-    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -1821,23 +1810,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "NA",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "7082540373",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "AU-R-000452",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "3607893133",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "NA",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "7082540373",
       "email": "",
       "website": ""
     },
@@ -2093,6 +2082,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
     },
     {
       "name": "Ace Processing LLC",
@@ -2404,7 +2404,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2415,7 +2415,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -4208,17 +4208,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "PC-000248",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "9893232222",
-      "email": "",
-      "website": "https://www.theriverprovisioning.com"
-    },
-    {
-      "name": "The River Provisioning",
       "license": "AU-R-000177",
       "type": "",
       "status": "",
@@ -4227,6 +4216,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "PC-000248",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "9893232222",
+      "email": "",
+      "website": "https://www.theriverprovisioning.com"
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -9851,7 +9851,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -9862,7 +9862,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -15933,6 +15933,17 @@
       "website": ""
     },
     {
+      "name": "The Dude Abides",
+      "license": "AU-R-001468",
+      "type": "",
+      "status": "",
+      "city": "WHITE PIGEON",
+      "state": "MI",
+      "phone": "2692550572",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Bazonzoes - Walled Lake MED",
       "license": "PC-000586",
       "type": "",
@@ -16153,8 +16164,19 @@
       "website": ""
     },
     {
-      "name": "Oasis Wellness Center - Adrian (Levels Cannabis - Processing)",
+      "name": "Oasis Brands",
       "license": "AU-P-000684",
+      "type": "",
+      "status": "",
+      "city": "Warren",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Oasis Wellness Center - Adrian (Levels Cannabis - Processing)",
+      "license": "AU-P-000469",
       "type": "",
       "status": "",
       "city": "Warren",
@@ -16737,7 +16759,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000753",
+      "license": "AU-R-000000753 OLD",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -16748,7 +16770,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000000753 OLD",
+      "license": "AU-R-000753",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -17045,23 +17067,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "AU-R-000269",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "PC-000154",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "7345449999",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "AU-R-000269",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
