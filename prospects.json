@@ -1,9 +1,20 @@
 {
-  "as_of": "2026-08-05",
+  "as_of": "2026-08-06",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1592,
+  "count": 1595,
   "records": [
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
+    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -1221,7 +1232,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "7344182160",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -1810,23 +1821,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "AU-R-000452",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "3607893133",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "NA",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "7082540373",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "AU-R-000452",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "3607893133",
       "email": "",
       "website": ""
     },
@@ -2082,17 +2093,6 @@
       "phone": "",
       "email": "",
       "website": ""
-    },
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
     },
     {
       "name": "Ace Processing LLC",
@@ -2404,7 +2404,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2415,7 +2415,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -3175,6 +3175,17 @@
     {
       "name": "Higher Breed",
       "license": "AU-R-000149",
+      "type": "",
+      "status": "",
+      "city": "Breedsville",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Weedsville",
+      "license": "AU-R-001576",
       "type": "",
       "status": "",
       "city": "Breedsville",
@@ -4548,6 +4559,17 @@
       "website": ""
     },
     {
+      "name": "Star Budz - Corunna",
+      "license": "AU-R-001445",
+      "type": "",
+      "status": "",
+      "city": "Corunna",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "The Grass Pro Shops Inc",
       "license": "AU-R-000845",
       "type": "",
@@ -5159,7 +5181,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -9851,7 +9873,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -9862,7 +9884,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -15241,17 +15263,6 @@
     },
     {
       "name": "Ounces",
-      "license": "AU-R-000627",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "2694577321",
-      "email": "",
-      "website": "http://ouncesmi.com"
-    },
-    {
-      "name": "Ounces",
       "license": "PC-000758",
       "type": "",
       "status": "",
@@ -15260,6 +15271,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "Ounces",
+      "license": "AU-R-000627",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "2694577321",
+      "email": "",
+      "website": "http://ouncesmi.com"
     },
     {
       "name": "PUFF - Sturgis",
@@ -16298,6 +16320,17 @@
     {
       "name": "URB - Processing",
       "license": "AU-P-000611",
+      "type": "",
+      "status": "",
+      "city": "Warren",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Zippy Cannabis - Warren",
+      "license": "AU-R-001596",
       "type": "",
       "status": "",
       "city": "Warren",
