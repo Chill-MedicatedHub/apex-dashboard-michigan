@@ -1,9 +1,20 @@
 {
-  "as_of": "2026-08-07",
+  "as_of": "2026-08-09",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1595,
+  "count": 1591,
   "records": [
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
+    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -56,6 +67,17 @@
       "city": "",
       "state": "MI",
       "phone": "2692012300",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Levels Cannabis - Muskegon",
+      "license": "AU-R-000486",
+      "type": "",
+      "status": "",
+      "city": "",
+      "state": "MI",
+      "phone": "2312200019",
       "email": "",
       "website": ""
     },
@@ -1810,23 +1832,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "AU-R-000452",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "3607893133",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "NA",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "7082540373",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "AU-R-000452",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "3607893133",
       "email": "",
       "website": ""
     },
@@ -2082,17 +2104,6 @@
       "phone": "",
       "email": "",
       "website": ""
-    },
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
     },
     {
       "name": "Ace Processing LLC",
@@ -5181,7 +5192,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -9355,6 +9366,17 @@
       "website": ""
     },
     {
+      "name": "Cloud - Kalamazoo",
+      "license": "AU-R-001228",
+      "type": "",
+      "status": "",
+      "city": "Kalamazo",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "AU: Compassionate Care By Design - Stadium",
       "license": "AU-R-000271",
       "type": "",
@@ -9428,17 +9450,6 @@
       "city": "Kalamazoo",
       "state": "MI",
       "phone": "2694591420",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Cloud - Kalamazoo",
-      "license": "AU-R-001228",
-      "type": "",
-      "status": "",
-      "city": "Kalamazoo",
-      "state": "MI",
-      "phone": "",
       "email": "",
       "website": ""
     },
@@ -9616,17 +9627,6 @@
       "state": "MI",
       "phone": "9062730095",
       "email": "bammitt@c3industries.com",
-      "website": ""
-    },
-    {
-      "name": "Levels - Kalamazoo (USES PROCESSING)",
-      "license": "AU-R-000270",
-      "type": "",
-      "status": "",
-      "city": "Kalamazoo",
-      "state": "MI",
-      "phone": "",
-      "email": "",
       "website": ""
     },
     {
@@ -9873,7 +9873,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -9884,7 +9884,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -12523,17 +12523,6 @@
       "website": ""
     },
     {
-      "name": "Levels Cannabis - Muskegon",
-      "license": "AU-R-000486",
-      "type": "",
-      "status": "",
-      "city": "Muskegon",
-      "state": "MI",
-      "phone": "2312200019",
-      "email": "",
-      "website": ""
-    },
-    {
       "name": "Lucky's Cannabis - Muskegon",
       "license": "AU-R-000812",
       "type": "",
@@ -13355,17 +13344,6 @@
       "city": "Niles",
       "state": "MI",
       "phone": "2692624778",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Levels Cannabis - Niles",
-      "license": "AU-R-000834",
-      "type": "",
-      "status": "",
-      "city": "Niles",
-      "state": "MI",
-      "phone": "2695918420",
       "email": "",
       "website": ""
     },
@@ -15251,15 +15229,15 @@
       "website": ""
     },
     {
-      "name": "Levels Cannabis - Sturgis",
-      "license": "AU-R-000782",
+      "name": "Ounces",
+      "license": "AU-R-000627",
       "type": "",
       "status": "",
       "city": "Sturgis",
       "state": "MI",
-      "phone": "",
+      "phone": "2694577321",
       "email": "",
-      "website": ""
+      "website": "http://ouncesmi.com"
     },
     {
       "name": "Ounces",
@@ -15271,17 +15249,6 @@
       "phone": "",
       "email": "",
       "website": ""
-    },
-    {
-      "name": "Ounces",
-      "license": "AU-R-000627",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "2694577321",
-      "email": "",
-      "website": "http://ouncesmi.com"
     },
     {
       "name": "PUFF - Sturgis",
@@ -16142,6 +16109,17 @@
       "website": ""
     },
     {
+      "name": "Levels Processing - Oasis Brands",
+      "license": "AU-P-000684",
+      "type": "",
+      "status": "",
+      "city": "Warren",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "M.T. of Michigan LLC - Warren",
       "license": "AU-P-000410",
       "type": "",
@@ -16177,28 +16155,6 @@
     {
       "name": "Mothers Nature's",
       "license": "AU-P-000378",
-      "type": "",
-      "status": "",
-      "city": "Warren",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Oasis Brands",
-      "license": "AU-P-000684",
-      "type": "",
-      "status": "",
-      "city": "Warren",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Oasis Wellness Center - Adrian (Levels Cannabis - Processing)",
-      "license": "AU-P-000469",
       "type": "",
       "status": "",
       "city": "Warren",
@@ -17100,23 +17056,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "AU-R-000269",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "PC-000154",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "7345449999",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "AU-R-000269",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
