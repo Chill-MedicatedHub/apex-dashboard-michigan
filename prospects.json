@@ -1,9 +1,20 @@
 {
-  "as_of": "2026-08-12",
+  "as_of": "2026-08-13",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1592,
+  "count": 1630,
   "records": [
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
+    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -304,6 +315,17 @@
     {
       "name": "Levels Cannabis - Adrian",
       "license": "AU-R-001495",
+      "type": "",
+      "status": "",
+      "city": "Adrian",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Adrian",
+      "license": "AU-R-000232",
       "type": "",
       "status": "",
       "city": "Adrian",
@@ -1039,6 +1061,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Ann Arbor",
+      "license": "AU-R-000247",
+      "type": "",
+      "status": "",
+      "city": "Ann Arbor",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Meds Cafe - Ann Arbor",
       "license": "AU-R-001232",
       "type": "",
@@ -1101,17 +1134,6 @@
       "city": "Ann Arbor",
       "state": "MI",
       "phone": "7343698255",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "People's Choice - AU",
-      "license": "AU-R-000247",
-      "type": "",
-      "status": "",
-      "city": "Ann Arbor",
-      "state": "MI",
-      "phone": "",
       "email": "",
       "website": ""
     },
@@ -2095,17 +2117,6 @@
       "website": ""
     },
     {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
-    },
-    {
       "name": "Ace Processing LLC",
       "license": "AU-P-000233",
       "type": "",
@@ -2415,7 +2426,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2426,7 +2437,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2503,23 +2514,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "PC-000294",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "9892721745",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "AU-R-000216",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "PC-000294",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "9892721745",
       "email": "",
       "website": ""
     },
@@ -2832,6 +2843,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Berkley",
+      "license": "AU-R-001015",
+      "type": "",
+      "status": "",
+      "city": "Berkley",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Quality Roots - Berkley",
       "license": "AU-R-000943",
       "type": "",
@@ -3030,6 +3052,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Big Rapids",
+      "license": "AU-R-000203",
+      "type": "",
+      "status": "",
+      "city": "Big Rapids",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Misty Mountain Cannabis",
       "license": "AU-R-001137",
       "type": "",
@@ -3153,6 +3186,17 @@
     {
       "name": "High Society - Birch Run",
       "license": "AU-R-001062",
+      "type": "",
+      "status": "",
+      "city": "Birch Run",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Birch Run",
+      "license": "AU-R-001061",
       "type": "",
       "status": "",
       "city": "Birch Run",
@@ -3624,6 +3668,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Cadillac",
+      "license": "AU-R-000534",
+      "type": "",
+      "status": "",
+      "city": "Cadillac",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "First Class - Camden",
       "license": "AU-R-000552",
       "type": "",
@@ -3820,6 +3875,17 @@
       "phone": "5177400154",
       "email": "",
       "website": "http://www.lakelifefarms.com"
+    },
+    {
+      "name": "Lume - Cedar Springs",
+      "license": "AU-R-000456",
+      "type": "",
+      "status": "",
+      "city": "Cedar Springs",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "Michiganja - Cedar Springs",
@@ -4352,6 +4418,17 @@
     {
       "name": "Highwire Farms - Coldwater",
       "license": "AU-R-000883",
+      "type": "",
+      "status": "",
+      "city": "Coldwater",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Coldwater",
+      "license": "AU-R-000480",
       "type": "",
       "status": "",
       "city": "Coldwater",
@@ -6386,7 +6463,7 @@
     },
     {
       "name": "Great Lakes Exotics Cannabis Co - East Tawas",
-      "license": "AU-R-000609",
+      "license": "AU-R-001589",
       "type": "",
       "status": "",
       "city": "East Tawas",
@@ -6605,6 +6682,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Escanaba",
+      "license": "AU-R-000368",
+      "type": "",
+      "status": "",
+      "city": "Escanaba",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Lit Provisioning Centers DBA LUME",
       "license": "PC-000245",
       "type": "",
@@ -6616,13 +6704,24 @@
       "website": ""
     },
     {
-      "name": "Lume Evart - AU",
+      "name": "Lume - Evart",
       "license": "AU-R-000109",
       "type": "",
       "status": "",
       "city": "Evart",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "GREAT LAKES EXOTICS CANNABIS COMPANY - FARWELL",
+      "license": "AU-R-001597",
+      "type": "",
+      "status": "",
+      "city": "FARWELL",
+      "state": "MI",
+      "phone": "9893395048",
       "email": "",
       "website": ""
     },
@@ -7244,7 +7343,7 @@
     },
     {
       "name": "Great Lakes Exotics Cannabis Co - Gaylord North",
-      "license": "AU-R-000931",
+      "license": "AU-R-001587",
       "type": "",
       "status": "",
       "city": "GAYLORD",
@@ -7333,6 +7432,17 @@
     {
       "name": "Green Arrow - Gaylord",
       "license": "AU-R-000671",
+      "type": "",
+      "status": "",
+      "city": "Gaylord",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Gaylord",
+      "license": "AU-R-000672",
       "type": "",
       "status": "",
       "city": "Gaylord",
@@ -7897,6 +8007,17 @@
       "type": "",
       "status": "",
       "city": "Grand Rapids",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Grand Rapids - Beltline",
+      "license": "AU-R-001514",
+      "type": "",
+      "status": "",
+      "city": "Grand Rapids,",
       "state": "MI",
       "phone": "",
       "email": "",
@@ -8607,11 +8728,33 @@
       "website": "Oceanagardens.com"
     },
     {
+      "name": "Lume - Holly",
+      "license": "AU-R-001064",
+      "type": "",
+      "status": "",
+      "city": "Holly",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Timber Cannabis - Holly",
       "license": "AU-R-001484",
       "type": "",
       "status": "",
       "city": "Holly",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Honor",
+      "license": "AU-R-000178",
+      "type": "",
+      "status": "",
+      "city": "Honor",
       "state": "MI",
       "phone": "",
       "email": "",
@@ -8627,6 +8770,17 @@
       "phone": "9065237148",
       "email": "",
       "website": "https://findhigherlove.com/"
+    },
+    {
+      "name": "Lume - Houghton",
+      "license": "AU-R-000453",
+      "type": "",
+      "status": "",
+      "city": "Houghton",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "Nirvana Center - Houghton",
@@ -8890,6 +9044,17 @@
       "state": "MI",
       "phone": "6165169813",
       "email": "abailey@arcannausa.com",
+      "website": ""
+    },
+    {
+      "name": "Lume - Iron Mountain",
+      "license": "AU-R-000490",
+      "type": "",
+      "status": "",
+      "city": "Iron Mountain",
+      "state": "MI",
+      "phone": "",
+      "email": "",
       "website": ""
     },
     {
@@ -9223,6 +9388,17 @@
       "website": "http://lettucedispo.com"
     },
     {
+      "name": "Lume - Jackson",
+      "license": "AU-R-000337",
+      "type": "",
+      "status": "",
+      "city": "Jackson",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Michigan Green Magic LLC (Vibe Processing)",
       "license": "AU-P-000422",
       "type": "",
@@ -9366,6 +9542,17 @@
       "website": ""
     },
     {
+      "name": "Cloud - Kalamazoo",
+      "license": "AU-R-001228",
+      "type": "",
+      "status": "",
+      "city": "Kalamazo",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "AU: Compassionate Care By Design - Stadium",
       "license": "AU-R-000271",
       "type": "",
@@ -9439,17 +9626,6 @@
       "city": "Kalamazoo",
       "state": "MI",
       "phone": "2694591420",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Cloud - Kalamazoo",
-      "license": "AU-R-001228",
-      "type": "",
-      "status": "",
-      "city": "Kalamazoo",
-      "state": "MI",
-      "phone": "",
       "email": "",
       "website": ""
     },
@@ -9627,6 +9803,17 @@
       "state": "MI",
       "phone": "9062730095",
       "email": "bammitt@c3industries.com",
+      "website": ""
+    },
+    {
+      "name": "Lume - Kalamazoo",
+      "license": "AU-R-000251",
+      "type": "",
+      "status": "",
+      "city": "Kalamazoo",
+      "state": "MI",
+      "phone": "",
+      "email": "",
       "website": ""
     },
     {
@@ -9873,7 +10060,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -9884,7 +10071,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10588,7 +10775,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10599,7 +10786,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10829,6 +11016,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Lowell",
+      "license": "AU-R-000326",
+      "type": "",
+      "status": "",
+      "city": "Lowell",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Meds Cafe - Lowell",
       "license": "AU-R-000200",
       "type": "",
@@ -11016,6 +11214,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Mackinaw City",
+      "license": "AU-R-000258",
+      "type": "",
+      "status": "",
+      "city": "Mackinaw City",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Liberty Cannabis - Madison Heights",
       "license": "AU-R-000427",
       "type": "",
@@ -11188,6 +11397,17 @@
       "city": "Manistee",
       "state": "MI",
       "phone": "2313334200",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Manistique",
+      "license": "AU-R-000543",
+      "type": "",
+      "status": "",
+      "city": "Manistique",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -11425,6 +11645,17 @@
     {
       "name": "Higher Love - MNM",
       "license": "AU-R-001081",
+      "type": "",
+      "status": "",
+      "city": "Menominee",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Menominee",
+      "license": "AU-R-001086",
       "type": "",
       "status": "",
       "city": "Menominee",
@@ -11698,6 +11929,17 @@
       "website": "http://kobmonroe.com"
     },
     {
+      "name": "Lume - Monroe",
+      "license": "AU-R-000615",
+      "type": "",
+      "status": "",
+      "city": "Monroe",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Mint Cannabis - Monroe",
       "license": "AU-R-000635",
       "type": "",
@@ -11898,6 +12140,17 @@
     {
       "name": "Jade Collection - Morenci",
       "license": "AU-R-000610",
+      "type": "",
+      "status": "",
+      "city": "Morenci",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Morenci",
+      "license": "AU-R-001505",
       "type": "",
       "status": "",
       "city": "Morenci",
@@ -12288,6 +12541,17 @@
       "city": "Mt. Pleasant",
       "state": "MI",
       "phone": "9893170290",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Broomfield - Mt. Pleasant",
+      "license": "AU-R-000592",
+      "type": "",
+      "status": "",
+      "city": "Mt. Pleasant",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -12853,6 +13117,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Negaunee",
+      "license": "AU-R-000219",
+      "type": "",
+      "status": "",
+      "city": "Negaunee",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "The Fire Station",
       "license": "PC-000289",
       "type": "",
@@ -13130,6 +13405,17 @@
     {
       "name": "Kush E Mart - New Buffalo",
       "license": "AU-R-001470",
+      "type": "",
+      "status": "",
+      "city": "New Buffalo",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - New Buffalo",
+      "license": "AU-R-001522",
       "type": "",
       "status": "",
       "city": "New Buffalo",
@@ -13602,23 +13888,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "AU-R-000508",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "9892736030",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "122",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "7343949066",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "AU-R-000508",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "9892736030",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
@@ -13645,6 +13931,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Owosso",
+      "license": "AU-R-000191",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Exclusive - Oxford",
       "license": "AU-R-000888",
       "type": "",
@@ -13658,6 +13955,17 @@
     {
       "name": "Jars - Oxford",
       "license": "AU-R-000803",
+      "type": "",
+      "status": "",
+      "city": "Oxford",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Oxford",
+      "license": "AU-R-000695",
       "type": "",
       "status": "",
       "city": "Oxford",
@@ -13793,6 +14101,39 @@
       "type": "",
       "status": "",
       "city": "Perry",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Petersburg",
+      "license": "AU-R-000304",
+      "type": "",
+      "status": "",
+      "city": "Petersburg",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Bear Creek",
+      "license": "AU-R-000606",
+      "type": "",
+      "status": "",
+      "city": "Petoskey",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Petoskey",
+      "license": "AU-R-000255",
+      "type": "",
+      "status": "",
+      "city": "Petoskey",
       "state": "MI",
       "phone": "",
       "email": "",
@@ -14115,6 +14456,17 @@
       "state": "MI",
       "phone": "2693036512",
       "email": "maurice@blackmarketretailers.com",
+      "website": ""
+    },
+    {
+      "name": "Lume - Portage",
+      "license": "AU-R-000769",
+      "type": "",
+      "status": "",
+      "city": "Portage",
+      "state": "MI",
+      "phone": "",
+      "email": "",
       "website": ""
     },
     {
@@ -14833,6 +15185,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Saginaw",
+      "license": "AU-R-000541",
+      "type": "",
+      "status": "",
+      "city": "Saginaw",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "OUI-D SHOP - Saginaw",
       "license": "AU-R-001034",
       "type": "",
@@ -15075,6 +15438,17 @@
       "website": ""
     },
     {
+      "name": "Lume - Sault Ste. Marie",
+      "license": "AU-R-000362",
+      "type": "",
+      "status": "",
+      "city": "Sault Ste. Marie,",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "The Hempire Collective - Scottville",
       "license": "AU-R-001209",
       "type": "",
@@ -15126,6 +15500,17 @@
       "city": "Southfield",
       "state": "MI",
       "phone": "2483571107",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Southfield",
+      "license": "AU-R-001013",
+      "type": "",
+      "status": "",
+      "city": "Southfield",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -15230,17 +15615,6 @@
     },
     {
       "name": "Ounces",
-      "license": "AU-R-000627",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "2694577321",
-      "email": "",
-      "website": "http://ouncesmi.com"
-    },
-    {
-      "name": "Ounces",
       "license": "PC-000758",
       "type": "",
       "status": "",
@@ -15249,6 +15623,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "Ounces",
+      "license": "AU-R-000627",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "2694577321",
+      "email": "",
+      "website": "http://ouncesmi.com"
     },
     {
       "name": "PUFF - Sturgis",
@@ -15590,6 +15975,28 @@
       "phone": "2312524000",
       "email": "",
       "website": "lighthousedispo.com"
+    },
+    {
+      "name": "Lume - Traverse City",
+      "license": "AU-R-001070",
+      "type": "",
+      "status": "",
+      "city": "Traverse City",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Traverse City - Munson",
+      "license": "AU-R-001419",
+      "type": "",
+      "status": "",
+      "city": "Traverse City",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "Nirvana Center - Traverse City",
@@ -15951,6 +16358,17 @@
       "city": "Walled Lake",
       "state": "MI",
       "phone": "8336447336",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Lume - Walled Lake",
+      "license": "AU-R-000215",
+      "type": "",
+      "status": "",
+      "city": "Walled Lake",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -16759,7 +17177,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000000753 OLD",
+      "license": "AU-R-000753",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -16770,7 +17188,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000753",
+      "license": "AU-R-000000753 OLD",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -17067,23 +17485,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "AU-R-000269",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "PC-000154",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "7345449999",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "AU-R-000269",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
