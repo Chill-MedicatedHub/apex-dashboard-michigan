@@ -1651,6 +1651,7 @@ function Prospecting({ data }) {
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [stale, setStale] = useState(null);
   const [tab, setTab] = useState('sales'); // 'sales' | 'ar'
   const [filters, setFilters] = useState({
     from: '',
@@ -1666,33 +1667,85 @@ function App() {
     excludeSamples: false,
     cogsRatio: 0.45
   });
+  // Data loader.
+  //
+  // GitHub rate-limits raw.githubusercontent.com and answers 429 "Too Many
+  // Requests" if a page fetches too often. Three things here keep us under it:
+  //
+  //   1. POLL EVERY 10 MINUTES, not every 60s. The scraper only commits about
+  //      every 10 minutes, so a one-minute poll re-downloaded megabytes to find
+  //      the same bytes nine times out of ten.
+  //   2. NO CACHE-BUSTING QUERY STRING. `?t=` + Date.now() made every request a
+  //      guaranteed cache miss. raw.githubusercontent sends max-age=300, so
+  //      normal caching removes most requests outright and a revalidate costs
+  //      a 304 with no body.
+  //   3. BACK OFF ON 429. Retrying a rate-limited host on the same schedule
+  //      only deepens the block. Each 429 doubles the wait, up to an hour.
+  //
+  // A failed refresh also no longer wipes the screen: once data has loaded, a
+  // later failure keeps the figures and flags them as stale instead of showing
+  // the "No data yet" card.
+  const POLL_MS = 10 * 60 * 1000;
+  const MAX_BACKOFF_MS = 60 * 60 * 1000;
   useEffect(() => {
+    let cancelled = false;
+    let timer = null;
+    let backoff = 0;
+    const BASE = 'https://raw.githubusercontent.com/chill-medicatedhub/apex-dashboard-michigan/refs/heads/main/';
+    const grab = name => fetch(BASE + name, { cache: 'default' }).then(r => {
+      if (r.status === 429) {
+        const e = new Error('GitHub is rate-limiting requests for this network (HTTP 429). The dashboard will retry automatically.');
+        e.rateLimited = true;
+        throw e;
+      }
+      return r;
+    });
+    const schedule = ms => {
+      if (cancelled) return;
+      clearTimeout(timer);
+      timer = setTimeout(load, ms);
+    };
     const load = () => {
       Promise.all([
-        fetch('https://raw.githubusercontent.com/chill-medicatedhub/apex-dashboard-michigan/refs/heads/main/sales_data.json?t=' + Date.now()).then(r => {
-          if (!r.ok) throw new Error('Could not load sales_data.json');
+        grab('sales_data.json').then(r => {
+          if (!r.ok) throw new Error('Could not load sales_data.json (HTTP ' + r.status + ')');
           return r.json();
         }),
         // Historical backfill (2024 LeafLink). Optional: if the file is missing
-        // or fails to parse, fall back to live-only instead of breaking.
-        fetch('https://raw.githubusercontent.com/chill-medicatedhub/apex-dashboard-michigan/refs/heads/main/historical_data.json?t=' + Date.now())
-          .then(r => r.ok ? r.json() : { rows: [] })
-          .catch(() => ({ rows: [] })),
+        // or fails to parse, fall back to live-only instead of breaking. A 429
+        // still propagates, so the whole load backs off rather than silently
+        // dropping history.
+        grab('historical_data.json').then(r => r.ok ? r.json() : { rows: [] })
+          .catch(e => { if (e.rateLimited) throw e; return { rows: [] }; }),
         // Prospect list (licensed retailers). Optional: powers the New/potential buyers section.
-        fetch('https://raw.githubusercontent.com/chill-medicatedhub/apex-dashboard-michigan/refs/heads/main/prospects.json?t=' + Date.now())
-          .then(r => r.ok ? r.json() : null)
-          .catch(() => null)
+        grab('prospects.json').then(r => r.ok ? r.json() : null)
+          .catch(e => { if (e.rateLimited) throw e; return null; })
       ]).then(([live, hist, prospects]) => {
+        if (cancelled) return;
         const histRows = Array.isArray(hist) ? hist : (hist.rows || []);
         // _liveRows = current Apex data only. Used by Accounts Receivable, which must
         // ignore the 2024 historical backfill (old records with stale "Unpaid" flags
         // and no due dates would otherwise inflate AR with settled invoices).
         setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [], prospects: prospects });
-      }).catch(e => setError(e.message));
+        setError(null);
+        setStale(null);
+        backoff = 0;
+        schedule(POLL_MS);
+      }).catch(e => {
+        if (cancelled) return;
+        setData(d => {
+          if (d) setStale(e.message);else setError(e.message);
+          return d;
+        });
+        backoff = e.rateLimited ? Math.min(backoff ? backoff * 2 : POLL_MS, MAX_BACKOFF_MS) : POLL_MS;
+        schedule(backoff);
+      });
     };
     load();
-    const id = setInterval(load, 60000); // refresh every minute
-    return () => clearInterval(id);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, []);
   if (error) {
     return /*#__PURE__*/React.createElement("div", {
