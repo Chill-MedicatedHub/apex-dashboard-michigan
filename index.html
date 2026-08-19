@@ -152,10 +152,39 @@
     background: var(--border); border: 1px solid var(--border); border-radius: 16px;
     overflow: hidden; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(20,35,60,0.04), 0 10px 30px rgba(20,35,60,0.06);
   }
-  .kpi { background: var(--bg-elev); padding: 22px 22px; display: flex; flex-direction: column; gap: 6px; position: relative; transition: background 0.18s; }
+  .kpi { background: var(--bg-elev); padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; position: relative; transition: background 0.18s; }
   .kpi:hover { background: var(--bg-elev-2); }
   .kpi-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-faint); }
-  .kpi-value { font-family: 'Fraunces', serif; font-weight: 400; font-size: 44px; line-height: 1.04; letter-spacing: -0.025em; color: var(--text); font-variant-numeric: tabular-nums; }
+  /* Full, unrounded figures are far longer than the abbreviated "$1.2M" form.
+     The figure is sized off the CARD's own width (container query units), not
+     the viewport, so it fills the card whatever the grid does - 4-across,
+     5-across on the AR aging row, or stacked on a phone. 10cqw keeps a
+     15-character worst case like $122,807,459.72 on one line; nowrap
+     guarantees it never breaks mid-number.
+     The vw values below are the fallback for browsers without container
+     queries, and are deliberately more conservative. */
+  .kpi { container-type: inline-size; }
+  .kpi-value {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(21px, 2.3vw, 40px);
+    line-height: 1.08; letter-spacing: -0.03em; color: var(--text);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .ar-theme .kpi-value { font-size: clamp(19px, 1.75vw, 31px); }
+  @media (max-width: 1100px) {
+    .kpi-value { font-size: clamp(22px, 4.6vw, 40px); }
+    .ar-theme .kpi-value { font-size: clamp(20px, 4vw, 34px); }
+  }
+  @supports (font-size: 1cqw) {
+    /* 9cqw fills the card while leaving headroom for a 15-character figure
+       such as $122,807,459.72 in a narrow 5-across AR cell. */
+    .kpi-value,
+    .ar-theme .kpi-value { font-size: clamp(20px, 9cqw, 60px); }
+    @media (max-width: 1100px) {
+      .kpi-value,
+      .ar-theme .kpi-value { font-size: clamp(22px, 9cqw, 60px); }
+    }
+  }
   .kpi-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); margin-top: 2px; }
   .kpi-accent .kpi-value {
     background-image: linear-gradient(120deg, var(--brand-cyan) 0%, var(--brand-peri) 55%, var(--brand-purple) 100%);
@@ -1018,11 +1047,11 @@ function AccountsReceivable({ data }) {
     style: Object.assign({ cursor: key ? 'pointer' : 'default' }, color ? { borderTop: '2px solid ' + color } : {}, (key && bucketSel === key) ? { background: 'var(--bg-elev-2)' } : {})
   }, e('div', { className: 'kpi-label' }, label), e('div', { className: 'kpi-value tabular' }, value), sub ? e('div', { className: 'kpi-sub' }, sub) : null);
   const kpiGrid = e('div', { className: 'kpi-grid', style: { gridTemplateColumns: 'repeat(5, 1fr)' } },
-    cell('Total Outstanding', fmtMoney(tot.total), fmtNum(tot.count) + ' invoices', null, null, true),
-    cell('Current', fmtMoney(tot.current), pctOf(tot.current) + ' of AR', AGE[0].color, 'current'),
-    cell('31–60 days', fmtMoney(tot.b3160), pctOf(tot.b3160) + ' of AR', AGE[1].color, 'b3160'),
-    cell('61–90 days', fmtMoney(tot.b6190), pctOf(tot.b6190) + ' of AR', AGE[2].color, 'b6190'),
-    cell('91+ days', fmtMoney(tot.b91), pctOf(tot.b91) + ' of AR', AGE[3].color, 'b91'));
+    cell('Total Outstanding', fmtMoneyFull(tot.total), fmtNum(tot.count) + ' invoices', null, null, true),
+    cell('Current', fmtMoneyFull(tot.current), pctOf(tot.current) + ' of AR', AGE[0].color, 'current'),
+    cell('31–60 days', fmtMoneyFull(tot.b3160), pctOf(tot.b3160) + ' of AR', AGE[1].color, 'b3160'),
+    cell('61–90 days', fmtMoneyFull(tot.b6190), pctOf(tot.b6190) + ' of AR', AGE[2].color, 'b6190'),
+    cell('91+ days', fmtMoneyFull(tot.b91), pctOf(tot.b91) + ' of AR', AGE[3].color, 'b91'));
 
   // ── Aging donut + Top balances ──
   const donutBlock = e('div', null,
@@ -1198,9 +1227,9 @@ function InventoryView({ data }) {
     e('button', { className: 'filter-reset', onClick: () => { setQ(''); setLineSel(''); }, style: { marginLeft: 'auto', alignSelf: 'flex-end', background: 'var(--accent)', color: '#fff', border: 'none', fontWeight: 700, padding: '10px 22px', borderRadius: 6, cursor: 'pointer', letterSpacing: '0.05em', textTransform: 'uppercase', fontSize: 12 } }, 'Reset'));
 
   const kpiGrid = e('div', { className: 'kpi-grid' },
-    e(Kpi, { label: 'Units On Hand', value: fmtNum(Math.round(kpis.onHand)), sub: fmtNum(kpis.skus) + ' SKUs · ' + fmtMoney(kpis.onHandValue) + ' at listed price', accent: true }),
-    e(Kpi, { label: 'Reserved', value: fmtNum(Math.round(kpis.reserved)), sub: 'committed to orders · ' + fmtMoney(kpis.reservedValue) }),
-    e(Kpi, { label: 'Available', value: fmtNum(Math.round(kpis.available)), sub: 'on hand − reserved · ' + fmtMoney(kpis.availableValue) }),
+    e(Kpi, { label: 'Units On Hand', value: fmtNum(Math.round(kpis.onHand)), sub: fmtNum(kpis.skus) + ' SKUs · ' + fmtMoneyFull(kpis.onHandValue) + ' at listed price', accent: true }),
+    e(Kpi, { label: 'Reserved', value: fmtNum(Math.round(kpis.reserved)), sub: 'committed to orders · ' + fmtMoneyFull(kpis.reservedValue) }),
+    e(Kpi, { label: 'Available', value: fmtNum(Math.round(kpis.available)), sub: 'on hand − reserved · ' + fmtMoneyFull(kpis.availableValue) }),
     e(Kpi, { label: 'Out of Stock', value: fmtNum(kpis.oos), sub: 'SKUs · 0 available', color: kpis.oos ? 'var(--rose)' : null }));
 
   const byLineChart = e('section', { className: 'section' },
@@ -2511,7 +2540,7 @@ function Dashboard({
     className: "kpi-grid"
   }, /*#__PURE__*/React.createElement(Kpi, {
     label: "Net Revenue",
-    value: fmtMoney(kpis.revenue),
+    value: fmtMoneyFull(kpis.revenue),
     sub: `${fmtNum(kpis.lineItems)} line items`,
     accent: true
   }), /*#__PURE__*/React.createElement(Kpi, {
@@ -2521,7 +2550,7 @@ function Dashboard({
   }), /*#__PURE__*/React.createElement(Kpi, {
     label: "Orders",
     value: fmtNum(kpis.orders),
-    sub: `${fmtMoney(kpis.avgOrder)} avg order`
+    sub: `${fmtMoneyFull(kpis.avgOrder)} avg order`
   }), /*#__PURE__*/React.createElement(Kpi, {
     label: "Units Sold",
     value: fmtNum(Math.round(kpis.units)),
@@ -2548,11 +2577,11 @@ function Dashboard({
     className: "kpi-grid"
   }, /*#__PURE__*/React.createElement(Kpi, {
     label: "Discounts Given",
-    value: fmtMoney(kpis.discounts),
+    value: fmtMoneyFull(kpis.discounts),
     sub: kpis.grossRevenue ? (kpis.discounts / (kpis.grossRevenue + kpis.discounts) * 100).toFixed(1) + '% of gross' : '—'
   }), /*#__PURE__*/React.createElement(Kpi, {
     label: "Credits Applied",
-    value: fmtMoney(kpis.credits),
+    value: fmtMoneyFull(kpis.credits),
     sub: kpis.creditCount ? `${fmtNum(kpis.creditOrders)} invoice${kpis.creditOrders === 1 ? '' : 's'} · applied as payment` : 'none in current view'
   })), /*#__PURE__*/React.createElement("section", {
     className: "section"
