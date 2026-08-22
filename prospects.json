@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-21",
+  "as_of": "2026-08-22",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1633,
@@ -1243,7 +1243,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344182160",
       "email": "",
       "website": ""
     },
@@ -4989,7 +4989,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001689",
+      "license": "AU-R-001486",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5000,7 +5000,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001486",
+      "license": "AU-R-001689",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -9564,17 +9564,6 @@
       "website": ""
     },
     {
-      "name": "Cloud - Kalamazoo",
-      "license": "AU-R-001228",
-      "type": "",
-      "status": "",
-      "city": "Kalamazo",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
       "name": "AU: Compassionate Care By Design - Stadium",
       "license": "AU-R-000271",
       "type": "",
@@ -9648,6 +9637,17 @@
       "city": "Kalamazoo",
       "state": "MI",
       "phone": "2694591420",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Cloud - Kalamazoo",
+      "license": "AU-R-001228",
+      "type": "",
+      "status": "",
+      "city": "Kalamazoo",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -10093,7 +10093,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10104,7 +10104,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10808,7 +10808,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10819,7 +10819,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -11512,7 +11512,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11523,7 +11523,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -14041,7 +14041,7 @@
       "website": ""
     },
     {
-      "name": "The Gardenz",
+      "name": "The Gardenz - Oxford",
       "license": "AU-R-001512",
       "type": "",
       "status": "",
@@ -15648,17 +15648,6 @@
     },
     {
       "name": "Ounces",
-      "license": "AU-R-000627",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "2694577321",
-      "email": "",
-      "website": "http://ouncesmi.com"
-    },
-    {
-      "name": "Ounces",
       "license": "PC-000758",
       "type": "",
       "status": "",
@@ -15667,6 +15656,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "Ounces",
+      "license": "AU-R-000627",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "2694577321",
+      "email": "",
+      "website": "http://ouncesmi.com"
     },
     {
       "name": "PUFF - Sturgis",
@@ -17210,7 +17210,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000753",
+      "license": "AU-R-000000753 OLD",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -17221,7 +17221,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000000753 OLD",
+      "license": "AU-R-000753",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
