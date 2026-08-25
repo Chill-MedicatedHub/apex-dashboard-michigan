@@ -1,9 +1,20 @@
 {
-  "as_of": "2026-08-23",
+  "as_of": "2026-08-25",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1633,
   "records": [
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
+    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -808,6 +819,17 @@
       "website": ""
     },
     {
+      "name": "District Green Cannabis - Ann Arbor",
+      "license": "AU-R-001346",
+      "type": "",
+      "status": "",
+      "city": "Ann Arbor",
+      "state": "MI",
+      "phone": "7348876741",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Exclusive - Ann Arbor",
       "license": "AU-R-001461",
       "type": "",
@@ -848,17 +870,6 @@
       "city": "Ann Arbor",
       "state": "MI",
       "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Green District - Ann Arbor",
-      "license": "AU-R-001346",
-      "type": "",
-      "status": "",
-      "city": "Ann Arbor",
-      "state": "MI",
-      "phone": "7348876741",
       "email": "",
       "website": ""
     },
@@ -1243,7 +1254,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "7344182160",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -1832,23 +1843,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "AU-R-000452",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "3607893133",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "NA",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "7082540373",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "AU-R-000452",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "3607893133",
       "email": "",
       "website": ""
     },
@@ -2104,17 +2115,6 @@
       "phone": "",
       "email": "",
       "website": ""
-    },
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
     },
     {
       "name": "Ace Processing LLC",
@@ -2426,7 +2426,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2437,7 +2437,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -4307,17 +4307,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "AU-R-000177",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The River Provisioning",
       "license": "PC-000248",
       "type": "",
       "status": "",
@@ -4326,6 +4315,17 @@
       "phone": "9893232222",
       "email": "",
       "website": "https://www.theriverprovisioning.com"
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "AU-R-000177",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -5291,7 +5291,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -10093,7 +10093,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10104,7 +10104,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10279,7 +10279,7 @@
       "website": "https://www.3leftscannabis.com/"
     },
     {
-      "name": "BioBizz LLC Buyer",
+      "name": "BioBizz LLC - Lansing (Botanical Processing)",
       "license": "AU-P-000268",
       "type": "",
       "status": "",
@@ -13921,23 +13921,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "122",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "7343949066",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "AU-R-000508",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "9892736030",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "122",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "7343949066",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
@@ -15648,17 +15648,6 @@
     },
     {
       "name": "Ounces",
-      "license": "PC-000758",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Ounces",
       "license": "AU-R-000627",
       "type": "",
       "status": "",
@@ -15667,6 +15656,17 @@
       "phone": "2694577321",
       "email": "",
       "website": "http://ouncesmi.com"
+    },
+    {
+      "name": "Ounces",
+      "license": "PC-000758",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "PUFF - Sturgis",
@@ -17022,7 +17022,7 @@
       "website": "https://www.shophod.com/traverse-city"
     },
     {
-      "name": "Emerald Fire Farms Provisioning Center - Powered by Wise Guys",
+      "name": "Emerald Fire Farms Provisioning Center - West Branch",
       "license": "AU-R-001440",
       "type": "",
       "status": "",
