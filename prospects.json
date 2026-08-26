@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-08-25",
+  "as_of": "2026-08-26",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1633,
+  "count": 1632,
   "records": [
     {
       "name": "3843 Euclid Processing",
@@ -1843,23 +1843,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "NA",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "7082540373",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "AU-R-000452",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "3607893133",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "NA",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "7082540373",
       "email": "",
       "website": ""
     },
@@ -2426,7 +2426,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2437,7 +2437,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -5756,17 +5756,6 @@
       "phone": "",
       "email": "",
       "website": ""
-    },
-    {
-      "name": "Muha Meds - Detroit",
-      "license": "AU-R-000909",
-      "type": "",
-      "status": "",
-      "city": "Detroit",
-      "state": "MI",
-      "phone": "3137975378",
-      "email": "",
-      "website": "https://www.muhameds-mi.com/"
     },
     {
       "name": "Muha Meds - Detroit (Michigan Ave.)",
@@ -10093,7 +10082,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10104,7 +10093,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10808,7 +10797,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10819,7 +10808,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -13921,23 +13910,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "AU-R-000508",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "9892736030",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "122",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "7343949066",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "AU-R-000508",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "9892736030",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
