@@ -474,6 +474,31 @@ const parsePaidDate = pd => {
   return best;
 };
 
+// Every settlement entry on an invoice, structured. Apex records these as
+// "Payment of $5,705.50 on 09/19/2025" or "Credit of $1,045.22 on 03/17/2026",
+// so the KIND matters - a credit is not cash received. Newest first.
+// (parsePaymentsPaid/Applied above total the money; this one keeps the detail.)
+const paymentEntries = pd => {
+  if (!pd) return [];
+  const text = Array.isArray(pd) ? pd.filter(Boolean) : [String(pd)];
+  const out = [];
+  text.forEach(s => {
+    const str = String(s || '');
+    const dm = str.match(/(\d{1,2}\/\d{1,2}\/\d{2,4}|\d{4}-\d{2}-\d{2})/);
+    if (!dm) return;
+    const d = parseDate(dm[1]);
+    if (!d) return;
+    const am = str.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+    const km = str.match(/(Payment|Credit|Trade)/i);
+    out.push({
+      date: d,
+      amount: am ? parseFloat(am[1].replace(/,/g, '')) : null,
+      kind: km ? km[1][0].toUpperCase() + km[1].slice(1).toLowerCase() : 'Payment'
+    });
+  });
+  return out.sort((a, b) => b.date.getTime() - a.date.getTime());
+};
+
 const ymd = d => {
   if (!(d instanceof Date) || isNaN(d)) return '';
   const y = d.getFullYear();
@@ -1142,6 +1167,7 @@ function AccountsReceivable({ data }) {
           dueDate: parseDate(r.due_date_raw || r.due_date),
           deliveryDate: parseDate(r.delivery_date_raw || r.delivery_date),
           paidDate: pDate,
+          payments: paymentEntries(r.payment_dates),
           addlDiscount: typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts),
           amount: 0
         };
@@ -1220,7 +1246,7 @@ function AccountsReceivable({ data }) {
       e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
         e('table', { className: 'data-table', style: { minWidth: 1180 } },
           e('thead', null, e('tr', null,
-            e('th', null, 'Paid Date'),
+            e('th', null, 'Payments'),
             e('th', null, 'Invoice #'),
             e('th', null, 'Destination'),
             e('th', null, 'License #'),
@@ -1234,7 +1260,20 @@ function AccountsReceivable({ data }) {
             paidSorted.length === 0
               ? e('tr', null, e('td', { colSpan: 10, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No paid invoices match the filters.'))
               : paidSorted.slice(paidPg.start, paidPg.end).map((o, i) => e('tr', { key: i },
-                  e('td', { className: 'dim font-mono' }, fmtD(o.paidDate)),
+                  // Paid date. An invoice can settle in several instalments -
+                  // Apex records each, and some are credits rather than cash.
+                  // Show every one, newest first, so a $2 top-up in Jul 2026 on
+                  // top of a $5,705 payment in Sep 2025 is visible rather than
+                  // hidden behind a single date.
+                  e('td', { className: 'dim font-mono', style: { whiteSpace: 'nowrap' } },
+                    (o.payments && o.payments.length)
+                      ? o.payments.map((p, k) => e('div', {
+                          key: k,
+                          style: { lineHeight: 1.5, color: k === 0 ? 'var(--text)' : 'var(--text-dim)' },
+                          title: p.kind + (p.amount != null ? ' of ' + fmtMoneyFull(p.amount) : '') + ' on ' + fmtD(p.date)
+                        }, fmtD(p.date) + (p.amount != null ? '  ' + fmtMoneyFull(p.amount) : '')
+                           + (p.kind === 'Credit' ? '  (credit)' : '')))
+                      : fmtD(o.paidDate)),
                   e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
                   e('td', { title: o.destination, style: { whiteSpace: 'normal', minWidth: 150 } }, o.destination),
                   e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, o.license),
