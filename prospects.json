@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-27",
+  "as_of": "2026-08-28",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1632,
@@ -1243,7 +1243,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344182160",
       "email": "",
       "website": ""
     },
@@ -10082,7 +10082,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10093,7 +10093,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -11501,7 +11501,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11512,7 +11512,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -15637,17 +15637,6 @@
     },
     {
       "name": "Ounces",
-      "license": "AU-R-000627",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "2694577321",
-      "email": "",
-      "website": "http://ouncesmi.com"
-    },
-    {
-      "name": "Ounces",
       "license": "PC-000758",
       "type": "",
       "status": "",
@@ -15656,6 +15645,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "Ounces",
+      "license": "AU-R-000627",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "2694577321",
+      "email": "",
+      "website": "http://ouncesmi.com"
     },
     {
       "name": "PUFF - Sturgis",
@@ -17507,23 +17507,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "AU-R-000269",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "PC-000154",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "7345449999",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "AU-R-000269",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
