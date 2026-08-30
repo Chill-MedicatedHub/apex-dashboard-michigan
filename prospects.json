@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-29",
+  "as_of": "2026-08-30",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1632,
@@ -10082,7 +10082,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10093,7 +10093,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
