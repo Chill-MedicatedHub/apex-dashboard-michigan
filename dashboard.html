@@ -235,6 +235,59 @@
   ::-webkit-scrollbar-thumb:hover { background: #b6c2d1; }
   ::-webkit-scrollbar-track { background: transparent; }
 
+  /* ── CRM tab ───────────────────────────────────────────────────────── */
+  .crm-split { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 18px; align-items: start; }
+  @media (max-width: 1000px) { .crm-split { grid-template-columns: 1fr; } }
+  .crm-row { display: block; width: 100%; text-align: left; background: none; border: none;
+    border-bottom: 1px solid var(--border); padding: 11px 14px; cursor: pointer; }
+  .crm-row:hover { background: var(--bg-elev-2); }
+  .crm-row-active { background: var(--bg-elev-2); box-shadow: inset 3px 0 0 var(--accent); }
+  .crm-row-name { font-weight: 600; font-size: 13px; color: var(--text); }
+  .crm-row-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+  .crm-row-rev { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); margin-top: 3px; }
+  .crm-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px 20px; }
+  .crm-field-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-faint); margin-bottom: 2px; }
+  .crm-field-value { font-size: 13px; color: var(--text); word-break: break-word; }
+  .crm-contact { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+  .crm-contact:hover { border-bottom-style: solid; }
+  .crm-textarea { width: 100%; min-height: 82px; resize: vertical; padding: 10px 12px;
+    background: var(--bg-elev-2); color: var(--text); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); font-family: 'Inter', sans-serif; font-size: 13px; }
+  .crm-textarea:focus { outline: none; border-color: var(--accent); }
+  .crm-btn { padding: 8px 16px; border-radius: var(--radius-sm); border: 1px solid var(--accent);
+    background: var(--accent); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.06em; cursor: pointer; }
+  .crm-btn:disabled { opacity: 0.45; cursor: default; }
+  .crm-link-btn { background: none; border: none; cursor: pointer; color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .crm-link-btn:hover { color: #d6433f; }
+  .crm-detail-table td { padding: 4px 6px; }
+  .crm-detail-header td { padding-top: 14px; }
+  .crm-inline-header { font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); font-weight: 600; }
+  .crm-add-row { display: grid; grid-template-columns: auto minmax(0,1fr) minmax(0,1.4fr) auto; gap: 8px; align-items: center; }
+  @media (max-width: 720px) { .crm-add-row { grid-template-columns: 1fr; } }
+  .crm-inline-input { width: 100%; padding: 5px 8px; background: transparent; color: var(--text);
+    border: 1px solid transparent; border-radius: var(--radius-sm); font-family: 'Inter', sans-serif; font-size: 13px; }
+  .crm-inline-input:hover { border-color: var(--border); }
+  .crm-inline-input:focus { outline: none; border-color: var(--accent); background: var(--bg-elev-2); }
+  .crm-inv { cursor: pointer; }
+  .crm-inv:hover { background: var(--bg-elev-2); }
+  .crm-inv-active { background: var(--bg-elev-2); box-shadow: inset 3px 0 0 var(--accent); }
+  .crm-note { border-left: 2px solid var(--border); padding: 6px 0 6px 12px; margin-bottom: 12px; }
+  .crm-note-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); margin-bottom: 3px; }
+  /* The delete control stays out of the way until the note is hovered. */
+  .crm-note .crm-link-btn { opacity: 0; transition: opacity .15s ease; }
+  .crm-note:hover .crm-link-btn { opacity: 1; }
+  .crm-note-body { font-size: 13px; white-space: pre-wrap; }
+  .crm-drop { border: 1.5px dashed var(--border); border-radius: var(--radius-sm); padding: 26px 16px;
+    text-align: center; cursor: pointer; color: var(--text-dim); font-size: 13px; transition: all .15s ease; }
+  .crm-drop:hover, .crm-drop-over { border-color: var(--accent); color: var(--text); background: var(--bg-elev-2); }
+  .crm-warn { margin-top: 10px; padding: 8px 12px; border-radius: var(--radius-sm);
+    background: rgba(214,67,63,.10); border: 1px solid rgba(214,67,63,.45);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text); }
 </style>
 </head>
 <body>
@@ -458,6 +511,47 @@ const parseDate = str => {
   const d = new Date(s);
   return isNaN(d) ? null : d;
 };
+
+// Pull a settlement date out of Apex's payment_dates array. Entries look like
+// "Payment of $1,045.22 on 03/17/2026" or a plain date; take the latest one.
+const parsePaidDate = pd => {
+  if (!pd) return null;
+  const arr = Array.isArray(pd) ? pd : [pd];
+  let best = null;
+  arr.forEach(x => {
+    const m = String(x || '').match(/(\d{1,2}\/\d{1,2}\/\d{2,4}|\d{4}-\d{2}-\d{2})/);
+    if (!m) return;
+    const d = parseDate(m[1]);
+    if (d && (!best || d > best)) best = d;
+  });
+  return best;
+};
+
+// Every settlement entry on an invoice, structured. Apex records these as
+// "Payment of $5,705.50 on 09/19/2025" or "Credit of $1,045.22 on 03/17/2026",
+// so the KIND matters - a credit is not cash received. Newest first.
+// (parsePaymentsPaid/Applied above total the money; this one keeps the detail.)
+const paymentEntries = pd => {
+  if (!pd) return [];
+  const text = Array.isArray(pd) ? pd.filter(Boolean) : [String(pd)];
+  const out = [];
+  text.forEach(s => {
+    const str = String(s || '');
+    const dm = str.match(/(\d{1,2}\/\d{1,2}\/\d{2,4}|\d{4}-\d{2}-\d{2})/);
+    if (!dm) return;
+    const d = parseDate(dm[1]);
+    if (!d) return;
+    const am = str.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+    const km = str.match(/(Payment|Credit|Trade)/i);
+    out.push({
+      date: d,
+      amount: am ? parseFloat(am[1].replace(/,/g, '')) : null,
+      kind: km ? km[1][0].toUpperCase() + km[1].slice(1).toLowerCase() : 'Payment'
+    });
+  });
+  return out.sort((a, b) => b.date.getTime() - a.date.getTime());
+};
+
 const ymd = d => {
   if (!(d instanceof Date) || isNaN(d)) return '';
   const y = d.getFullYear();
@@ -897,6 +991,865 @@ function MultiSelect({ options, selected, onChange, labelFn, placeholder }) {
         e("span", { style: { fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: 'var(--text-faint)' } }, sel.length + " of " + options.length),
         e("button", { type: "button", className: "ms-clear", onClick: () => { onChange([]); } }, "Clear"))));
 }
+const CRM_STATE = 'mi';
+const CRM_STATE_LABEL = 'Michigan';
+
+// ── CRM ──────────────────────────────────────────────────────────────────
+//
+// One account per customer: the profile the sales team needs on a call, plus
+// shared notes and uploaded files.
+//
+// Profile fields come from the order feed and are always current. Notes and
+// files are stored server-side by the Cloudflare Worker (D1 + R2), so they are
+// shared across everyone who logs in rather than living in one browser.
+// If the API is unreachable (e.g. the dashboard is opened straight from
+// GitHub rather than through the Worker), the profile still renders and the
+// notes/files panels explain why they are unavailable instead of erroring.
+
+// Sales rep on a line. Apex sends either an array of display names or a plain
+// string, depending on the endpoint.
+const crmRepOf = r => (Array.isArray(r.sales_reps_display) && r.sales_reps_display.filter(Boolean).join(', '))
+  || r.sales_reps || r.sales_rep || r.rep || '\u2014';
+
+// Local copies of the two formatters the CRM block needs. fmtD and fmtNum are
+// declared inside AccountsReceivable / Dashboard further down, so they are not
+// in scope here; these are the same implementations.
+const crmFmtD = d => d ? ((d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '/' + d.getFullYear()) : '\u2014';
+
+// Contact details for a customer.
+//
+// The order feed carries no email or phone - those live in the state licence
+// data already loaded for the Prospecting tab (prospects.json). Match on
+// license number first, since that is exact, and fall back to a normalised
+// name for markets whose order feed has no license field (NJ). Anything not
+// found simply shows a dash rather than a blank row.
+const crmNormKey = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+// Some state licence records carry a placeholder instead of a real number -
+// Michigan has "NA", "N/A" and "N*A" on three different retailers, and once
+// punctuation is stripped they all collapse to the same key. Matching on that
+// attaches one retailer's phone number to another, so placeholders are treated
+// as "no licence" and those rows fall through to matching on name instead.
+const CRM_PLACEHOLDER_LICENSE = { na: 1, nan: 1, none: 1, null: 1, unknown: 1, tbd: 1, pending: 1, '': 1 };
+const crmLicenseKey = s => {
+  const k = crmNormKey(s);
+  return CRM_PLACEHOLDER_LICENSE[k] ? '' : k;
+};
+
+function buildContactIndex(prospects) {
+  const recs = (prospects && (prospects.records || prospects)) || [];
+  const byLicense = {}, byName = {};
+  (Array.isArray(recs) ? recs : []).forEach(x => {
+    const lic = crmLicenseKey(x.license);
+    // First record wins, so a later placeholder can never displace a real one.
+    if (lic && !byLicense[lic]) byLicense[lic] = x;
+    const nm = crmNormKey(x.name);
+    if (nm && !byName[nm]) byName[nm] = x;
+  });
+  return { byLicense: byLicense, byName: byName };
+}
+
+function lookupContact(index, name, license) {
+  if (!index) return null;
+  const l = crmLicenseKey(license);
+  if (l && index.byLicense[l]) return index.byLicense[l];
+  const n = crmNormKey(name);
+  return (n && index.byName[n]) || null;
+}
+
+// Line revenue, units and order id.
+//
+// Each market's scraper names these differently, so read them by preference
+// rather than assuming one shape:
+//   MA / NJ  line_total_raw (cents), quantity_raw, order_number
+//   MI       revenue (dollars),      quantity,     order_number
+//   MO       order_price (cents),    quantity,     order
+// Getting this wrong silently produces a customer list with zero revenue
+// against every account, so each field is tried in turn and the first usable
+// value wins.
+const crmLineRevenue = r => {
+  if (typeof r.line_total_raw === 'number') return r.line_total_raw / 100;
+  if (typeof r.revenue === 'number') return r.revenue;
+  if (typeof r.order_price === 'number') return r.order_price / 100;
+  const parsed = parseMoney(r.line_total || r.computed_sale_price || r.revenue || 0);
+  return parsed || 0;
+};
+
+const crmLineUnits = r => Number(
+  r.quantity_raw != null ? r.quantity_raw
+  : r.quantity != null ? r.quantity
+  : r.units_sold) || 0;
+
+const crmOrderId = r => r.order_number || r.order_id || r.order || null;
+
+// Salesforce account details, keyed on licence number.
+//
+// salesforce_accounts.json is written by salesforce_sync.py alongside the
+// other data files. The join is the licence number, which is exact — name
+// matching is only a fallback, because Salesforce account names and LeafLink
+// buyer names rarely agree character for character.
+function buildSalesforceIndex(sf) {
+  const recs = (sf && (sf.records || sf)) || [];
+  const byLicense = {}, byName = {};
+  (Array.isArray(recs) ? recs : []).forEach(x => {
+    // The org stores the licence in two different fields and populates
+    // whichever suited at the time, so index on both. A "Doing Business As"
+    // name is indexed too, since that is often what LeafLink shows.
+    [x.license, x.license_alt].forEach(v => {
+      const lic = crmLicenseKey(v);
+      if (lic && !byLicense[lic]) byLicense[lic] = x;
+    });
+    [x.name, x.dba].forEach(v => {
+      const nm = crmNormKey(v);
+      if (nm && !byName[nm]) byName[nm] = x;
+    });
+  });
+  return { byLicense: byLicense, byName: byName };
+}
+
+function lookupSalesforce(index, name, license) {
+  if (!index) return null;
+  const l = crmLicenseKey(license);
+  if (l && index.byLicense[l]) return index.byLicense[l];
+  const n = crmNormKey(name);
+  return (n && index.byName[n]) || null;
+}
+
+const CRM_API = (() => {
+  // Same origin as the dashboard. Served through the Worker this resolves to
+  // the Worker's /api routes; opened from anywhere else it simply fails and
+  // the panels degrade.
+  try { return new URL('/api', window.location.origin).toString(); }
+  catch (e) { return '/api'; }
+})();
+
+function crmFetch(path, opts) {
+  return fetch(CRM_API + path, Object.assign({ credentials: 'same-origin' }, opts || {}))
+    .then(async r => {
+      const body = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(body.error || ('HTTP ' + r.status));
+      return body;
+    });
+}
+
+const fmtBytes = n => {
+  n = Number(n) || 0;
+  if (n < 1024) return n + ' B';
+  if (n < 1024 * 1024) return (n / 1024).toFixed(0) + ' KB';
+  return (n / 1048576).toFixed(1) + ' MB';
+};
+
+const fmtStamp = s => {
+  if (!s) return '';
+  const d = new Date(String(s).replace(' ', 'T') + (String(s).endsWith('Z') ? '' : 'Z'));
+  return isNaN(d) ? String(s) : d.toLocaleString(undefined, {
+    year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+  });
+};
+
+
+// ── Additional information (from Salesforce) ─────────────────────────────
+function CRMSalesforce({ sf, customer }) {
+  const e = React.createElement;
+  sf = sf || {};
+
+  const rows = [
+    ['Rep name', sf.rep],
+    ['Account number', sf.account_number],
+    ['Status', sf.status],
+    ['Performance', sf.segment],
+    ['Payment terms', sf.payment_terms],
+    ['Payment method', sf.payment_method],
+    ['Delivery preference', sf.delivery_preference],
+    ['Service zone', sf.service_zone],
+    ['Licence type', sf.license_type],
+    ['Doing business as', sf.dba],
+    ['LeafLink ID', sf.leaflink_id],
+    ['Last contacted', sf.last_contacted],
+    ['Last shop visit', sf.last_shop_visit],
+    ['Salesforce order volume', sf.sf_order_volume],
+    ['Open orders', sf.sf_open_orders],
+    ['Billing address', sf.billing],
+    ['Shipping address', sf.shipping]
+  ].filter(r => r[1]);
+
+  const contacts = sf.contacts || [];
+  const hasSf = rows.length || contacts.length || sf.notes || sf.last_contact_note;
+
+  return e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'Additional ', e('em', null, 'information')),
+      e('span', { className: 'section-meta' },
+        hasSf ? 'from Salesforce \u00b7 plus fields added by the team' : 'added by the team')),
+    e('div', { className: 'card' },
+      rows.length
+        ? e('div', { className: 'crm-fields' }, rows.map(r => crmField(r[0],
+            r[2] ? e('span', null, r[1], ' \u00b7 ',
+              e('a', { href: 'mailto:' + r[2], className: 'crm-contact' }, r[2])) : r[1])))
+        : null,
+      contacts.length
+        ? e('div', { style: { marginTop: rows.length ? 18 : 0 } },
+            e('div', { className: 'crm-field-label', style: { marginBottom: 8 } }, 'Contacts'),
+            e('table', { className: 'data-table' },
+              e('thead', null, e('tr', null,
+                e('th', null, 'Name'), e('th', null, 'Title'),
+                e('th', null, 'Email'), e('th', null, 'Phone'))),
+              e('tbody', null, contacts.map((c, i) => e('tr', { key: i },
+                e('td', null, c.name || '\u2014'),
+                e('td', { className: 'dim' }, c.title || '\u2014'),
+                e('td', null, c.email
+                  ? e('a', { href: 'mailto:' + c.email, className: 'crm-contact' }, c.email)
+                  : '\u2014'),
+                e('td', { className: 'dim font-mono' }, c.phone || '\u2014'))))))
+        : null,
+      sf.last_contact_note
+        ? e('div', { style: { marginTop: 18 } },
+            e('div', { className: 'crm-field-label', style: { marginBottom: 4 } }, 'Last contact note'),
+            e('div', { className: 'crm-note-body' }, sf.last_contact_note))
+        : null,
+      sf.notes
+        ? e('div', { style: { marginTop: 18 } },
+            e('div', { className: 'crm-field-label', style: { marginBottom: 4 } }, 'Salesforce notes'),
+            e('div', { className: 'crm-note-body' }, sf.notes))
+        : null,
+      // Team-maintained fields live in the same card, below whatever Salesforce
+      // supplied, separated by a rule so the two sources stay distinguishable.
+      e('div', {
+        style: hasSf ? { marginTop: 20, paddingTop: 18, borderTop: '1px solid var(--border)' } : null
+      }, e(CRMDetails, { customer: customer }))));
+}
+
+function CRM({ data }) {
+  const e = React.createElement;
+  // Use the SAME rows as the Sales tab - live Apex data plus the historical
+  // backfill. Reading _liveRows alone dropped every buyer that has not ordered
+  // since the current data begins: 175 of Massachusetts' 304, for instance,
+  // which meant the CRM quietly disagreed with the rest of the dashboard about
+  // who the customers are.
+  const rows = React.useMemo(() => (data && (data.rows || data._liveRows)) || [], [data]);
+  const contactIndex = React.useMemo(() => buildContactIndex(data && data.prospects), [data]);
+  const sfIndex = React.useMemo(() => buildSalesforceIndex(data && data.salesforce), [data]);
+  const [q, setQ] = React.useState('');
+  const [sel, setSel] = React.useState(null);
+
+  // ---- Accounts, built from the order history -------------------------
+  const accounts = React.useMemo(() => {
+    const m = {};
+    rows.forEach(r => {
+      const name = r.buyer_name;
+      if (!name) return;
+      if (!m[name]) {
+        m[name] = {
+          name: name,
+          license: r.buyer_license || '',
+          city: r.buyer_city || '',
+          state: r.buyer_state || '',
+          zip: r.buyer_zip || '',
+          address: r.buyer_address || '',
+          group: r.buyer_group || '',
+          shipTo: r.buyer_shipping_name || '',
+          rep: crmRepOf(r),
+          revenue: 0, units: 0,
+          orders: {}, products: {},
+          first: null, last: null
+        };
+      }
+      const a = m[name];
+      // Later rows win for the descriptive fields, so an account that moved or
+      // changed rep shows its current details rather than its oldest.
+      if (r.buyer_license) a.license = r.buyer_license;
+      if (r.buyer_address) a.address = r.buyer_address;
+      if (r.buyer_city) a.city = r.buyer_city;
+      if (crmRepOf(r)) a.rep = crmRepOf(r);
+
+      const rev = crmLineRevenue(r);
+      a.revenue += rev || 0;
+      a.units += crmLineUnits(r);
+      const id = crmOrderId(r);
+      if (id) a.orders[id] = 1;
+      const p = r.product_name;
+      if (p) a.products[p] = (a.products[p] || 0) + (rev || 0);
+      const d = parseDate(r.order_date_localized_raw || r.order_date_utc_raw
+        || r.order_date_localized || r.order_date_utc || r.order_date_raw || r.order_date);
+      if (d) {
+        if (!a.first || d < a.first) a.first = d;
+        if (!a.last || d > a.last) a.last = d;
+      }
+    });
+    return Object.values(m).map(a => {
+      const c = lookupContact(contactIndex, a.name, a.license) || {};
+      const sf = lookupSalesforce(sfIndex, a.name, a.license);
+      return Object.assign(a, {
+        orderCount: Object.keys(a.orders).length,
+        topProducts: Object.entries(a.products).sort((x, y) => y[1] - x[1]).slice(0, 5),
+        email: (c.email || '').trim(),
+        phone: (c.phone || '').trim(),
+        website: (c.website || '').trim(),
+        county: (c.county || '').trim(),
+        licenseType: (c.type || '').trim(),
+        sf: sf
+      });
+    }).sort((x, y) => y.revenue - x.revenue);
+  }, [rows, contactIndex, sfIndex]);
+
+  const shown = React.useMemo(() => {
+    const s = q.trim().toLowerCase();
+    if (!s) return accounts;
+    return accounts.filter(a =>
+      (a.name + ' ' + a.license + ' ' + a.city + ' ' + a.rep).toLowerCase().includes(s));
+  }, [accounts, q]);
+
+  const account = React.useMemo(
+    () => accounts.find(a => a.name === sel) || null, [accounts, sel]);
+
+  return e('div', { className: 'app' },
+    e('div', { style: { marginBottom: 6 } },
+      e('h1', { style: { fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 30, letterSpacing: '-0.02em', margin: 0 } },
+        'Customer ', e('em', { style: { color: 'var(--accent)', fontStyle: 'italic' } }, 'accounts'))),
+    e('div', { style: { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-dim)', margin: '0 0 20px', letterSpacing: '0.04em' } },
+      CRM_STATE_LABEL + ' \u00b7 ' + fmtNum(accounts.length) + ' accounts \u00b7 profile from order history \u00b7 notes and files shared across the team'),
+
+    e('div', { className: 'crm-split' },
+      // ---- Account list ----
+      e('div', { className: 'crm-list card', style: { padding: 0, overflow: 'hidden' } },
+        e('div', { style: { padding: 12, borderBottom: '1px solid var(--border)' } },
+          e('input', {
+            className: 'filter-input', style: { width: '100%' },
+            placeholder: 'search name / license / town / rep\u2026',
+            value: q, onChange: ev => setQ(ev.target.value)
+          })),
+        e('div', { style: { overflowY: 'auto', maxHeight: 680 } },
+          shown.length === 0
+            ? e('div', { style: { padding: 20, color: 'var(--text-faint)', fontSize: 13 } }, 'No accounts match.')
+            : shown.map((a, i) => e('button', {
+                key: i,
+                className: 'crm-row' + (a.name === sel ? ' crm-row-active' : ''),
+                onClick: () => setSel(a.name)
+              },
+              e('div', { className: 'crm-row-name' }, buyerBusinessName(a.name)),
+              e('div', { className: 'crm-row-sub' },
+                [a.city, a.license, a.phone].filter(Boolean).join(' \u00b7 ') || '\u2014'),
+              e('div', { className: 'crm-row-rev' }, fmtMoneyFull(a.revenue)))))),
+
+      // ---- Profile ----
+      e('div', { className: 'crm-detail' },
+        account
+          ? e(CRMAccount, { account: account, rows: rows, key: account.name })
+          : e('div', { className: 'card', style: { padding: 40, textAlign: 'center', color: 'var(--text-faint)' } },
+              'Select an account to see its profile, notes and files.'))));
+}
+
+// Line-level discount. MA and NJ store it in cents alongside line_total_raw;
+// MI stores dollars in `discount`. MO records none.
+const crmLineDiscount = r => {
+  if (typeof r.discounts === 'number' || typeof r.additional_discounts === 'number') {
+    return ((Number(r.discounts) || 0) + (Number(r.additional_discounts) || 0)) / 100;
+  }
+  if (typeof r.discount === 'number') return r.discount;
+  return parseMoney(r.discounts || r.discount || 0) || 0;
+};
+
+// Credits applied against an invoice. Apex records them in payment_dates as
+// "Credit of $1,045.22 on 03/17/2026", separately from cash payments.
+const crmLineCredit = pd => paymentEntries(pd)
+  .filter(p => p.kind === 'Credit')
+  .reduce((s, p) => s + (p.amount || 0), 0);
+
+// Paid / open. Vocabulary differs by market (MA "Completed", MO lowercase,
+// MI "Paid"); NJ reports no payment status, so a paid date is the signal.
+const CRM_PAID_STATUS = { paid: 1, completed: 1, complete: 1, 'paid in full': 1, settled: 1, closed: 1 };
+const crmIsPaid = r => {
+  const st = String(r.payment_status || '').toLowerCase().trim();
+  if (CRM_PAID_STATUS[st]) return true;
+  if (r.paid === true) return true;
+  return !!(r.paid_date || (Array.isArray(r.payment_dates) && r.payment_dates.length));
+};
+
+const crmOrderDate = r => parseDate(r.order_date_localized_raw || r.order_date_utc_raw
+  || r.order_date_localized || r.order_date_utc || r.order_date_raw || r.order_date);
+
+// ── One account ──────────────────────────────────────────────────────────
+function CRMAccount({ account, rows }) {
+  const e = React.createElement;
+  const a = account;
+
+  // Clicking an invoice filters the products table to that invoice's lines.
+  const [invoice, setInvoice] = React.useState(null);
+
+  // Every line this account has bought, read once so the invoice list and the
+  // product list are built from the same source.
+  const lines = React.useMemo(
+    () => rows.filter(r => r.buyer_name === a.name), [rows, a.name]);
+
+  const invoices = React.useMemo(() => {
+    const m = {};
+    lines.forEach(r => {
+      const id = crmOrderId(r);
+      if (!id) return;
+      if (!m[id]) {
+        m[id] = {
+          id: id,
+          date: crmOrderDate(r),
+          status: r.payment_status || r.order_status || '\u2014',
+          paid: crmIsPaid(r),
+          total: 0, units: 0, discount: 0, credit: 0, lines: 0,
+          // payment_dates repeats on every line of an order, so the credit is
+          // read once per invoice rather than summed per line.
+          credit: crmLineCredit(r.payment_dates)
+        };
+      }
+      const o = m[id];
+      o.total += crmLineRevenue(r);
+      o.units += crmLineUnits(r);
+      o.discount += crmLineDiscount(r);
+      o.lines += 1;
+    });
+    return Object.values(m).sort((x, y) =>
+      (y.date ? y.date.getTime() : 0) - (x.date ? x.date.getTime() : 0));
+  }, [lines]);
+
+  const totals = React.useMemo(() => {
+    let outstanding = 0, credits = 0, discounts = 0;
+    invoices.forEach(o => {
+      if (!o.paid) outstanding += o.total;
+      credits += o.credit;
+      discounts += o.discount;
+    });
+    return { outstanding, credits, discounts };
+  }, [invoices]);
+
+  const products = React.useMemo(() => {
+    const src = invoice ? lines.filter(r => crmOrderId(r) === invoice) : lines;
+    const m = {};
+    src.forEach(r => {
+      const n = r.product_name || '\u2014';
+      if (!m[n]) m[n] = {
+        name: n,
+        line: r.product_type || r.product_line || r.product_category || '',
+        revenue: 0, units: 0, orders: {}
+      };
+      m[n].revenue += crmLineRevenue(r);
+      m[n].units += crmLineUnits(r);
+      const id = crmOrderId(r);
+      if (id) m[n].orders[id] = 1;
+    });
+    return Object.values(m)
+      .map(p => Object.assign(p, { orderCount: Object.keys(p.orders).length }))
+      .sort((x, y) => y.revenue - x.revenue);
+  }, [lines, invoice]);
+
+  // ---- Sections, built as flat pieces rather than one deep expression ----
+
+  const profileCard = e('div', { className: 'card', style: { marginBottom: 16 } },
+    e('h2', { style: { fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 22, margin: '0 0 4px' } },
+      buyerBusinessName(a.name)),
+    a.group && a.group !== a.name
+      ? e('div', { className: 'kpi-sub', style: { marginBottom: 12 } }, 'Part of ' + a.group)
+      : null,
+    e('div', { className: 'crm-fields' },
+      crmField('License #', a.license || '\u2014', true),
+      crmField('Town', [a.city, a.state, a.zip].filter(Boolean).join(', ') || '\u2014'),
+      crmField('Address', a.address || '\u2014'),
+      crmField('Ship to', a.shipTo || '\u2014'),
+      crmField('Email', a.email
+        ? e('a', { href: 'mailto:' + a.email, className: 'crm-contact' }, a.email) : '\u2014'),
+      crmField('Phone', a.phone
+        ? e('a', { href: 'tel:' + a.phone.replace(/[^\d+]/g, ''), className: 'crm-contact' }, a.phone) : '\u2014'),
+      crmField('Website', a.website
+        ? e('a', {
+            href: /^https?:/i.test(a.website) ? a.website : 'https://' + a.website,
+            target: '_blank', rel: 'noopener noreferrer', className: 'crm-contact'
+          }, a.website.replace(/^https?:\/\//i, '')) : '\u2014'),
+      crmField('License type', a.licenseType || '\u2014'),
+      crmField('Sales rep', a.rep || '\u2014'),
+      crmField('First order', a.first ? crmFmtD(a.first) : '\u2014'),
+      crmField('Last order', a.last ? crmFmtD(a.last) : '\u2014')));
+
+  const kpiGrid = e('div', {
+    className: 'kpi-grid',
+    style: { gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: 16 }
+  },
+    crmKpi('Lifetime revenue', fmtMoneyFull(a.revenue)),
+    crmKpi('Orders', fmtNum(a.orderCount)),
+    crmKpi('Avg order', fmtMoneyFull(a.orderCount ? a.revenue / a.orderCount : 0)),
+    crmKpi('Units', fmtNum(a.units)),
+    crmKpi('Credits applied', fmtMoneyFull(totals.credits)),
+    crmKpi('Discounts given', fmtMoneyFull(totals.discounts)),
+    crmKpi('Total outstanding', fmtMoneyFull(totals.outstanding)),
+    crmKpi('Invoices', fmtNum(invoices.length)));
+
+  // Invoice rows. Column order matches the Sales tab: date, order, then money.
+  const invoiceRows = invoices.length === 0
+    ? [e('tr', { key: 'none' }, e('td', {
+        colSpan: 8,
+        style: { padding: 18, color: 'var(--text-faint)', textAlign: 'center' }
+      }, 'No invoices.'))]
+    : invoices.map((o, i) => e('tr', {
+        key: i,
+        className: 'crm-inv' + (invoice === o.id ? ' crm-inv-active' : ''),
+        // A second click on the same invoice clears the filter rather than
+        // trapping you in it.
+        onClick: () => setInvoice(invoice === o.id ? null : o.id)
+      },
+        e('td', { className: 'dim font-mono' }, o.date ? crmFmtD(o.date) : '\u2014'),
+        e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, '#' + o.id),
+        e('td', null, e('span', {
+          className: 'pill',
+          style: o.paid
+            ? { color: 'var(--text-faint)', borderColor: 'var(--border)' }
+            : { color: '#d6433f', borderColor: '#d6433f' }
+        }, o.paid ? 'Paid' : 'Open')),
+        e('td', { className: 'num dim' }, fmtNum(o.lines)),
+        e('td', { className: 'num dim' }, fmtNum(o.units)),
+        e('td', { className: 'num dim' }, o.discount ? fmtMoneyFull(o.discount) : '\u2014'),
+        e('td', { className: 'num dim' }, o.credit ? fmtMoneyFull(o.credit) : '\u2014'),
+        e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.total)))));
+
+  const invoiceTable = e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'All ', e('em', null, 'invoices')),
+      e('span', { className: 'section-meta' },
+        fmtNum(invoices.length) + ' invoices \u00b7 '
+        + fmtNum(invoices.filter(o => !o.paid).length) + ' open \u00b7 '
+        + fmtNum(invoices.filter(o => o.paid).length) + ' paid'
+        + (invoice ? ' \u00b7 filtering products by #' + invoice : ' \u00b7 click one to filter products'))),
+    e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
+      e('div', { style: { overflowX: 'auto', maxHeight: 420 } },
+        e('table', { className: 'data-table' },
+          e('thead', null, e('tr', null,
+            e('th', null, 'Date'),
+            e('th', null, 'Invoice #'),
+            e('th', null, 'Status'),
+            e('th', { className: 'num' }, 'Lines'),
+            e('th', { className: 'num' }, 'Units'),
+            e('th', { className: 'num' }, 'Discounts'),
+            e('th', { className: 'num' }, 'Credits'),
+            e('th', { className: 'num' }, 'Net Sales'))),
+          e('tbody', null, invoiceRows)))));
+
+  // Product rows. Same shape as the Sales tab's product breakdown.
+  const productRows = products.length === 0
+    ? [e('tr', { key: 'none' }, e('td', {
+        colSpan: 6,
+        style: { padding: 18, color: 'var(--text-faint)', textAlign: 'center' }
+      }, 'No products.'))]
+    : products.map((p, i) => e('tr', { key: i },
+        e('td', null, p.name),
+        e('td', { className: 'dim' }, p.line || '\u2014'),
+        e('td', { className: 'num dim' }, fmtNum(p.units)),
+        e('td', { className: 'num dim' }, fmtNum(p.orderCount)),
+        e('td', { className: 'num dim' }, p.units ? fmtMoneyFull(p.revenue / p.units) : '\u2014'),
+        e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(p.revenue)))));
+
+  const productTable = e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'All ', e('em', null, 'products')),
+      e('div', { style: { display: 'flex', alignItems: 'center', gap: 10 } },
+        e('span', { className: 'section-meta' },
+          fmtNum(products.length) + ' products'
+          + (invoice ? ' on invoice #' + invoice : ' across all invoices')),
+        invoice
+          ? e('button', { className: 'crm-btn', onClick: () => setInvoice(null) }, 'Clear filter')
+          : null)),
+    e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
+      e('div', { style: { overflowX: 'auto', maxHeight: 420 } },
+        e('table', { className: 'data-table' },
+          e('thead', null, e('tr', null,
+            e('th', null, 'Product'),
+            e('th', null, 'Line'),
+            e('th', { className: 'num' }, 'Units Sold'),
+            e('th', { className: 'num' }, 'Invoices'),
+            e('th', { className: 'num' }, 'Avg Price'),
+            e('th', { className: 'num' }, 'Net Sales'))),
+          e('tbody', null, productRows)))));
+
+  return e(React.Fragment, null,
+    profileCard,
+    kpiGrid,
+    // Additional information carries both the Salesforce fields and the ones
+    // the team maintains, in a single card.
+    e(CRMSalesforce, { sf: a.sf, customer: a.name }),
+    e(CRMNotes, { customer: a.name }),
+    e(CRMFiles, { customer: a.name }),
+    invoiceTable,
+    productTable);
+}
+
+const crmField = (label, value, mono) => React.createElement('div', { className: 'crm-field', key: label },
+  React.createElement('div', { className: 'crm-field-label' }, label),
+  React.createElement('div', { className: 'crm-field-value' + (mono ? ' font-mono' : '') }, value));
+
+const crmKpi = (label, value) => React.createElement('div', { className: 'kpi', key: label },
+  React.createElement('div', { className: 'kpi-label' }, label),
+  React.createElement('div', { className: 'kpi-value' }, value));
+
+
+// ── User-added account information ───────────────────────────────────────
+// Label/value pairs the team maintains themselves, for anything the LeafLink,
+// Apex or Salesforce feeds do not carry — delivery windows, who to ask for,
+// order cadence. Saving a label that already exists overwrites it, so editing
+// and adding are the same action.
+function CRMDetails({ customer }) {
+  const e = React.createElement;
+  const [items, setItems] = React.useState(null);
+  const [err, setErr] = React.useState(null);
+  const [label, setLabel] = React.useState('');
+  const [value, setValue] = React.useState('');
+  const [kind, setKind] = React.useState('field');
+  const [busy, setBusy] = React.useState(false);
+
+  const load = React.useCallback(() => {
+    crmFetch('/details?state=' + CRM_STATE + '&customer=' + encodeURIComponent(customer))
+      .then(r => { setItems(r.details || []); setErr(null); })
+      .catch(x => { setItems([]); setErr(x.message); });
+  }, [customer]);
+  React.useEffect(load, [load]);
+
+  // One call covers create, rename and edit. Passing an id updates that row,
+  // which is what allows a label to change rather than only its value.
+  const save = (payload) => {
+    if (!String(payload.label || '').trim() || busy) return;
+    setBusy(true);
+    crmFetch('/details', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ state: CRM_STATE, customer: customer }, payload))
+    }).then(() => { setLabel(''); setValue(''); load(); })
+      .catch(x => setErr(x.message))
+      .then(() => setBusy(false));
+  };
+
+  const remove = (id, l) => {
+    if (!window.confirm('Remove "' + l + '" from this account?')) return;
+    crmFetch('/details?id=' + id, { method: 'DELETE' })
+      .then(load).catch(x => setErr(x.message));
+  };
+
+  const headerRow = it => e('tr', { key: it.id, className: 'crm-detail-header' },
+    e('td', { colSpan: 3 }, e('input', {
+      className: 'crm-inline-input crm-inline-header',
+      defaultValue: it.label,
+      onBlur: ev => { if (ev.target.value.trim() && ev.target.value !== it.label)
+        save({ id: it.id, label: ev.target.value, value: '', kind: 'header' }); },
+      onKeyDown: ev => { if (ev.key === 'Enter') ev.target.blur(); }
+    })),
+    e('td', null, e('button', {
+      className: 'crm-link-btn', onClick: () => remove(it.id, it.label)
+    }, 'remove')));
+
+  const fieldRow = it => e('tr', { key: it.id },
+    e('td', { style: { width: '30%' } }, e('input', {
+      className: 'crm-inline-input', defaultValue: it.label, title: 'Rename this field',
+      onBlur: ev => { if (ev.target.value.trim() && ev.target.value !== it.label)
+        save({ id: it.id, label: ev.target.value, value: it.value, kind: 'field' }); },
+      onKeyDown: ev => { if (ev.key === 'Enter') ev.target.blur(); }
+    })),
+    e('td', null, e('input', {
+      className: 'crm-inline-input', defaultValue: it.value, title: 'Edit this value',
+      onBlur: ev => { if (ev.target.value !== it.value)
+        save({ id: it.id, label: it.label, value: ev.target.value, kind: 'field' }); },
+      onKeyDown: ev => { if (ev.key === 'Enter') ev.target.blur(); }
+    })),
+    e('td', { className: 'dim font-mono', style: { fontSize: 10, whiteSpace: 'nowrap' } },
+      (it.author || '\u2014') + ' \u00b7 ' + fmtStamp(it.updated_at)),
+    e('td', null, e('button', {
+      className: 'crm-link-btn', onClick: () => remove(it.id, it.label)
+    }, 'remove')));
+
+  const rows = (items || []).map(it => it.kind === 'header' ? headerRow(it) : fieldRow(it));
+
+  const table = items && items.length
+    ? e('table', { className: 'data-table crm-detail-table', style: { marginBottom: 14 } },
+        e('tbody', null, rows))
+    : null;
+
+  const addRow = e('div', { className: 'crm-add-row' },
+    e('select', {
+      className: 'filter-select', value: kind,
+      onChange: ev => setKind(ev.target.value), style: { maxWidth: 130 }
+    },
+      e('option', { value: 'field' }, 'Field'),
+      e('option', { value: 'header' }, 'Heading')),
+    e('input', {
+      className: 'filter-input',
+      placeholder: kind === 'header' ? 'Heading \u2014 e.g. Logistics' : 'Field name \u2014 e.g. Delivery window',
+      value: label, onChange: ev => setLabel(ev.target.value),
+      onKeyDown: ev => { if (ev.key === 'Enter') save({ label: label, value: value, kind: kind }); }
+    }),
+    kind === 'header' ? null : e('input', {
+      className: 'filter-input', placeholder: 'Value',
+      value: value, onChange: ev => setValue(ev.target.value),
+      onKeyDown: ev => { if (ev.key === 'Enter') save({ label: label, value: value, kind: kind }); }
+    }),
+    e('button', {
+      className: 'crm-btn', disabled: busy || !label.trim(),
+      onClick: () => save({ label: label, value: value, kind: kind })
+    }, busy ? 'Saving\u2026' : (kind === 'header' ? 'Add heading' : 'Add field')));
+
+  // Rendered INSIDE the Additional information card, so it is content rather
+  // than its own section.
+  return e('div', null,
+    e('div', {
+      className: 'crm-field-label',
+      style: { marginBottom: 8, display: 'flex', justifyContent: 'space-between' }
+    },
+      e('span', null, 'Added by the team'),
+      e('span', { style: { color: 'var(--text-faint)' } },
+        items ? fmtNum(items.length) + (items.length === 1 ? ' entry' : ' entries') : 'loading\u2026')),
+    table,
+    addRow,
+    err ? e('div', { className: 'crm-warn' }, err) : null,
+    items && !items.length && !err
+      ? e('div', { className: 'kpi-sub', style: { marginTop: 10 } },
+          'Nothing added yet. Add a field, or a heading to group fields under.')
+      : null);
+}
+
+// ── Notes ────────────────────────────────────────────────────────────────
+function CRMNotes({ customer }) {
+  const e = React.createElement;
+  const [notes, setNotes] = React.useState(null);
+  const [err, setErr] = React.useState(null);
+  const [draft, setDraft] = React.useState('');
+  const [busy, setBusy] = React.useState(false);
+
+  const load = React.useCallback(() => {
+    crmFetch('/notes?state=' + CRM_STATE + '&customer=' + encodeURIComponent(customer))
+      .then(r => { setNotes(r.notes || []); setErr(null); })
+      .catch(x => { setNotes([]); setErr(x.message); });
+  }, [customer]);
+  React.useEffect(load, [load]);
+
+  const remove = (id) => {
+    if (!window.confirm('Delete this note? This cannot be undone.')) return;
+    crmFetch('/notes?id=' + id, { method: 'DELETE' })
+      .then(load)
+      // The Worker only lets the author delete their own note, so a 403 here
+      // is a real answer rather than a fault - surface it as written.
+      .catch(x => setErr(x.message));
+  };
+
+  const add = () => {
+    const body = draft.trim();
+    if (!body || busy) return;
+    setBusy(true);
+    crmFetch('/notes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ state: CRM_STATE, customer: customer, body: body })
+    }).then(() => { setDraft(''); load(); })
+      .catch(x => setErr(x.message))
+      .then(() => setBusy(false));
+  };
+
+  return e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'Account ', e('em', null, 'notes')),
+      e('span', { className: 'section-meta' }, notes ? fmtNum(notes.length) + ' notes' : 'loading\u2026')),
+    e('div', { className: 'card' },
+      e('textarea', {
+        className: 'crm-textarea',
+        placeholder: 'Add a note about this account\u2026',
+        value: draft,
+        onChange: ev => setDraft(ev.target.value),
+        // Ctrl/Cmd+Enter saves, so a note can be added without reaching for the mouse.
+        onKeyDown: ev => { if ((ev.metaKey || ev.ctrlKey) && ev.key === 'Enter') add(); }
+      }),
+      e('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 } },
+        e('span', { className: 'kpi-sub' }, 'Ctrl+Enter to save'),
+        e('button', { className: 'crm-btn', disabled: busy || !draft.trim(), onClick: add },
+          busy ? 'Saving\u2026' : 'Save note')),
+      err ? e('div', { className: 'crm-warn' }, err) : null,
+      notes && notes.length
+        ? e('div', { style: { marginTop: 14 } }, notes.map(n => e('div', { key: n.id, className: 'crm-note' },
+            e('div', { className: 'crm-note-meta' },
+              e('span', null, (n.author || 'unknown') + ' \u00b7 ' + fmtStamp(n.created_at)),
+              e('button', {
+                className: 'crm-link-btn', title: 'Delete this note',
+                onClick: () => remove(n.id)
+              }, 'delete')),
+            e('div', { className: 'crm-note-body' }, n.body))))
+        : (notes && !err ? e('div', { className: 'kpi-sub', style: { marginTop: 12 } }, 'No notes yet.') : null)));
+}
+
+// ── Files ────────────────────────────────────────────────────────────────
+function CRMFiles({ customer }) {
+  const e = React.createElement;
+  const [files, setFiles] = React.useState(null);
+  const [err, setErr] = React.useState(null);
+  const [busy, setBusy] = React.useState(false);
+  const [drag, setDrag] = React.useState(false);
+  const inputRef = React.useRef(null);
+
+  const load = React.useCallback(() => {
+    crmFetch('/files?state=' + CRM_STATE + '&customer=' + encodeURIComponent(customer))
+      .then(r => { setFiles(r.files || []); setErr(null); })
+      .catch(x => { setFiles([]); setErr(x.message); });
+  }, [customer]);
+  React.useEffect(load, [load]);
+
+  const upload = list => {
+    const arr = Array.from(list || []);
+    if (!arr.length || busy) return;
+    setBusy(true); setErr(null);
+    // Sequential rather than parallel: uploads are large, and one at a time
+    // keeps a failure attributable to a specific file.
+    const next = i => {
+      if (i >= arr.length) { setBusy(false); load(); return; }
+      const fd = new FormData();
+      fd.append('file', arr[i]);
+      crmFetch('/files?state=' + CRM_STATE + '&customer=' + encodeURIComponent(customer),
+        { method: 'POST', body: fd })
+        .then(() => next(i + 1))
+        .catch(x => { setErr(arr[i].name + ': ' + x.message); setBusy(false); load(); });
+    };
+    next(0);
+  };
+
+  const remove = key => {
+    if (!window.confirm('Delete this file? This cannot be undone.')) return;
+    crmFetch('/files?key=' + encodeURIComponent(key), { method: 'DELETE' })
+      .then(load).catch(x => setErr(x.message));
+  };
+
+  return e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'Files ', e('em', null, '& documents')),
+      e('span', { className: 'section-meta' }, files ? fmtNum(files.length) + ' files' : 'loading\u2026')),
+    e('div', { className: 'card' },
+      e('div', {
+        className: 'crm-drop' + (drag ? ' crm-drop-over' : ''),
+        onClick: () => inputRef.current && inputRef.current.click(),
+        onDragOver: ev => { ev.preventDefault(); setDrag(true); },
+        onDragLeave: () => setDrag(false),
+        onDrop: ev => { ev.preventDefault(); setDrag(false); upload(ev.dataTransfer.files); }
+      },
+        e('div', { style: { fontSize: 22, marginBottom: 6 } }, '\u2191'),
+        e('div', null, busy ? 'Uploading\u2026' : 'Drop files here, or click to choose'),
+        e('div', { className: 'kpi-sub', style: { marginTop: 4 } }, 'PDF, images, xlsx, docx, csv \u00b7 up to 25 MB each')),
+      e('input', {
+        ref: inputRef, type: 'file', multiple: true, style: { display: 'none' },
+        onChange: ev => { upload(ev.target.files); ev.target.value = ''; }
+      }),
+      err ? e('div', { className: 'crm-warn' }, err) : null,
+      files && files.length
+        ? e('table', { className: 'data-table', style: { marginTop: 14 } },
+            e('thead', null, e('tr', null,
+              e('th', null, 'File'), e('th', null, 'Uploaded by'), e('th', null, 'When'),
+              e('th', { className: 'num' }, 'Size'), e('th', null, ''))),
+            e('tbody', null, files.map(f => e('tr', { key: f.key },
+              e('td', null, e('a', {
+                href: CRM_API + '/file?key=' + encodeURIComponent(f.key),
+                target: '_blank', rel: 'noopener noreferrer',
+                style: { color: 'var(--accent)', textDecoration: 'none', borderBottom: '1px dotted var(--accent)' }
+              }, f.filename)),
+              e('td', { className: 'dim' }, f.uploaded_by || '\u2014'),
+              e('td', { className: 'dim font-mono' }, fmtStamp(f.created_at)),
+              e('td', { className: 'num dim' }, fmtBytes(f.size)),
+              e('td', null, e('button', { className: 'crm-link-btn', onClick: () => remove(f.key) }, 'delete')))))) 
+        : (files && !err ? e('div', { className: 'kpi-sub', style: { marginTop: 12 } }, 'No files yet.') : null)));
+}
+
 function ViewTabs({ tab, setTab }) {
   const e = React.createElement;
   const mk = (id, label) => e('button', {
@@ -904,7 +1857,7 @@ function ViewTabs({ tab, setTab }) {
     className: 'view-tab' + (tab === id ? ' active' : '')
   }, label);
   return e('div', { className: 'view-tabs-wrap' },
-    e('div', { className: 'view-tabs' }, mk('sales', 'Sales'), mk('ar', 'Accounts Receivable'), mk('inventory', 'Inventory'), mk('prospecting', 'Prospecting')));
+    e('div', { className: 'view-tabs' }, mk('sales', 'Sales'), mk('ar', 'Accounts Receivable'), mk('inventory', 'Inventory'), mk('prospecting', 'Prospecting'), mk('crm', 'CRM')));
 }
 function AccountsReceivable({ data }) {
   const e = React.createElement;
@@ -1098,6 +2051,75 @@ function AccountsReceivable({ data }) {
           AGE.map(a => e(Bar, { key: a.key, dataKey: a.key, name: a.label, stackId: 'a', fill: a.color, radius: [0, 2, 2, 0] }))))));
 
   // ── Open invoices table ──
+  // ── Paid invoices ─────────────────────────────────────────────────────
+  // Companion to the open-receivables list above: every invoice that HAS been
+  // settled. Same rows, but selecting the paid statuses instead of the open
+  // ones. Vocabulary differs by market (MA "Completed", MO lowercase
+  // "completed", MI "Paid"), and NJ reports no payment status at all - there a
+  // populated paid_date is the signal. All three cases are handled below.
+  const paidInvoices = React.useMemo(() => {
+    const PAID_ST = { paid:1, completed:1, complete:1, 'paid in full':1, 'fully paid':1, settled:1, closed:1 };
+    const map = {};
+    rows.forEach(r => {
+      const stRaw = r.payment_status || '';
+      const st = String(stRaw).toLowerCase().trim();
+      const pDate = parseDate(r.paid_date_raw || r.paid_date) || parsePaidDate(r.payment_dates);
+      if (!PAID_ST[st] && !pDate) return;
+      const id = r.order_number || r.order_id || r.order;
+      if (!id) return;
+      if (!map[id]) {
+        map[id] = {
+          invoice: r.order_number || r.order_id || ('#' + r.order),
+          buyer: r.buyer_name || '\u2014',
+          destination: r.buyer_shipping_name || r.buyer_name || '\u2014',
+          license: r.buyer_license || '\u2014',
+          rep: repOf(r),
+          status: stRaw || 'Paid',
+          orderDate: parseDate(r.order_date_localized_raw || r.order_date_utc_raw || r.order_date_localized || r.order_date_utc || r.order_date_raw || r.order_date),
+          dueDate: parseDate(r.due_date_raw || r.due_date),
+          deliveryDate: parseDate(r.delivery_date_raw || r.delivery_date),
+          paidDate: pDate,
+          payments: paymentEntries(r.payment_dates),
+          addlDiscount: typeof r.additional_discounts === 'number' ? r.additional_discounts / 100 : parseMoney(r.additional_discounts),
+          amount: 0
+        };
+      }
+      if (!map[id].paidDate && pDate) map[id].paidDate = pDate;
+      const lineRev = typeof r.line_total_raw === 'number' ? r.line_total_raw / 100 : parseMoney(r.line_total || r.computed_sale_price);
+      if (lineRev) { map[id].amount += lineRev; map[id]._hasLine = true; }
+      else if (!map[id]._hasLine) {
+        map[id].orderRev = typeof r.order_total === 'number' ? r.order_total : (typeof r.order_price === 'number' ? r.order_price / 100 : 0);
+      }
+    });
+    return Object.values(map).map(o => {
+      const total = Math.max(0, (o._hasLine ? o.amount : (o.orderRev || 0)) - (o.addlDiscount || 0));
+      const due = o.dueDate || (o.orderDate ? new Date(o.orderDate.getTime() + 30 * 86400000) : null);
+      // Days to pay: settlement date minus due date. Negative = paid early.
+      const daysToPay = (o.paidDate && due) ? Math.round((o.paidDate.getTime() - due.getTime()) / 86400000) : null;
+      return Object.assign({}, o, { total, due, daysToPay });
+    }).filter(o => o.total > 0);
+  }, [rows]);
+
+  const paidShown = React.useMemo(() => paidInvoices.filter(o => {
+    if (buyerSel.length && !buyerSel.includes(o.buyer)) return false;
+    if (repSel && o.rep !== repSel) return false;
+    if (q) { const s = (o.invoice + ' ' + o.buyer + ' ' + o.rep).toLowerCase(); if (!s.includes(q.toLowerCase())) return false; }
+    return true;
+  }), [paidInvoices, buyerSel, repSel, q]);
+
+  const paidSorted = React.useMemo(() => paidShown.slice().sort((a, b) =>
+    (b.paidDate ? b.paidDate.getTime() : 0) - (a.paidDate ? a.paidDate.getTime() : 0)), [paidShown]);
+  const paidPg = usePager(paidSorted.length, 50);
+  const paidTot = React.useMemo(() => {
+    let sum = 0, withDate = 0, dsum = 0;
+    paidShown.forEach(o => {
+      sum += o.total;
+      if (o.daysToPay != null) { withDate++; dsum += o.daysToPay; }
+    });
+    return { sum: sum, avgDays: withDate ? Math.round(dsum / withDate) : null, count: paidShown.length };
+  }, [paidShown]);
+
+
   const invTable = e('section', { className: 'section' },
     e('div', { className: 'section-header' },
       e('h2', { className: 'section-title' }, 'Open ', e('em', null, 'invoices')),
@@ -1123,6 +2145,59 @@ function AccountsReceivable({ data }) {
                   e('td', null, e('span', { style: { fontFamily: 'JetBrains Mono', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.06em', color: bucketColor(o.bucket), border: '1px solid ' + bucketColor(o.bucket), borderRadius: 999, padding: '2px 8px', whiteSpace: 'nowrap' } }, bucketLabel(o.bucket))),
                   e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.net))))))))));
 
+  // ── Paid invoices table ──
+  const paidTable = e('section', { className: 'section' },
+    e('div', { className: 'section-header' },
+      e('h2', { className: 'section-title' }, 'Paid ', e('em', null, 'invoices')),
+      e('div', { style: { display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' } },
+        e('span', { className: 'section-meta' },
+          fmtNum(paidTot.count) + ' invoices \u00b7 ' + fmtMoneyFull(paidTot.sum)
+          + (paidTot.avgDays != null ? ' \u00b7 avg ' + (paidTot.avgDays > 0 ? paidTot.avgDays + 'd late' : Math.abs(paidTot.avgDays) + 'd early') : '')
+          + ' \u00b7 newest first'))),
+    e('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
+      e('div', { style: { overflowX: 'auto', maxHeight: 560 } },
+        e('table', { className: 'data-table', style: { minWidth: 1180 } },
+          e('thead', null, e('tr', null,
+            e('th', null, 'Payments'),
+            e('th', null, 'Invoice #'),
+            e('th', null, 'Destination'),
+            e('th', null, 'License #'),
+            e('th', null, 'Delivery Date'),
+            e('th', null, 'Due Date'),
+            e('th', { className: 'num' }, 'Days To Pay'),
+            e('th', { className: 'num' }, 'Invoice Total'),
+            e('th', null, 'Status'),
+            e('th', null, 'Rep'))),
+          e('tbody', null,
+            paidSorted.length === 0
+              ? e('tr', null, e('td', { colSpan: 10, style: { padding: 20, color: 'var(--text-faint)', textAlign: 'center' } }, 'No paid invoices match the filters.'))
+              : paidSorted.slice(paidPg.start, paidPg.end).map((o, i) => e('tr', { key: i },
+                  // Paid date. An invoice can settle in several instalments -
+                  // Apex records each, and some are credits rather than cash.
+                  // Show every one, newest first, so a $2 top-up in Jul 2026 on
+                  // top of a $5,705 payment in Sep 2025 is visible rather than
+                  // hidden behind a single date.
+                  e('td', { className: 'dim font-mono', style: { whiteSpace: 'nowrap' } },
+                    (o.payments && o.payments.length)
+                      ? o.payments.map((p, k) => e('div', {
+                          key: k,
+                          style: { lineHeight: 1.5, color: k === 0 ? 'var(--text)' : 'var(--text-dim)' },
+                          title: p.kind + (p.amount != null ? ' of ' + fmtMoneyFull(p.amount) : '') + ' on ' + fmtD(p.date)
+                        }, fmtD(p.date) + (p.amount != null ? '  ' + fmtMoneyFull(p.amount) : '')
+                           + (p.kind === 'Credit' ? '  (credit)' : '')))
+                      : fmtD(o.paidDate)),
+                  e('td', { className: 'font-mono', style: { color: 'var(--accent)' } }, o.invoice),
+                  e('td', { title: o.destination, style: { whiteSpace: 'normal', minWidth: 150 } }, o.destination),
+                  e('td', { className: 'font-mono dim', style: { fontSize: 11 } }, o.license),
+                  e('td', { className: 'dim font-mono' }, fmtD(o.deliveryDate)),
+                  e('td', { className: 'dim font-mono' }, fmtD(o.due)),
+                  e('td', { className: 'num', style: { color: o.daysToPay == null ? 'var(--text-faint)' : (o.daysToPay > 0 ? '#d6433f' : '#2e9e57') } },
+                    o.daysToPay == null ? '\u2014' : (o.daysToPay > 0 ? o.daysToPay + 'd late' : (o.daysToPay === 0 ? 'on time' : Math.abs(o.daysToPay) + 'd early'))),
+                  e('td', { className: 'num' }, e('strong', null, fmtMoneyFull(o.total))),
+                  e('td', { className: 'dim' }, o.status),
+                  e('td', { className: 'dim' }, o.rep))))))),
+      e(Pager, { pager: paidPg, total: paidSorted.length, unit: 'invoices' }));
+
   return e('div', { className: 'app ar-theme' },
     e(Topbar, { fetchedAt: fetchedAt, rowCount: shown.length, totalCount: invoices.length }),
     e('div', { style: { marginBottom: 6 } },
@@ -1134,7 +2209,8 @@ function AccountsReceivable({ data }) {
     kpiGrid,
     twoUp,
     repChart,
-    invTable);
+    invTable,
+    paidTable);
 }
 
 function InventoryView({ data }) {
@@ -1748,14 +2824,19 @@ function App() {
           .catch(e => { if (e.rateLimited) throw e; return { rows: [] }; }),
         // Prospect list (licensed retailers). Optional: powers the New/potential buyers section.
         grab('prospects.json').then(r => r.ok ? r.json() : null)
+          .catch(e => { if (e.rateLimited) throw e; return null; }),
+        // Salesforce account details for the CRM tab. Optional: if the file is
+        // not there yet the CRM simply omits the "Additional information"
+        // section rather than failing the whole load.
+        grab('salesforce_accounts.json').then(r => r.ok ? r.json() : null)
           .catch(e => { if (e.rateLimited) throw e; return null; })
-      ]).then(([live, hist, prospects]) => {
+      ]).then(([live, hist, prospects, salesforce]) => {
         if (cancelled) return;
         const histRows = Array.isArray(hist) ? hist : (hist.rows || []);
         // _liveRows = current Apex data only. Used by Accounts Receivable, which must
         // ignore the 2024 historical backfill (old records with stale "Unpaid" flags
         // and no due dates would otherwise inflate AR with settled invoices).
-        setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [], prospects: prospects });
+        setData({ ...live, rows: [...histRows, ...(live.rows || [])], _liveRows: live.rows || [], prospects: prospects, salesforce: salesforce });
         setError(null);
         setStale(null);
         backoff = 0;
@@ -1802,6 +2883,8 @@ function App() {
       ? /*#__PURE__*/React.createElement(AccountsReceivable, { data: data })
       : tab === 'prospecting'
       ? /*#__PURE__*/React.createElement(Prospecting, { data: data })
+      : tab === 'crm'
+      ? /*#__PURE__*/React.createElement(CRM, { data: data })
       : tab === 'inventory'
       ? /*#__PURE__*/React.createElement(InventoryView, { data: data })
       : /*#__PURE__*/React.createElement(Dashboard, {
