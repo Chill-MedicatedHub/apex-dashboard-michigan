@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-09-05",
+  "as_of": "2026-09-06",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1634,
@@ -1265,7 +1265,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "7344182160",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -4329,17 +4329,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "PC-000248",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "9893232222",
-      "email": "",
-      "website": "https://www.theriverprovisioning.com"
-    },
-    {
-      "name": "The River Provisioning",
       "license": "AU-R-000177",
       "type": "",
       "status": "",
@@ -4348,6 +4337,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "PC-000248",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "9893232222",
+      "email": "",
+      "website": "https://www.theriverprovisioning.com"
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -10819,7 +10819,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10830,7 +10830,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
