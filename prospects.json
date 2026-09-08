@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-09-07",
+  "as_of": "2026-09-08",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1634,
@@ -2536,23 +2536,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "PC-000294",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "9892721745",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "AU-R-000216",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "PC-000294",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "9892721745",
       "email": "",
       "website": ""
     },
