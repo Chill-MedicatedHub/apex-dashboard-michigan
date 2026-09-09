@@ -25,10 +25,8 @@ import requests
 from dotenv import load_dotenv
 import os
 
-
-
-def push_to_chill(payload, market=None, source="apex"):
-    """Send the scraped rows to Chill Desk. Never raises."""
+def push_to_chill(payload, market=None, source="apex", batch_size=8000):
+    """Send the scraped rows to Chill Desk, in batches. Never raises."""
     url = os.getenv("CHILL_DESK_URL", "").rstrip("/")
     key = os.getenv("CHILL_INGEST_KEY", "")
     market = market or os.getenv("CHILL_MARKET", "")
@@ -42,44 +40,59 @@ def push_to_chill(payload, market=None, source="apex"):
         print("  Chill Desk: no rows to push; skipping.")
         return
 
-    try:
-        resp = requests.post(
-            f"{url}/api/ingest/orders",
-            json={"rows": rows, "market": market, "source": source},
-            headers={"X-Ingest-Key": key, "Content-Type": "application/json"},
-            timeout=180,
-        )
-    except requests.RequestException as e:
-        print(f"  Chill Desk: could not reach the server ({e}). Data is still saved locally.")
-        return
+    # Sending 35,000 rows in one request is 25 MB of JSON, which is hard on a
+    # small server. Batches keep each request modest and mean a hiccup costs
+    # one chunk rather than the whole run. Re-sending a row is harmless — the
+    # server keys on the order, so duplicates collapse.
+    batches = [rows[i:i + batch_size] for i in range(0, len(rows), batch_size)]
+    totals = {"imported": 0, "licences": set(), "unmatched": {}, "markets": {}, "no_market": 0}
+    failed = 0
 
-    if resp.status_code == 401:
-        print("  Chill Desk: ingest key rejected. Generate a new one in Partner sales")
-        print("             and update CHILL_INGEST_KEY in .env.")
-        return
+    for n, chunk in enumerate(batches, 1):
+        try:
+            resp = requests.post(
+                f"{url}/api/ingest/orders",
+                json={"rows": chunk, "market": market, "source": source},
+                headers={"X-Ingest-Key": key, "Content-Type": "application/json"},
+                timeout=300,
+            )
+        except requests.RequestException as e:
+            print(f"  Chill Desk: batch {n}/{len(batches)} could not reach the server ({e}).")
+            failed += 1
+            continue
 
-    if resp.status_code != 200:
-        print(f"  Chill Desk: server returned {resp.status_code} — {resp.text[:200]}")
-        return
+        if resp.status_code == 401:
+            print("  Chill Desk: ingest key rejected. Generate a new one in Partner sales")
+            print("             and update CHILL_INGEST_KEY.")
+            return
+        if resp.status_code != 200:
+            print(f"  Chill Desk: batch {n}/{len(batches)} returned {resp.status_code} — {resp.text[:200]}")
+            failed += 1
+            continue
 
-    r = resp.json()
-    print(f"  Chill Desk: pushed {r['imported']} rows; "
-          f"{r['matched']} of {r['licences']} licences matched a partner account.")
+        r = resp.json()
+        totals["imported"] += r.get("imported", 0)
+        totals["no_market"] += r.get("noMarket", 0)
+        for m, c in (r.get("markets") or {}).items():
+            totals["markets"][m] = totals["markets"].get(m, 0) + c
+        for u in (r.get("unmatched") or []):
+            totals["unmatched"][u["license"]] = u.get("buyer") or "?"
 
-    by_state = r.get("markets") or {}
-    if by_state:
-        print("  Chill Desk: " + ", ".join(f"{m} {n}" for m, n in by_state.items()))
-    if r.get("noMarket"):
-        print(f"  Chill Desk: {r['noMarket']} row(s) had no state — set CHILL_MARKET in .env.")
+    print(f"  Chill Desk: pushed {totals['imported']} of {len(rows)} rows "
+          f"in {len(batches)} batch(es)" + (f", {failed} failed" if failed else "") + ".")
 
-    unmatched = r.get("unmatched") or []
-    if unmatched:
-        print(f"  Chill Desk: {len(unmatched)} licence(s) have sales but no account yet —")
-        for u in unmatched[:5]:
-            print(f"               {u.get('buyer') or '?'}  ({u['license']}, {u['rows']} rows)")
-        if len(unmatched) > 5:
-            print(f"               …and {len(unmatched) - 5} more. See Partner sales.")
+    if totals["markets"]:
+        print("  Chill Desk: " + ", ".join(f"{m} {n}" for m, n in totals["markets"].items()))
+    if totals["no_market"]:
+        print(f"  Chill Desk: {totals['no_market']} row(s) had no state — set CHILL_MARKET.")
 
+    if totals["unmatched"]:
+        items = list(totals["unmatched"].items())
+        print(f"  Chill Desk: {len(items)} licence(s) have sales but no account yet —")
+        for lic, buyer in items[:5]:
+            print(f"               {buyer}  ({lic})")
+        if len(items) > 5:
+            print(f"               ...and {len(items) - 5} more. See Partner sales.")
 
 load_dotenv()
 
