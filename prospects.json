@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-09-18",
+  "as_of": "2026-09-19",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1634,
@@ -1265,7 +1265,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344182160",
       "email": "",
       "website": ""
     },
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2459,7 +2459,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2536,23 +2536,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "AU-R-000216",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "PC-000294",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "9892721745",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "AU-R-000216",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -4329,17 +4329,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "AU-R-000177",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The River Provisioning",
       "license": "PC-000248",
       "type": "",
       "status": "",
@@ -4348,6 +4337,17 @@
       "phone": "9893232222",
       "email": "",
       "website": "https://www.theriverprovisioning.com"
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "AU-R-000177",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -5011,7 +5011,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001486",
+      "license": "AU-R-001689",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5022,7 +5022,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001689",
+      "license": "AU-R-001486",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5313,7 +5313,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -10104,7 +10104,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10115,7 +10115,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10819,7 +10819,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10830,7 +10830,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -11523,7 +11523,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11534,7 +11534,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -15659,17 +15659,6 @@
     },
     {
       "name": "Ounces",
-      "license": "AU-R-000627",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "2694577321",
-      "email": "",
-      "website": "http://ouncesmi.com"
-    },
-    {
-      "name": "Ounces",
       "license": "PC-000758",
       "type": "",
       "status": "",
@@ -15678,6 +15667,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "Ounces",
+      "license": "AU-R-000627",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "2694577321",
+      "email": "",
+      "website": "http://ouncesmi.com"
     },
     {
       "name": "PUFF - Sturgis",
