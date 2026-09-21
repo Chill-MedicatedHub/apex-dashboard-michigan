@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-09-20",
+  "as_of": "2026-09-21",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1634,
@@ -2536,23 +2536,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "PC-000294",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "9892721745",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "AU-R-000216",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "PC-000294",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "9892721745",
       "email": "",
       "website": ""
     },
@@ -4329,17 +4329,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "PC-000248",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "9893232222",
-      "email": "",
-      "website": "https://www.theriverprovisioning.com"
-    },
-    {
-      "name": "The River Provisioning",
       "license": "AU-R-000177",
       "type": "",
       "status": "",
@@ -4348,6 +4337,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "PC-000248",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "9893232222",
+      "email": "",
+      "website": "https://www.theriverprovisioning.com"
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -10104,7 +10104,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10115,7 +10115,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10819,7 +10819,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10830,7 +10830,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -17529,23 +17529,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "PC-000154",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "7345449999",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "AU-R-000269",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "PC-000154",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "7345449999",
       "email": "",
       "website": ""
     },
