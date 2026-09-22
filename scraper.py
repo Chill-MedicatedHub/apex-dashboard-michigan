@@ -871,6 +871,147 @@ def load_existing():
     return [], ""
 
 
+
+# --------------------------------------------------------------------------- #
+# LeafLink contacts (shown in the dashboard CRM)                              #
+# --------------------------------------------------------------------------- #
+# The people at each customer - the Contacts panel on a LeafLink customer page.
+# Saved in the output under "contacts" and shown in each CRM account's contacts
+# table, labelled "LeafLink".
+#
+# This is optional and never breaks the sales pull: if LeafLink refuses the
+# request (the token needs read access to Customers/Contacts) or the endpoint
+# differs, the run carries on without contacts and says why. Set
+# LEAFLINK_CONTACTS=0 to skip it entirely.
+CONTACTS_ENABLED = os.getenv("LEAFLINK_CONTACTS", "1") not in ("0", "false", "no")
+
+
+def _contact_record(c, customer_info):
+    """One LeafLink contact as a flat record for the dashboard.
+
+    Field names vary between LeafLink accounts and API versions, so each value
+    is looked for under every plausible key rather than assuming one.
+    """
+    if not isinstance(c, dict):
+        return None
+
+    def s(v):
+        if v is None:
+            return ""
+        return v.strip() if isinstance(v, str) else str(v).strip()
+
+    first, last = s(c.get("first_name")), s(c.get("last_name"))
+    name = " ".join(x for x in (first, last) if x) or s(
+        c.get("name") or c.get("full_name") or c.get("display_name"))
+    title = (c.get("role") or c.get("title") or c.get("position") or
+             c.get("job_title") or "")
+    if isinstance(title, dict):
+        title = title.get("name") or title.get("display_name") or ""
+    email = s(c.get("email") or c.get("email_address"))
+    phone = s(c.get("phone") or c.get("phone_number") or c.get("mobile_phone") or
+              c.get("mobile") or c.get("cell_phone") or c.get("office_phone"))
+    ext = s(c.get("phone_extension") or c.get("extension"))
+    if phone and ext:
+        phone += " x" + ext
+
+    # Which customer the contact belongs to: an id, or the customer object.
+    cust = c.get("customer")
+    if cust is None:
+        cust = c.get("customer_id") if c.get("customer_id") is not None else c.get("company")
+    cid = cname = clic = ""
+    if isinstance(cust, dict):
+        cid = s(cust.get("id"))
+        cname = s(cust.get("display_name") or cust.get("name") or cust.get("nickname"))
+        clic = s(cust.get("license_number") or cust.get("license"))
+    elif cust is not None:
+        cid = s(cust)
+    info = customer_info.get(cid) if cid else None
+    if info:
+        cname = cname or s(info.get("name"))
+        clic = clic or s(info.get("license"))
+
+    if not (name or email or phone):
+        return None
+    return {"customer_id": cid, "customer": cname, "license": clic,
+            "name": name, "title": s(title), "email": email, "phone": phone}
+
+
+def _summarise_contacts(out):
+    matched = sum(1 for r in out if r["customer"] or r["license"])
+    print(f"  Contacts: {len(out)} saved; {matched} linked to a customer by name or licence")
+
+CONTACTS_ENDPOINT = os.getenv("LEAFLINK_CONTACTS_ENDPOINT", "/api/v2/contacts/")
+
+
+def fetch_contacts(customers):
+    """Every LeafLink contact, linked to its customer's name and licence.
+
+    Uses the contacts endpoint; if that isn't available, falls back to any
+    contacts embedded in the customer records already fetched.
+    """
+    if not CONTACTS_ENABLED:
+        print("Skipping LeafLink contacts (LEAFLINK_CONTACTS=0).")
+        return []
+    if not API_KEY:
+        return []
+    info = {}
+    for c in customers or []:
+        if isinstance(c, dict) and c.get("id") is not None:
+            nm = _first(c, "display_name", "name", "company_name") or _name_of(c) or ""
+            info[str(c["id"])] = {"name": str(nm).strip(), "license": _license_of(c)}
+
+    raw = []
+    url = f"{API_BASE}{CONTACTS_ENDPOINT}"
+    print(f"Pulling LeafLink contacts from {CONTACTS_ENDPOINT} ...")
+    try:
+        resp = _get(url, {"page_size": PAGE_SIZE, "page": 1})
+        if resp.status_code == 403:
+            print("  NOTE: 403 on contacts — give the LeafLink App read access to "
+                  "Customers/Contacts (Settings > Applications). Continuing without them.")
+        elif resp.status_code == 404:
+            print(f"  NOTE: 404 on {CONTACTS_ENDPOINT} — set LEAFLINK_CONTACTS_ENDPOINT "
+                  "if LeafLink uses another path.")
+        elif resp.status_code != 200:
+            print(f"  NOTE: contacts endpoint returned {resp.status_code}; continuing without it.")
+        else:
+            while True:
+                data = resp.json()
+                batch = data.get("results", data if isinstance(data, list) else [])
+                if batch and not raw:
+                    print(f"  DEBUG contact keys: {sorted(batch[0].keys())}")
+                    print(f"  DEBUG contact sample: {json.dumps(batch[0], default=str)[:600]}")
+                raw.extend(batch)
+                nxt = data.get("next") if isinstance(data, dict) else None
+                if not nxt:
+                    break
+                resp = _get(nxt, None)
+                if resp.status_code != 200:
+                    break
+    except Exception as e:
+        print(f"  NOTE: contacts pull failed ({e}); continuing without them.")
+        raw = []
+
+    # Fallback: contacts carried on the customer records themselves.
+    if not raw:
+        for c in customers or []:
+            if not isinstance(c, dict):
+                continue
+            for k in ("contacts", "customer_contacts"):
+                lst = c.get(k)
+                if isinstance(lst, list):
+                    for x in lst:
+                        if isinstance(x, dict):
+                            x = dict(x)
+                            x.setdefault("customer", c.get("id"))
+                            raw.append(x)
+        if raw:
+            print(f"  Using {len(raw)} contact(s) embedded in customer records.")
+
+    out = [r for r in (_contact_record(c, info) for c in raw) if r]
+    _summarise_contacts(out)
+    return out
+
+
 def main():
     # Full vs incremental. Incremental only when enabled AND the committed data was
     # already backfilled at this FROM_DATE, so we never silently skip history.
@@ -896,6 +1037,7 @@ def main():
     print("Resolving rep names from users endpoint(s)...")
     user_map = fetch_users() if customers else {}
     enrich = build_enrichment(customers, user_map)
+    contacts = fetch_contacts(customers)
     print(f"Users resolved to names: {len(user_map)} | Customers fetched: {len(customers)} "
           f"| customers with a rep: {enrich.get('_reps_found', 0)}")
     if customers and enrich.get("_reps_found", 0) == 0:
@@ -972,6 +1114,8 @@ def main():
         "row_count": len(rows),
         "inventory": (inv or {}).get("catalog", []),
         "rows": rows,
+        # People at each customer, for the CRM (see fetch_contacts).
+        "contacts": contacts,
     }
     OUTPUT_FILE.write_text(json.dumps(payload, separators=(",", ":"), default=str))
     size_mb = OUTPUT_FILE.stat().st_size / 1e6
