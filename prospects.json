@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-09-09",
+  "as_of": "2026-09-22",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1634,
+  "count": 1635,
   "records": [
     {
       "name": "Clinic Cannabis Company(HOD)",
@@ -566,7 +566,7 @@
       "website": ""
     },
     {
-      "name": "Meds Cafe Alpena - AU",
+      "name": "Meds Cafe - Alpena",
       "license": "AU-R-000741",
       "type": "",
       "status": "",
@@ -1265,7 +1265,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "7344182160",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -1854,23 +1854,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "AU-R-000452",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "3607893133",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "NA",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "7082540373",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "AU-R-000452",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "3607893133",
       "email": "",
       "website": ""
     },
@@ -4032,7 +4032,7 @@
     },
     {
       "name": "Nirvana Center Center Line",
-      "license": "AU-R-000390",
+      "license": "PC-000454",
       "type": "",
       "status": "",
       "city": "Center Line",
@@ -4043,7 +4043,7 @@
     },
     {
       "name": "Nirvana Center Center Line",
-      "license": "PC-000454",
+      "license": "AU-R-000390",
       "type": "",
       "status": "",
       "city": "Center Line",
@@ -4229,7 +4229,7 @@
       "website": "https://www.thewoodsmich.com/"
     },
     {
-      "name": "Med's Cafe",
+      "name": "Med's Cafe - Cheboygan",
       "license": "AU-R-001024",
       "type": "",
       "status": "",
@@ -4526,7 +4526,7 @@
       "website": "http://mastersofthetreehouse.com"
     },
     {
-      "name": "Emerald Fire Provisioning Center",
+      "name": "Emerald Fire Provisioning Center - Coleman",
       "license": "AU-R-000654",
       "type": "",
       "status": "",
@@ -5011,7 +5011,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001689",
+      "license": "AU-R-001486",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5022,7 +5022,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001486",
+      "license": "AU-R-001689",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5313,7 +5313,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -11523,7 +11523,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11534,7 +11534,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -13269,6 +13269,17 @@
       "phone": "5867107873",
       "email": "",
       "website": "http://shatteredthoughts.com"
+    },
+    {
+      "name": "Backpack Boys - New Buffalo",
+      "license": "AU-R-001569",
+      "type": "",
+      "status": "",
+      "city": "New Buffalo",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "Bloomery Cannabis - New Buffalo",
@@ -15659,17 +15670,6 @@
     },
     {
       "name": "Ounces",
-      "license": "PC-000758",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Ounces",
       "license": "AU-R-000627",
       "type": "",
       "status": "",
@@ -15678,6 +15678,17 @@
       "phone": "2694577321",
       "email": "",
       "website": "http://ouncesmi.com"
+    },
+    {
+      "name": "Ounces",
+      "license": "PC-000758",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "PUFF - Sturgis",
@@ -17221,7 +17232,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000753",
+      "license": "AU-R-000000753 OLD",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
@@ -17232,7 +17243,7 @@
     },
     {
       "name": "Dispo - Whitmore Lake",
-      "license": "AU-R-000000753 OLD",
+      "license": "AU-R-000753",
       "type": "",
       "status": "",
       "city": "Whitmore Lake",
