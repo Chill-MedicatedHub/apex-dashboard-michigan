@@ -943,6 +943,51 @@ def _summarise_contacts(out):
 CONTACTS_ENDPOINT = os.getenv("LEAFLINK_CONTACTS_ENDPOINT", "/api/v2/contacts/")
 
 
+CONTACTS_MAX_CUSTOMERS = int(os.getenv("LEAFLINK_CONTACTS_MAX_CUSTOMERS", "2000"))
+
+
+def _contacts_for_customer(cid, how):
+    """One customer's contacts, the way LeafLink allows on this account."""
+    if how == "filter":
+        resp = _get(f"{API_BASE}{CONTACTS_ENDPOINT}", {"customer": cid, "page_size": PAGE_SIZE})
+    else:
+        resp = _get(f"{API_BASE}/api/v2/customers/{cid}/contacts/", {"page_size": PAGE_SIZE})
+    if resp.status_code != 200:
+        return None
+    data = resp.json()
+    rows = data.get("results", data if isinstance(data, list) else [])
+    return rows if isinstance(rows, list) else None
+
+
+def _contacts_per_customer(customers):
+    """Fetch contacts one customer at a time, so each is linked to its customer.
+
+    Used when the flat contacts list doesn't say which customer each belongs to.
+    """
+    ids = [str(c.get("id")) for c in (customers or []) if isinstance(c, dict) and c.get("id") is not None]
+    ids = ids[:CONTACTS_MAX_CUSTOMERS]
+    how = None
+    for candidate in ("filter", "nested"):
+        if ids and _contacts_for_customer(ids[0], candidate) is not None:
+            how = candidate
+            break
+    if not how:
+        print("  NOTE: couldn't fetch contacts per customer either; saving them unlinked.")
+        return []
+    print(f"  Fetching each customer's contacts ({how} style) for {len(ids)} customers...")
+    out = []
+    for i, cid in enumerate(ids):
+        rows = _contacts_for_customer(cid, how)
+        for c in rows or []:
+            if isinstance(c, dict):
+                c = dict(c)
+                c["customer"] = cid        # the link, from the request itself
+                out.append(c)
+        if i and i % 100 == 0:
+            print(f"    {i} of {len(ids)} customers checked, {len(out)} contact(s) so far")
+    return out
+
+
 def fetch_contacts(customers):
     """Every LeafLink contact, linked to its customer's name and licence.
 
@@ -1008,6 +1053,18 @@ def fetch_contacts(customers):
             print(f"  Using {len(raw)} contact(s) embedded in customer records.")
 
     out = [r for r in (_contact_record(c, info) for c in raw) if r]
+
+    # A contact is only useful if we know whose it is. Where LeafLink's flat
+    # list doesn't say, ask per customer instead - the link then comes from the
+    # request itself.
+    if out and not any(r["customer_id"] for r in out):
+        print("  The contacts list doesn't say which customer each belongs to; "
+              "fetching per customer instead.")
+        linked = _contacts_per_customer(customers)
+        if linked:
+            raw = linked
+            out = [r for r in (_contact_record(c, info) for c in raw) if r]
+
     _summarise_contacts(out)
     return out
 
