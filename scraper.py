@@ -966,9 +966,28 @@ def _contacts_per_customer(customers):
     """
     ids = [str(c.get("id")) for c in (customers or []) if isinstance(c, dict) and c.get("id") is not None]
     ids = ids[:CONTACTS_MAX_CUSTOMERS]
+    # LeafLink quietly ignores a filter it doesn't support and returns the same
+    # full list every time; believing that would put every contact on every
+    # account. So compare two different customers: if the people come back
+    # identical, that way isn't really filtering.
     how = None
     for candidate in ("filter", "nested"):
-        if ids and _contacts_for_customer(ids[0], candidate) is not None:
+        got = []
+        for cid in ids[:6]:
+            rows = _contacts_for_customer(cid, candidate)
+            if rows is None:
+                got = []
+                break
+            got.append({str(r.get("id") or r.get("email") or r) for r in rows if isinstance(r, dict)})
+            if len(got) >= 3:
+                break
+        nonempty = [g for g in got if g]
+        if len(nonempty) >= 2 and all(g == nonempty[0] for g in nonempty):
+            print(f"  NOTE: the {candidate} way returns the same contacts for every "
+                  f"customer ({len(nonempty[0])} of them), so it isn't really filtering "
+                  f"- ignoring it.")
+            continue
+        if got:
             how = candidate
             break
     if not how:
