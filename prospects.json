@@ -1,9 +1,20 @@
 {
-  "as_of": "2026-09-22",
+  "as_of": "2026-09-24",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1635,
+  "count": 1636,
   "records": [
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
+    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -1265,7 +1276,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344182160",
       "email": "",
       "website": ""
     },
@@ -1854,23 +1865,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "NA",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "7082540373",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "AU-R-000452",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "3607893133",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "NA",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "7082540373",
       "email": "",
       "website": ""
     },
@@ -2126,17 +2137,6 @@
       "phone": "",
       "email": "",
       "website": ""
-    },
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
     },
     {
       "name": "Ace Processing LLC",
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2459,7 +2459,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -10004,6 +10004,17 @@
       "website": ""
     },
     {
+      "name": "skunkies llc",
+      "license": "AU-R-001565",
+      "type": "",
+      "status": "",
+      "city": "Kalamazoo",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "42 Degrees Processing",
       "license": "AU-P-000115",
       "type": "",
@@ -10104,7 +10115,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10115,7 +10126,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10819,7 +10830,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10830,7 +10841,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -13943,23 +13954,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "AU-R-000508",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "9892736030",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "122",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "7343949066",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "AU-R-000508",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "9892736030",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
