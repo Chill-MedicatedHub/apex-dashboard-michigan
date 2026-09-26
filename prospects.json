@@ -1,20 +1,9 @@
 {
-  "as_of": "2026-09-25",
+  "as_of": "2026-09-26",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1636,
+  "count": 1637,
   "records": [
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
-    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -1276,7 +1265,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "7344182160",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -1865,23 +1854,23 @@
     },
     {
       "name": "LUCID Emmett",
-      "license": "AU-R-000452",
-      "type": "",
-      "status": "",
-      "city": "Battle Creek",
-      "state": "MI",
-      "phone": "3607893133",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "LUCID Emmett",
       "license": "NA",
       "type": "",
       "status": "",
       "city": "Battle Creek",
       "state": "MI",
       "phone": "7082540373",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "LUCID Emmett",
+      "license": "AU-R-000452",
+      "type": "",
+      "status": "",
+      "city": "Battle Creek",
+      "state": "MI",
+      "phone": "3607893133",
       "email": "",
       "website": ""
     },
@@ -2137,6 +2126,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
     },
     {
       "name": "Ace Processing LLC",
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2459,7 +2459,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2536,23 +2536,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "PC-000294",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "9892721745",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "AU-R-000216",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "PC-000294",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "9892721745",
       "email": "",
       "website": ""
     },
@@ -5219,13 +5219,13 @@
       "website": ""
     },
     {
-      "name": "Fly Shifter Detroit",
+      "name": "Fly Shifter - Detroit",
       "license": "AU-R-001120",
       "type": "",
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "(833) 882-8823",
+      "phone": "8338828823",
       "email": "",
       "website": "https://www.flyshifter.com/"
     },
@@ -6788,6 +6788,17 @@
       "city": "FLINT",
       "state": "MI",
       "phone": "8105160854",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Premier Cannabis - Flushing",
+      "license": "AU-R-001599",
+      "type": "",
+      "status": "",
+      "city": "FLUSHING",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -10830,7 +10841,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10841,7 +10852,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -13954,23 +13965,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "122",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "7343949066",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "AU-R-000508",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "9892736030",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "122",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "7343949066",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
@@ -15284,14 +15295,14 @@
       "website": "http://premierprovisioning.com"
     },
     {
-      "name": "Premier Provisioning - Saginaw (EAST)",
+      "name": "Premier Cannabis- Saginaw (EAST)",
       "license": "AU-R-000547",
       "type": "",
       "status": "",
       "city": "Saginaw",
       "state": "MI",
       "phone": "9897145757",
-      "email": "Premier664llc@gmail.com",
+      "email": "",
       "website": ""
     },
     {
@@ -16318,7 +16329,7 @@
       "website": ""
     },
     {
-      "name": "Premier Provisioning - Vassar",
+      "name": "Premier - Vassar",
       "license": "AU-R-000278",
       "type": "",
       "status": "",
@@ -16731,7 +16742,7 @@
       "status": "",
       "city": "Warren",
       "state": "MI",
-      "phone": "",
+      "phone": "5742768409",
       "email": "",
       "website": ""
     },
@@ -17638,14 +17649,14 @@
       "website": ""
     },
     {
-      "name": "Premier Provisioning caro",
+      "name": "Premier Cannabis - Caro",
       "license": "AU-R-000711",
       "type": "",
       "status": "",
       "city": "caro",
       "state": "MI",
       "phone": "7344446644",
-      "email": "premier664llc@gmail.com",
+      "email": "",
       "website": ""
     },
     {
