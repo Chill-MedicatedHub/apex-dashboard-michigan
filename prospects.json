@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-09-26",
+  "as_of": "2026-09-27",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1637,
+  "count": 1638,
   "records": [
     {
       "name": "Clinic Cannabis Company(HOD)",
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2459,7 +2459,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2536,23 +2536,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "AU-R-000216",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "PC-000294",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "9892721745",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "AU-R-000216",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -3233,6 +3233,17 @@
       "type": "",
       "status": "",
       "city": "Birch Run",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Canna Klub Boyne Falls",
+      "license": "AU-R-001612",
+      "type": "",
+      "status": "",
+      "city": "Boyne Falls",
       "state": "MI",
       "phone": "",
       "email": "",
@@ -4329,17 +4340,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "PC-000248",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "9893232222",
-      "email": "",
-      "website": "https://www.theriverprovisioning.com"
-    },
-    {
-      "name": "The River Provisioning",
       "license": "AU-R-000177",
       "type": "",
       "status": "",
@@ -4348,6 +4348,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "PC-000248",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "9893232222",
+      "email": "",
+      "website": "https://www.theriverprovisioning.com"
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -10126,7 +10137,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10137,7 +10148,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -11545,7 +11556,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11556,7 +11567,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
