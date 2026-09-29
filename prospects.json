@@ -1,9 +1,20 @@
 {
-  "as_of": "2026-09-28",
+  "as_of": "2026-09-29",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1638,
   "records": [
+    {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
+    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -1265,7 +1276,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344182160",
       "email": "",
       "website": ""
     },
@@ -2126,17 +2137,6 @@
       "phone": "",
       "email": "",
       "website": ""
-    },
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
     },
     {
       "name": "Ace Processing LLC",
@@ -3239,7 +3239,7 @@
       "website": ""
     },
     {
-      "name": "Canna Klub Boyne Falls",
+      "name": "Canna Klub - Boyne Falls",
       "license": "AU-R-001612",
       "type": "",
       "status": "",
@@ -4340,17 +4340,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "AU-R-000177",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The River Provisioning",
       "license": "PC-000248",
       "type": "",
       "status": "",
@@ -4359,6 +4348,17 @@
       "phone": "9893232222",
       "email": "",
       "website": "https://www.theriverprovisioning.com"
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "AU-R-000177",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -11556,7 +11556,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11567,7 +11567,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -15703,17 +15703,6 @@
     },
     {
       "name": "Ounces",
-      "license": "AU-R-000627",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "2694577321",
-      "email": "",
-      "website": "http://ouncesmi.com"
-    },
-    {
-      "name": "Ounces",
       "license": "PC-000758",
       "type": "",
       "status": "",
@@ -15722,6 +15711,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "Ounces",
+      "license": "AU-R-000627",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "2694577321",
+      "email": "",
+      "website": "http://ouncesmi.com"
     },
     {
       "name": "PUFF - Sturgis",
@@ -16681,6 +16681,17 @@
       "website": ""
     },
     {
+      "name": "One Garden",
+      "license": "AU-P-000190",
+      "type": "",
+      "status": "",
+      "city": "Warren",
+      "state": "MI",
+      "phone": "5742768409",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "PDS Ventures, LLC-Rec Buyer",
       "license": "AU-P-000288",
       "type": "",
@@ -16743,17 +16754,6 @@
       "city": "Warren",
       "state": "MI",
       "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Sozo Health - AU Processor",
-      "license": "AU-P-000190",
-      "type": "",
-      "status": "",
-      "city": "Warren",
-      "state": "MI",
-      "phone": "5742768409",
       "email": "",
       "website": ""
     },
