@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-10",
+  "as_of": "2026-10-11",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1640,
@@ -792,9 +792,9 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344923764",
       "email": "",
-      "website": ""
+      "website": "https://www.midnightgreena2.com"
     },
     {
       "name": "Cookies - Ann Arbor",
