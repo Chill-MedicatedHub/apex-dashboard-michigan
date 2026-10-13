@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-10-12",
+  "as_of": "2026-10-13",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1640,
+  "count": 1641,
   "records": [
     {
       "name": "3843 Euclid Processing",
@@ -1276,7 +1276,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "7344182160",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -5022,7 +5022,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001689",
+      "license": "AU-R-001486",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5033,7 +5033,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001486",
+      "license": "AU-R-001689",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5324,7 +5324,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -7111,7 +7111,7 @@
       "website": ""
     },
     {
-      "name": "Flint Town Cannabis",
+      "name": "Flint Town Cannabis - Flint",
       "license": "AU-R-001524",
       "type": "",
       "status": "",
@@ -10137,7 +10137,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10148,7 +10148,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10863,7 +10863,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10874,7 +10874,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -11567,7 +11567,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11578,7 +11578,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -13998,23 +13998,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "AU-R-000508",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "9892736030",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "122",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "7343949066",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "AU-R-000508",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "9892736030",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
@@ -14805,6 +14805,17 @@
       "type": "",
       "status": "",
       "city": "Reading",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Green Acres - Redford",
+      "license": "AU-R-001604",
+      "type": "",
+      "status": "",
+      "city": "Redford",
       "state": "MI",
       "phone": "",
       "email": "",
