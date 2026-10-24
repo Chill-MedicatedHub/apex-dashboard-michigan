@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-23",
+  "as_of": "2026-10-24",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1642,
@@ -5324,7 +5324,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -8651,17 +8651,6 @@
       "website": ""
     },
     {
-      "name": "JSBH LLC",
-      "license": "AU-P-000570",
-      "type": "",
-      "status": "",
-      "city": "Hazel Park",
-      "state": "MI",
-      "phone": "586-255-8531",
-      "email": "",
-      "website": ""
-    },
-    {
       "name": "KD Processsing",
       "license": "AU-P-000394",
       "type": "",
@@ -11578,7 +11567,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11589,7 +11578,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -14009,23 +13998,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "AU-R-000508",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "9892736030",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "122",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "7343949066",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "AU-R-000508",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "9892736030",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
@@ -16644,6 +16633,17 @@
       "city": "Warren",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "JSBH LLC",
+      "license": "AU-P-000570",
+      "type": "",
+      "status": "",
+      "city": "Warren",
+      "state": "MI",
+      "phone": "586-255-8531",
       "email": "",
       "website": ""
     },
