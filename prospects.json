@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-10-27",
+  "as_of": "2026-10-29",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
-  "count": 1642,
+  "count": 1644,
   "records": [
     {
       "name": "Clinic Cannabis Company(HOD)",
@@ -5022,7 +5022,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001486",
+      "license": "AU-R-001689",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5033,7 +5033,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001689",
+      "license": "AU-R-001486",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5324,7 +5324,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "",
+      "phone": "5865543870",
       "email": "",
       "website": ""
     },
@@ -6669,6 +6669,17 @@
       "phone": "9894277001",
       "email": "",
       "website": "http://www.pinnaclecanna.com"
+    },
+    {
+      "name": "Cheech & Chong's Dispensoria - Edwardsburg",
+      "license": "AU-R-001619",
+      "type": "",
+      "status": "",
+      "city": "Edwardsburg",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "Dr. A's Re-Leaf Center - Edwardsburg",
@@ -11567,7 +11578,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11578,7 +11589,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -14382,6 +14393,17 @@
       "website": ""
     },
     {
+      "name": "Kulture 81 - Pontiac",
+      "license": "AU-R-001491",
+      "type": "",
+      "status": "",
+      "city": "Pontiac",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
       "name": "Quality Roots - Pontiac",
       "license": "AU-R-001511",
       "type": "",
@@ -15736,17 +15758,6 @@
     },
     {
       "name": "Ounces",
-      "license": "AU-R-000627",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "2694577321",
-      "email": "",
-      "website": "http://ouncesmi.com"
-    },
-    {
-      "name": "Ounces",
       "license": "PC-000758",
       "type": "",
       "status": "",
@@ -15755,6 +15766,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "Ounces",
+      "license": "AU-R-000627",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "2694577321",
+      "email": "",
+      "website": "http://ouncesmi.com"
     },
     {
       "name": "PUFF - Sturgis",
