@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-30",
+  "as_of": "2026-10-31",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1644,
@@ -2194,7 +2194,7 @@
       "website": ""
     },
     {
-      "name": "CannaBay - Bay City",
+      "name": "CannaBay (Gardens) - Bay City",
       "license": "AU-R-000374",
       "type": "",
       "status": "",
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2459,7 +2459,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -9784,7 +9784,7 @@
       "website": ""
     },
     {
-      "name": "Gardens Dispensary - Kalamazoo",
+      "name": "Gardens Urban - Kalamazoo",
       "license": "AU-R-000673",
       "type": "",
       "status": "",
@@ -10148,7 +10148,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10159,7 +10159,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10874,7 +10874,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10885,7 +10885,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -11578,7 +11578,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "PC-000552",
+      "license": "AU-R-000437",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -11589,7 +11589,7 @@
     },
     {
       "name": "Flow Provisioning",
-      "license": "AU-R-000437",
+      "license": "PC-000552",
       "type": "",
       "status": "",
       "city": "Marquette",
@@ -15262,17 +15262,6 @@
       "website": ""
     },
     {
-      "name": "Courtside Gardens - Saginaw",
-      "license": "AU-R-000647",
-      "type": "",
-      "status": "",
-      "city": "Saginaw",
-      "state": "MI",
-      "phone": "9897022027",
-      "email": "courtsidegardens@yumaway.com",
-      "website": ""
-    },
-    {
       "name": "Elite Cannabis - Saginaw",
       "license": "AU-R-001114",
       "type": "",
@@ -15293,6 +15282,17 @@
       "phone": "4254636683",
       "email": "",
       "website": "http://Myglnr.com"
+    },
+    {
+      "name": "Gardens Courtside - Saginaw",
+      "license": "AU-R-000647",
+      "type": "",
+      "status": "",
+      "city": "Saginaw",
+      "state": "MI",
+      "phone": "9897022027",
+      "email": "courtsidegardens@yumaway.com",
+      "website": ""
     },
     {
       "name": "HOD - Saginaw",
@@ -15758,17 +15758,6 @@
     },
     {
       "name": "Ounces",
-      "license": "PC-000758",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Ounces",
       "license": "AU-R-000627",
       "type": "",
       "status": "",
@@ -15777,6 +15766,17 @@
       "phone": "2694577321",
       "email": "",
       "website": "http://ouncesmi.com"
+    },
+    {
+      "name": "Ounces",
+      "license": "PC-000758",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "PUFF - Sturgis",
@@ -17639,23 +17639,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "AU-R-000269",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "PC-000154",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "7345449999",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "AU-R-000269",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
