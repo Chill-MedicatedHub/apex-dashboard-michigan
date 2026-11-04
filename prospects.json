@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-03",
+  "as_of": "2026-11-04",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1645,
@@ -1276,7 +1276,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "",
+      "phone": "7344182160",
       "email": "",
       "website": ""
     },
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2459,7 +2459,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -4340,17 +4340,6 @@
     },
     {
       "name": "The River Provisioning",
-      "license": "PC-000248",
-      "type": "",
-      "status": "",
-      "city": "Chesaning",
-      "state": "MI",
-      "phone": "9893232222",
-      "email": "",
-      "website": "https://www.theriverprovisioning.com"
-    },
-    {
-      "name": "The River Provisioning",
       "license": "AU-R-000177",
       "type": "",
       "status": "",
@@ -4359,6 +4348,17 @@
       "phone": "",
       "email": "",
       "website": ""
+    },
+    {
+      "name": "The River Provisioning",
+      "license": "PC-000248",
+      "type": "",
+      "status": "",
+      "city": "Chesaning",
+      "state": "MI",
+      "phone": "9893232222",
+      "email": "",
+      "website": "https://www.theriverprovisioning.com"
     },
     {
       "name": "High Q Cannabis - Chesterfield",
@@ -10148,7 +10148,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10159,7 +10159,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10874,7 +10874,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10885,7 +10885,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -11302,7 +11302,7 @@
       "website": ""
     },
     {
-      "name": "Timber Cannabis Co - AU",
+      "name": "Timber Cannabis - Muskegon",
       "license": "AU-R-000301",
       "type": "",
       "status": "",
