@@ -1,20 +1,9 @@
 {
-  "as_of": "2026-11-04",
+  "as_of": "2026-11-05",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1645,
   "records": [
-    {
-      "name": "3843 Euclid Processing",
-      "license": "AU-P-000106",
-      "type": "",
-      "status": "",
-      "city": "",
-      "state": "MI",
-      "phone": "2488665402",
-      "email": "",
-      "website": "http://www.medfarms.com"
-    },
     {
       "name": "Clinic Cannabis Company(HOD)",
       "license": "PC-000463",
@@ -2139,6 +2128,17 @@
       "website": ""
     },
     {
+      "name": "3843 Euclid Processing",
+      "license": "AU-P-000106",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "2488665402",
+      "email": "",
+      "website": "http://www.medfarms.com"
+    },
+    {
       "name": "Ace Processing LLC",
       "license": "AU-P-000233",
       "type": "",
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2459,7 +2459,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2536,23 +2536,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "PC-000294",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "9892721745",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "AU-R-000216",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "PC-000294",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "9892721745",
       "email": "",
       "website": ""
     },
@@ -5022,7 +5022,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001689",
+      "license": "AU-R-001486",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5033,7 +5033,7 @@
     },
     {
       "name": "Better Cannabis - Detroit",
-      "license": "AU-R-001486",
+      "license": "AU-R-001689",
       "type": "",
       "status": "",
       "city": "Detroit",
@@ -5324,7 +5324,7 @@
       "status": "",
       "city": "Detroit",
       "state": "MI",
-      "phone": "5865543870",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -9251,7 +9251,7 @@
       "status": "",
       "city": "Jackson",
       "state": "MI",
-      "phone": "",
+      "phone": "2483960487",
       "email": "",
       "website": ""
     },
@@ -14020,23 +14020,23 @@
     },
     {
       "name": "Homegrown Cannabis Company - Owosso",
-      "license": "122",
-      "type": "",
-      "status": "",
-      "city": "Owosso",
-      "state": "MI",
-      "phone": "7343949066",
-      "email": "",
-      "website": "https://shophomegrown.com/owosso-recreational/"
-    },
-    {
-      "name": "Homegrown Cannabis Company - Owosso",
       "license": "AU-R-000508",
       "type": "",
       "status": "",
       "city": "Owosso",
       "state": "MI",
       "phone": "9892736030",
+      "email": "",
+      "website": "https://shophomegrown.com/owosso-recreational/"
+    },
+    {
+      "name": "Homegrown Cannabis Company - Owosso",
+      "license": "122",
+      "type": "",
+      "status": "",
+      "city": "Owosso",
+      "state": "MI",
+      "phone": "7343949066",
       "email": "",
       "website": "https://shophomegrown.com/owosso-recreational/"
     },
@@ -15769,17 +15769,6 @@
     },
     {
       "name": "Ounces",
-      "license": "PC-000758",
-      "type": "",
-      "status": "",
-      "city": "Sturgis",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Ounces",
       "license": "AU-R-000627",
       "type": "",
       "status": "",
@@ -15788,6 +15777,17 @@
       "phone": "2694577321",
       "email": "",
       "website": "http://ouncesmi.com"
+    },
+    {
+      "name": "Ounces",
+      "license": "PC-000758",
+      "type": "",
+      "status": "",
+      "city": "Sturgis",
+      "state": "MI",
+      "phone": "",
+      "email": "",
+      "website": ""
     },
     {
       "name": "PUFF - Sturgis",
