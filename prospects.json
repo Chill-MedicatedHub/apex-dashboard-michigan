@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-07",
+  "as_of": "2026-11-08",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1645,
@@ -1265,7 +1265,7 @@
       "status": "",
       "city": "Ann Arbor",
       "state": "MI",
-      "phone": "7344182160",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "AU-R-000474",
+      "license": "PC-000636",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -2459,7 +2459,7 @@
     },
     {
       "name": "Nirvana Center Bay City",
-      "license": "PC-000636",
+      "license": "AU-R-000474",
       "type": "",
       "status": "",
       "city": "Bay City",
@@ -10874,7 +10874,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "AU-R-000339",
+      "license": "N/A",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -10885,7 +10885,7 @@
     },
     {
       "name": "Pure - Lapeer",
-      "license": "N/A",
+      "license": "AU-R-000339",
       "type": "",
       "status": "",
       "city": "Lapeer",
@@ -17650,23 +17650,23 @@
     },
     {
       "name": "The Patient Station",
-      "license": "PC-000154",
-      "type": "",
-      "status": "",
-      "city": "Ypsilanti",
-      "state": "MI",
-      "phone": "7345449999",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "The Patient Station",
       "license": "AU-R-000269",
       "type": "",
       "status": "",
       "city": "Ypsilanti",
       "state": "MI",
       "phone": "",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "The Patient Station",
+      "license": "PC-000154",
+      "type": "",
+      "status": "",
+      "city": "Ypsilanti",
+      "state": "MI",
+      "phone": "7345449999",
       "email": "",
       "website": ""
     },
