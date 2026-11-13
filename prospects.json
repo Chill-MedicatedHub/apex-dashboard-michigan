@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-12",
+  "as_of": "2026-11-13",
   "source": "LeafLink customer directory (/api/v2/customers/)",
   "state": "MI",
   "count": 1646,
@@ -2536,23 +2536,23 @@
     },
     {
       "name": "Skymint - Bay City",
-      "license": "AU-R-000216",
-      "type": "",
-      "status": "",
-      "city": "Bay City",
-      "state": "MI",
-      "phone": "",
-      "email": "",
-      "website": ""
-    },
-    {
-      "name": "Skymint - Bay City",
       "license": "PC-000294",
       "type": "",
       "status": "",
       "city": "Bay City",
       "state": "MI",
       "phone": "9892721745",
+      "email": "",
+      "website": ""
+    },
+    {
+      "name": "Skymint - Bay City",
+      "license": "AU-R-000216",
+      "type": "",
+      "status": "",
+      "city": "Bay City",
+      "state": "MI",
+      "phone": "",
       "email": "",
       "website": ""
     },
@@ -4043,7 +4043,7 @@
     },
     {
       "name": "Nirvana Center Center Line",
-      "license": "PC-000454",
+      "license": "AU-R-000390",
       "type": "",
       "status": "",
       "city": "Center Line",
@@ -4054,7 +4054,7 @@
     },
     {
       "name": "Nirvana Center Center Line",
-      "license": "AU-R-000390",
+      "license": "PC-000454",
       "type": "",
       "status": "",
       "city": "Center Line",
@@ -10159,7 +10159,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "AU-R-000504",
+      "license": "PC-000596",
       "type": "",
       "status": "",
       "city": "Kalkaska",
@@ -10170,7 +10170,7 @@
     },
     {
       "name": "The Botanical Company - Kalkaska",
-      "license": "PC-000596",
+      "license": "AU-R-000504",
       "type": "",
       "status": "",
       "city": "Kalkaska",
